@@ -6,6 +6,7 @@ import javax.persistence.Persistence;
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.root.dao.AbstractDao;
 import com.vaadin.root.model.MemberData;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
@@ -45,13 +46,19 @@ public class StandardUI extends UI {
                 timer.start();
                 timer.alertMe();
                 
-                EntityManagerFactory emf = Persistence.createEntityManagerFactory("application-unit");
-      		   
-           		EntityManager entityManager = emf.createEntityManager();
-           		   
-           		entityManager.createNamedQuery("MemberData.findAll",MemberData.class).getResultList().stream().forEach(x->{
+                AbstractDao<MemberData> dao = null;
+                
+                dao.findAll().stream().forEach(x->{
            			System.out.println("id ==>"+x.getMdId());
-           		}); 
+                });
+                
+//                EntityManagerFactory emf = Persistence.createEntityManagerFactory("application-unit");
+//      		   
+//           		EntityManager entityManager = emf.createEntityManager();
+//           		   
+//           		entityManager.createNamedQuery("MemberData.findAll",MemberData.class).getResultList().stream().forEach(x->{
+//           			System.out.println("id ==>"+x.getMdId());
+//           		}); 
                 
                 
             }
