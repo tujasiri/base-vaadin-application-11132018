@@ -1,5 +1,7 @@
 package com.vaadin.root;
 
+import java.math.BigInteger;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -7,7 +9,12 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.root.dao.AbstractDao;
+import com.vaadin.root.dao.DataService;
+import com.vaadin.root.dao.DefaultDao_;
+import com.vaadin.root.dao.DefaultDataService;
+import com.vaadin.root.dao.EntityManagerInstance;
 import com.vaadin.root.model.MemberData;
+import com.vaadin.root.model.MerchTable;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
@@ -26,7 +33,10 @@ public class StandardUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-        // create root layout
+    	
+        setContent(new StandardMainScreen());
+    	
+       /* // create root layout
         final VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
         layout.setSpacing(true);
@@ -39,6 +49,9 @@ public class StandardUI extends UI {
         buttons.setSpacing(true);
         // add start button
         Button start = new Button("start");
+        
+        
+        
         start.addClickListener(new Button.ClickListener() {
 
             @Override
@@ -46,20 +59,9 @@ public class StandardUI extends UI {
                 timer.start();
                 timer.alertMe();
                 
-                AbstractDao<MemberData> dao = null;
-                
-                dao.findAll().stream().forEach(x->{
-           			System.out.println("id ==>"+x.getMdId());
-                });
-                
-//                EntityManagerFactory emf = Persistence.createEntityManagerFactory("application-unit");
-//      		   
-//           		EntityManager entityManager = emf.createEntityManager();
-//           		   
-//           		entityManager.createNamedQuery("MemberData.findAll",MemberData.class).getResultList().stream().forEach(x->{
-//           			System.out.println("id ==>"+x.getMdId());
-//           		}); 
-                
+
+System.out.println("id===>"+DefaultDataService.getInstance().getMerchDao().findOneRecord(1).getMtItemNum());                
+           		
                 
             }
         });
@@ -84,7 +86,7 @@ public class StandardUI extends UI {
             }
         });
         buttons.addComponent(reset);
-        layout.addComponent(buttons);
+        layout.addComponent(buttons);*/
     }
 
 }

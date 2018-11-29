@@ -18,13 +18,14 @@ public abstract class AbstractDao< T extends Serializable > {
 	   private EntityManager entityManager = emf.createEntityManager();
 	   
 	   
-//	 
+	 
 //	   public AbstractDao(Class<T> clazz, EntityManagerFactory emf, EntityManager entityManager) {
-//		super();
-//		this.clazz = clazz;
+	   public AbstractDao(Class<T> clazz, EntityManager entityManager) {
+		super();
+		this.clazz = clazz;
 //		this.emf = emf;
-//		this.entityManager = entityManager;
-//	}
+		this.entityManager = entityManager;
+	}
 
 	public final void setClazz( Class< T > clazzToSet ){
 	      this.clazz = clazzToSet;

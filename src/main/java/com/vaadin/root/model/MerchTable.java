@@ -2,6 +2,7 @@ package com.vaadin.root.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.sql.Blob;
 
 
 /**
@@ -10,7 +11,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="merch_table")
-@NamedQuery(name="MerchTable.findAll", query="SELECT m FROM MerchTable m")
+@NamedQueries(value ={ 
+		@NamedQuery(name="MerchTable.findAll", query="SELECT m FROM MerchTable m"),
+		@NamedQuery(name="MerchTable.findOneRecord", query="SELECT m FROM MerchTable m where m.mtItemNum = :idx")
+})
 public class MerchTable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -42,6 +46,10 @@ public class MerchTable implements Serializable {
 
 	@Column(name="mt_stock_qty")
 	private short mtStockQty;
+
+	@Lob
+	@Column(name="mt_image")
+	private byte[] mtImage;
 
 	public MerchTable() {
 	}
@@ -116,6 +124,14 @@ public class MerchTable implements Serializable {
 
 	public void setMtStockQty(short mtStockQty) {
 		this.mtStockQty = mtStockQty;
+	}
+	
+	public byte[] getMtImage() {
+		return mtImage;
+	}
+
+	public void setMtImage(byte[] mtImage) {
+		this.mtImage = mtImage;
 	}
 
 }
