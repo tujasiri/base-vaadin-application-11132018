@@ -3,8 +3,10 @@ package com.vaadin.root.utils;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Image;
 
 public class UIUtils {
@@ -14,13 +16,22 @@ public class UIUtils {
 
 			@Override
 			public InputStream getStream() {
-				// TODO Auto-generated method stub
 				return new ByteArrayInputStream(byteArray);
 			}
 		}; 
 		
 		return new Image(null, new StreamResource(streamSource,""));
 		
+	}
+	
+	public static Button createShoppingButton(){
+		Button shoppingButton = new Button(VaadinIcons.CART);
+		return shoppingButton; 
+	}
+	
+	public static Button createViewButton(){
+		Button viewButton = new Button(VaadinIcons.GLASSES);
+		return viewButton; 
 	}
 	
 }

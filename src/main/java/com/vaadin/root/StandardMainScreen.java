@@ -4,8 +4,13 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.vaadin.root.dao.DefaultDataService;
+import com.vaadin.root.framework.MerchItemDetailLayout;
+import com.vaadin.root.framework.MerchLayout;
+import com.vaadin.root.model.MerchTable;
 import com.vaadin.root.utils.UIUtils;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
@@ -24,18 +29,37 @@ public class StandardMainScreen extends VerticalLayout {
 	
 	private void buildPage(){
 		Label testLabel = new Label("Hello World!");
-		GridLayout gridLayout = new GridLayout();
+		GridLayout gridLayout = new GridLayout(4,2);
+		List<MerchTable> mtList = new ArrayList<MerchTable>();
+		List<MerchLayout> merchLayoutList = new ArrayList<MerchLayout>();
+		
+		for(int i=0;i<8;i++)
+			mtList.add(DefaultDataService.getInstance().getMerchDao().findOneRecord(12));
+		
+		mtList.stream().forEach(x->{
+		 merchLayoutList.add(new MerchLayout(x));
+		});
+		
+		int idx =0;
+		
+		for(int i=0;i<2;i++)
+			for(int j=0;j<4;j++)
+				gridLayout.addComponent(merchLayoutList.get(idx++),j,i);
+		
+		addComponent(gridLayout);
+		
+		
 		
 		try {
 	
-			byte[] bytearray = DefaultDataService.getInstance().getMerchDao().findOneRecord(12).getMtImage();
-			
-			Image img = UIUtils.byteArrayToImage(bytearray);
-			
-			img.setHeight(20.0f, Unit.PERCENTAGE);
-			img.setWidth(15.0f, Unit.PERCENTAGE);
-			
-			addComponents(img);
+//			byte[] bytearray = DefaultDataService.getInstance().getMerchDao().findOneRecord(12).getMtImage();
+//			
+//			Image img = UIUtils.byteArrayToImage(bytearray);
+//			
+//			img.setHeight(20.0f, Unit.PERCENTAGE);
+//			img.setWidth(15.0f, Unit.PERCENTAGE);
+//			
+//			addComponents(img);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
