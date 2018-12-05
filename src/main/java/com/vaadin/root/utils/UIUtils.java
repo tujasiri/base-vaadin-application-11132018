@@ -25,12 +25,13 @@ public class UIUtils {
 	}
 	
 	public static Button createShoppingButton(){
-		Button shoppingButton = new Button(VaadinIcons.CART);
+		Button shoppingButton = new Button("Add to Cart",VaadinIcons.CART);
 		return shoppingButton; 
 	}
 	
 	public static Button createViewButton(){
-		Button viewButton = new Button(VaadinIcons.GLASSES);
+		Button viewButton = new Button("View Item Details", VaadinIcons.GLASSES);
+		
 		return viewButton; 
 	}
 	

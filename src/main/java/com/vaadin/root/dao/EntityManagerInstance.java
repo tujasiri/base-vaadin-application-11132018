@@ -3,6 +3,7 @@ package com.vaadin.root.dao;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.spi.PersistenceProvider;
 
 public class EntityManagerInstance {
 
@@ -16,7 +17,9 @@ public class EntityManagerInstance {
     	
         if (emInstance == null ) {
         	
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("application-unit");
+//            EntityManagerFactory emf = Persistence.createEntityManagerFactory("application-unit");
+        	System.out.println("hello jello");
+            EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("application-unit");
        		emInstance = emf.createEntityManager();
         }
         return emInstance;

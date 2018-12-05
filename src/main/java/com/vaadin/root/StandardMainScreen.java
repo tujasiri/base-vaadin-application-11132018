@@ -14,12 +14,17 @@ import com.vaadin.root.model.MerchTable;
 import com.vaadin.root.utils.UIUtils;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 public class StandardMainScreen extends VerticalLayout {
+	
+	private VerticalLayout standardMainLayout = new VerticalLayout();
+	private Panel standardMainPanel= new Panel();
 	
 	public StandardMainScreen(){
 		super();
@@ -28,8 +33,20 @@ public class StandardMainScreen extends VerticalLayout {
 	}
 	
 	private void buildPage(){
+		
+		standardMainLayout.setSizeFull();
+		standardMainLayout.setMargin(true);
+		standardMainLayout.setSpacing(true);
+		
+	
 		Label testLabel = new Label("Hello World!");
+		
 		GridLayout gridLayout = new GridLayout(4,2);
+		
+		gridLayout.setSizeFull();
+		gridLayout.setMargin(true);
+		gridLayout.setSpacing(true);
+		
 		List<MerchTable> mtList = new ArrayList<MerchTable>();
 		List<MerchLayout> merchLayoutList = new ArrayList<MerchLayout>();
 		
@@ -46,7 +63,13 @@ public class StandardMainScreen extends VerticalLayout {
 			for(int j=0;j<4;j++)
 				gridLayout.addComponent(merchLayoutList.get(idx++),j,i);
 		
-		addComponent(gridLayout);
+		
+		standardMainLayout.addComponent(gridLayout);
+		standardMainLayout.setComponentAlignment(gridLayout, Alignment.MIDDLE_CENTER);
+		standardMainPanel.setContent(standardMainLayout);
+		
+//		addComponent(standardMainLayout);
+		addComponent(standardMainPanel);
 		
 		
 		
