@@ -10,12 +10,15 @@ import java.util.List;
 import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.framework.MerchItemDetailLayout;
 import com.vaadin.root.framework.MerchLayout;
+import com.vaadin.root.framework.StandardHeaderLayout;
+import com.vaadin.root.framework.StandardSideLayout;
 import com.vaadin.root.model.MerchTable;
 import com.vaadin.root.utils.UIUtils;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
@@ -24,24 +27,33 @@ import com.vaadin.ui.VerticalLayout;
 public class StandardMainScreen extends VerticalLayout {
 	
 	private VerticalLayout standardMainLayout = new VerticalLayout();
+	private HorizontalLayout subLayout = new HorizontalLayout();
+	private HorizontalLayout hLayout = new HorizontalLayout();
 	private Panel standardMainPanel= new Panel();
+	private StandardHeaderLayout headerLayout = new StandardHeaderLayout();
+	private StandardSideLayout sideLayout = new StandardSideLayout();
 	
 	public StandardMainScreen(){
 		super();
 		setProperties();
 		buildPage();
+		addStyleName("scrollable");
 	}
 	
 	private void buildPage(){
 		
-		standardMainLayout.setSizeFull();
+//		standardMainLayout.setSizeFull();
+		standardMainLayout.setSizeUndefined();
+		
 		standardMainLayout.setMargin(true);
 		standardMainLayout.setSpacing(true);
 		
+//		standardMainPanel.setSizeFull();
+		standardMainPanel.setHeight("500px");
 	
 		Label testLabel = new Label("Hello World!");
 		
-		GridLayout gridLayout = new GridLayout(4,2);
+		GridLayout gridLayout = new GridLayout(4,3);
 		
 		gridLayout.setSizeFull();
 		gridLayout.setMargin(true);
@@ -50,26 +62,64 @@ public class StandardMainScreen extends VerticalLayout {
 		List<MerchTable> mtList = new ArrayList<MerchTable>();
 		List<MerchLayout> merchLayoutList = new ArrayList<MerchLayout>();
 		
-		for(int i=0;i<8;i++)
+		for(int i=0;i<12;i++)
 			mtList.add(DefaultDataService.getInstance().getMerchDao().findOneRecord(12));
 		
 		mtList.stream().forEach(x->{
 		 merchLayoutList.add(new MerchLayout(x));
 		});
 		
-		int idx =0;
+		int idx=0;
 		
-		for(int i=0;i<2;i++)
-			for(int j=0;j<4;j++)
-				gridLayout.addComponent(merchLayoutList.get(idx++),j,i);
+		for(int i=0;i<3;i++){
+			gridLayout.setRowExpandRatio(i,1.0f);
+			for(int j=0;j<4;j++){
+				gridLayout.setColumnExpandRatio(j,1.0f);
+				MerchLayout ml = merchLayoutList.get(idx++);
+				ml.setHeightUndefined();
+//				ml.setWidth(10.0f,Unit.PERCENTAGE);
+				ml.addStyleName("merchLayout");
+				gridLayout.addComponent(ml,j,i);
+//				gridLayout.addComponent(merchLayoutList.get(idx++),j,i);
+			}
+		}
+		
+		gridLayout.setSizeFull();
+		this.subLayout.setSizeFull();
+		
+//		this.subLayout.addComponents(gridLayout, this.sideLayout);
+		this.headerLayout.addStyleName("headerLayoutStyle");
 		
 		
-		standardMainLayout.addComponent(gridLayout);
-		standardMainLayout.setComponentAlignment(gridLayout, Alignment.MIDDLE_CENTER);
+		standardMainLayout.addComponents(this.headerLayout, gridLayout);
+		standardMainLayout.addComponents(gridLayout);
+		
+//		standardMainLayout.addComponents(this.headerLayout, this.subLayout);
+//		standardMainLayout.setExpandRatio(this.subLayout, 1);
+//		standardMainLayout.setExpandRatio(this.subLayout, 1);
+//		standardMainLayout.setExpandRatio(this.headerLayout, 1);
+		standardMainLayout.setExpandRatio(gridLayout, 1);
+		
+//		standardMainLayout.setComponentAlignment(gridLayout, Alignment.MIDDLE_CENTER);
+		
 		standardMainPanel.setContent(standardMainLayout);
 		
 //		addComponent(standardMainLayout);
-		addComponent(standardMainPanel);
+//		this.headerLayout.setHeight(5.0f, Unit.PERCENTAGE);
+//		addComponents(this.headerLayout, standardMainPanel);
+//		addComponents(this.hLayout, standardMainPanel);
+//		addComponents(standardMainPanel);
+		
+		
+		standardMainLayout.addStyleName("scrollable");;
+		
+//		hLayout.addComponent(new Label("HEADER PANEL"));
+//		hLayout.setSizeFull();
+//		hLayout.addStyleName("testborder");
+
+		
+		addComponents(standardMainLayout);
+		setExpandRatio(standardMainLayout,1.0f);
 		
 		
 		
@@ -107,7 +157,8 @@ public class StandardMainScreen extends VerticalLayout {
 	}
 
 	private void setProperties(){
-		setSizeFull();
+//		setSizeFull();
+		setHeight("100%");
 		addStyleName("");
 		
 	}

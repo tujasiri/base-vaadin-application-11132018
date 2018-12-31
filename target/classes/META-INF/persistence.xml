@@ -2,14 +2,14 @@
 	<persistence-unit name="application-unit" transaction-type="RESOURCE_LOCAL">
 	
 	
-	<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-	
-<!-- 
+	<!-- 
 	<provider>javax.persistence.spi.PersistenceProvider</provider>
--->	
+	!-->	
+	<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
 	<!-- 
     	<non-jta-data-source>java:/mysqlDS</non-jta-data-source>
-    -->
+    !-->
     	<non-jta-data-source>java:comp/env/jdbc/mysqlDS</non-jta-data-source>
     	
 		<class>com.vaadin.root.model.Calendar</class>

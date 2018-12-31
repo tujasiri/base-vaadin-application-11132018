@@ -88,6 +88,14 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes</artifactId>
 		</dependency>
+	<!-- 
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-custom-theme</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
+	!--> 
 	</dependencies>
 
 	<build>

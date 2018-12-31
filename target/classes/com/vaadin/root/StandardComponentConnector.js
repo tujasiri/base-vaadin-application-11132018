@@ -1,30 +1,30 @@
 window.com_vaadin_root_StandardComponent = function() {
 	// Create the component
-	var timer = new TimerComponent(this.getElement());
+	var standardcomp = new StandardComponent(this.getElement());
 	// Handle state changes from server
 	this.onStateChange = function() {
 		if (this.getState().started) {
-			timer.start();
+			standardcomp.start();
 		} else {
-			timer.stop();
+			standardcomp.stop();
 		}
 	};
 
 	// called from server
 	this.reset = function() {
-		timer.reset();
+		standardcomp.reset();
 	};
 	
-	this.alertMe = function(){
-		timer.alertme();
+	this.alertme = function(){
+		standardcomp.alertme();
 	};
 
 	self = this;
 
-	// handle timer ticks
-	timer.onTick = function(time) {
+	// handle standardcomp ticks
+	standardcomp.onTick = function(time) {
 		if (time > 0 && time % 10 == 0) {
-			timer.stop();
+			standardcomp.stop();
 			self.timeout();
 		}
 	};

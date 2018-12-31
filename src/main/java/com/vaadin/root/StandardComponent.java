@@ -39,7 +39,7 @@ public class StandardComponent extends AbstractJavaScriptComponent {
      * Starts the timer on the client side by changing state
      * 
      */
-    public void alertMe() {
+    public void alertme() {
         this.callFunction("alertme");
     }
     
