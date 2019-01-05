@@ -13,7 +13,7 @@ function TimerComponent(element) {
 	"The dialog window can be moved, resized and closed with the 'x' icon.</p>" +
 	"</div>"+
 	/*menu div*/
-	"<div id=\"menudiv\" class=\"hideonload\">"+
+	"<div id=\"menudiv\" class=\"hideonload zeroheightwidth\">"+
 		"<ul id=\"menu\" class=\"menu\">"+
 	    "<li class=\"ui-state-disabled\"><div>Toys (n/a)</div></li>"+
 	    "<li><div>Books</div></li>"+

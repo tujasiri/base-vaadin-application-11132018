@@ -20,6 +20,7 @@ public class StandardHeaderLayout extends CssLayout{
 	MenuBar standardMenu = new MenuBar();
 	TimerComponent tc = new TimerComponent();
 	VerticalLayout infoContentLayout = new VerticalLayout();
+	VerticalLayout mainContentLayout = new VerticalLayout();
 //	Image businessOverlay = new Image();
 	
 	public StandardHeaderLayout(/*BusinessInfo Class*/){
@@ -46,6 +47,10 @@ public class StandardHeaderLayout extends CssLayout{
 		});
 		
 		standardMenu = buildMenuBar();
+		standardMenu.addStyleName("headermenu");
+		
+		System.out.println(String.format("height ==> %f",standardMenu.getHeight()));
+		
 //		standardMenu.setSizeUndefined();
 		
 		HorizontalLayout actionLayout = buildActionLayout();
@@ -57,12 +62,22 @@ public class StandardHeaderLayout extends CssLayout{
 //		infoContentLayout.setComponentAlignment(infoLayout, Alignment.BOTTOM_RIGHT);
 //		infoContentLayout.setComponentAlignment(actionLayout, Alignment.BOTTOM_RIGHT);
 		infoContentLayout.addStyleName("rightjustify");
-//		infoContentLayout.setWidth("400px");
+		infoContentLayout.setWidth("350px");
+		infoContentLayout.addStyleName("recede");
 		
 		Label headerLabel = new Label("HEADER PANEL LOGO");
+		headerLabel.addStyleName("headerlogo");
 		
-//		addComponents(tc, headerLabel, standardMenu, infoContentLayout);
-		addComponents(headerLabel, standardMenu, infoContentLayout);
+		tc.addStyleName("testborder");
+		tc.addStyleName("zeroheightwidth");
+		
+		mainContentLayout.addComponents(headerLabel, tc, standardMenu);
+		mainContentLayout.setWidth("350px");
+		mainContentLayout.addStyleName("testborder");
+		mainContentLayout.addStyleName("recede");
+		
+		addComponents(tc, headerLabel, standardMenu, infoContentLayout);
+//		addComponents(infoContentLayout, mainContentLayout);
 		
 //		this.setComponentAlignment(headerLabel, Alignment.BOTTOM_LEFT);
 //		this.setComponentAlignment(standardMenu, Alignment.BOTTOM_RIGHT);
@@ -83,7 +98,7 @@ public class StandardHeaderLayout extends CssLayout{
 	private VerticalLayout buildInfoLayout(){
 		VerticalLayout infoLayout = new VerticalLayout();
 //		infoLayout.setWidth(25.0f, Unit.PERCENTAGE);
-		infoLayout.setWidth("400px");
+		infoLayout.setWidth("350px");
 		infoLayout.addStyleName("testborder");
 		//***add business info 
 		infoLayout.addComponents( new Label("BUSINESS INFO 1"), new Label("BUSINESS INFO 2"), new Label("BUSINESS INFO 3"));

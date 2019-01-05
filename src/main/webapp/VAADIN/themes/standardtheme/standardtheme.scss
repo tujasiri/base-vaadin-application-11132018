@@ -36,10 +36,19 @@
   @include valo;
 
   // Insert your own theme rules here
+  
+  .recede{
+  	z-index:-999;
+  }
+  
+  
   .zeroheightwidth{
-  	width:0;
-  	height:0;
-  	top: -9999px;
+  	position: absolute !important;
+    width: 0px !important;
+    height: 0px !important;
+    border: 1px !important;
+    left: -1000px !important;
+    top: -1000px !important;
   }
   
   .rightjustify{
@@ -56,15 +65,53 @@
 	 width: 100% !important;
 	 height: 400px !important;
 	 border: 1px solid rgba(0, 0, 0, 0.1) !important;
+	 padding: 1px !important;
  }
   
+  /*
+  .outerdiv * {
+  	position:absolute;
+  }
+  */
+  
+  .headermenu {
+  	position: absolute !important;
+    width: 25%  !important;
+    margin-left: 300px !important;
+    /*margin-top: 250px !important;*/
+    
+  }
+  
+  .headerlogo {
+  	position:absolute !important;
+  }
   
   .hideonload, .menudiv{
   	display:none;
   }
   
   .testborder{
-  	border: 14px solid rgba(0, 0, 0, 0.1);
+  	border: 4px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .headerLayoutStyle{
+  	// height:50px;
+  	height:15%;
+  	width:100%;
+  	border: 5px solid rgba(0, 0, 0, 0.1);
+  }
+ 
+  
+  .scrollable{
+  	overflow: auto;
+  }
+  
+  .hideonload, .menudiv{
+  	display:none;
+  }
+  
+  .testborder{
+  	border: 4px solid rgba(0, 0, 0, 0.1);
   }
   
   .headerLayoutStyle{
