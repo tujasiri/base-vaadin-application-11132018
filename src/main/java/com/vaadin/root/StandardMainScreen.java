@@ -30,11 +30,13 @@ public class StandardMainScreen extends VerticalLayout {
 	private HorizontalLayout subLayout = new HorizontalLayout();
 	private HorizontalLayout hLayout = new HorizontalLayout();
 	private Panel standardMainPanel= new Panel();
-	private StandardHeaderLayout headerLayout = new StandardHeaderLayout();
+	private StandardHeaderLayout headerLayout;
+//		this.businessInfo = DefaultDataService.getInstance().getBusinessInfoDao().findById(2L);
 	private StandardSideLayout sideLayout = new StandardSideLayout();
 	
 	public StandardMainScreen(){
 		super();
+		this.headerLayout = new StandardHeaderLayout( DefaultDataService.getInstance().getBusinessInfoDao().findById(2L));
 		setProperties();
 		buildPage();
 		addStyleName("scrollable");

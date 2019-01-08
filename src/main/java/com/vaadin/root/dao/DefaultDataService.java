@@ -4,6 +4,7 @@ public class DefaultDataService extends DefaultDao implements DataService {
 	
 	private static DefaultDataService instance = new DefaultDataService();
 	private static final MerchDao merchDao = new MerchDaoImpl();
+	private static final BusinessInfoDao businessInfoDao = new BusinessInfoDaoImpl();
 			
 	private DefaultDataService(){} 
 	
@@ -15,6 +16,13 @@ public class DefaultDataService extends DefaultDao implements DataService {
 	public MerchDao getMerchDao() {
 		return merchDao;
 	}
+
+	@Override
+	public BusinessInfoDao getBusinessInfoDao() {
+		return businessInfoDao;
+	}
+	
+	
 
 
 }

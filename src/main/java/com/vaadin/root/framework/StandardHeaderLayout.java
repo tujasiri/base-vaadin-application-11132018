@@ -1,7 +1,10 @@
 package com.vaadin.root.framework;
 
 import com.vaadin.client.ui.menubar.MenuItem;
+import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.jscomponent.TimerComponent;
+import com.vaadin.root.model.BusinessInfo;
+import com.vaadin.root.utils.UIUtils;
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -21,10 +24,16 @@ public class StandardHeaderLayout extends CssLayout{
 	TimerComponent tc = new TimerComponent();
 	VerticalLayout infoContentLayout = new VerticalLayout();
 	VerticalLayout mainContentLayout = new VerticalLayout();
+	Image businessLogo = new Image();
+	BusinessInfo businessInfo = new BusinessInfo();
+	
 //	Image businessOverlay = new Image();
 	
-	public StandardHeaderLayout(/*BusinessInfo Class*/){
+//	public StandardHeaderLayout(/*BusinessInfo Class*/){
+	public StandardHeaderLayout(BusinessInfo bi){
 			super();
+			this.businessInfo = bi;
+			this.businessLogo = UIUtils.byteArrayToImage(this.businessInfo.getBiLogo());
 			buildLayout();
 	}
 	
@@ -49,8 +58,6 @@ public class StandardHeaderLayout extends CssLayout{
 		standardMenu = buildMenuBar();
 		standardMenu.addStyleName("headermenu");
 		
-		System.out.println(String.format("height ==> %f",standardMenu.getHeight()));
-		
 //		standardMenu.setSizeUndefined();
 		
 		HorizontalLayout actionLayout = buildActionLayout();
@@ -65,18 +72,21 @@ public class StandardHeaderLayout extends CssLayout{
 		infoContentLayout.setWidth("350px");
 		infoContentLayout.addStyleName("recede");
 		
-		Label headerLabel = new Label("HEADER PANEL LOGO");
+		Label headerLabel = new Label("HEADER PANEL LOGOX");
 		headerLabel.addStyleName("headerlogo");
 		
 		tc.addStyleName("testborder");
 		tc.addStyleName("zeroheightwidth");
 		
-		mainContentLayout.addComponents(headerLabel, tc, standardMenu);
+//		mainContentLayout.addComponents(headerLabel, tc, standardMenu);
+		this.businessLogo.addStyleName("headerlogo");
+		mainContentLayout.addComponents(this.businessLogo, tc, standardMenu);
 		mainContentLayout.setWidth("350px");
 		mainContentLayout.addStyleName("testborder");
 		mainContentLayout.addStyleName("recede");
 		
-		addComponents(tc, headerLabel, standardMenu, infoContentLayout);
+		
+		addComponents(tc, this.businessLogo, standardMenu, infoContentLayout);
 //		addComponents(infoContentLayout, mainContentLayout);
 		
 //		this.setComponentAlignment(headerLabel, Alignment.BOTTOM_LEFT);
@@ -101,7 +111,16 @@ public class StandardHeaderLayout extends CssLayout{
 		infoLayout.setWidth("350px");
 		infoLayout.addStyleName("testborder");
 		//***add business info 
-		infoLayout.addComponents( new Label("BUSINESS INFO 1"), new Label("BUSINESS INFO 2"), new Label("BUSINESS INFO 3"));
+		
+
+//		infoLayout.addComponents( new Label("BUSINESS INFO 1"), new Label("BUSINESS INFO 2"), new Label("BUSINESS INFO 3"));
+		infoLayout.addComponents( new Label(this.businessInfo.getBiName()), 
+									new Label(this.businessInfo.getBiAddress()), 
+									new Label(this.businessInfo.getBiAddress2() != null ?
+											this.businessInfo.getBiAddress2():""),
+									new Label(this.businessInfo.getBiCity() +", "+
+											this.businessInfo.getBiState() + " ZIP"));
+											
 		return infoLayout;
 	}
 	
