@@ -1,6 +1,10 @@
 package com.vaadin.root.framework;
 
+import com.vaadin.client.ui.Icon;
 import com.vaadin.client.ui.menubar.MenuItem;
+import com.vaadin.event.LayoutEvents.LayoutClickEvent;
+import com.vaadin.event.LayoutEvents.LayoutClickListener;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.BusinessInfo;
@@ -16,6 +20,8 @@ import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class StandardHeaderLayout extends CssLayout{
@@ -25,15 +31,16 @@ public class StandardHeaderLayout extends CssLayout{
 	VerticalLayout infoContentLayout = new VerticalLayout();
 	VerticalLayout mainContentLayout = new VerticalLayout();
 	Image businessLogo = new Image();
+	Image headerBanner = new Image();
 	BusinessInfo businessInfo = new BusinessInfo();
 	
 //	Image businessOverlay = new Image();
 	
-//	public StandardHeaderLayout(/*BusinessInfo Class*/){
 	public StandardHeaderLayout(BusinessInfo bi){
 			super();
 			this.businessInfo = bi;
 			this.businessLogo = UIUtils.byteArrayToImage(this.businessInfo.getBiLogo());
+			this.headerBanner = UIUtils.byteArrayToImage(this.businessInfo.getBiHeader());
 			buildLayout();
 	}
 	
@@ -48,6 +55,9 @@ public class StandardHeaderLayout extends CssLayout{
 		
 		addStyleName("headerLayoutStyle");
 		addStyleName("outerdiv");
+		addStyleName("displayblock");
+		
+		addStyleName("headertestborder");
 		
 		Button button = new Button("Menu click");
 		
@@ -70,7 +80,7 @@ public class StandardHeaderLayout extends CssLayout{
 //		infoContentLayout.setComponentAlignment(actionLayout, Alignment.BOTTOM_RIGHT);
 		infoContentLayout.addStyleName("rightjustify");
 		infoContentLayout.setWidth("350px");
-		infoContentLayout.addStyleName("recede");
+		infoContentLayout.addStyleName("headerchildbackground");
 		
 		Label headerLabel = new Label("HEADER PANEL LOGOX");
 		headerLabel.addStyleName("headerlogo");
@@ -80,13 +90,16 @@ public class StandardHeaderLayout extends CssLayout{
 		
 //		mainContentLayout.addComponents(headerLabel, tc, standardMenu);
 		this.businessLogo.addStyleName("headerlogo");
+		this.businessLogo.addStyleName("headerchildbackground");
 		mainContentLayout.addComponents(this.businessLogo, tc, standardMenu);
 		mainContentLayout.setWidth("350px");
 		mainContentLayout.addStyleName("testborder");
-		mainContentLayout.addStyleName("recede");
+//		mainContentLayout.addStyleName("recede");
 		
 		
 		addComponents(tc, this.businessLogo, standardMenu, infoContentLayout);
+//		addComponents(this.headerBanner, this.businessLogo, standardMenu, infoContentLayout);
+		addStyleName("headerbackground");
 //		addComponents(infoContentLayout, mainContentLayout);
 		
 //		this.setComponentAlignment(headerLabel, Alignment.BOTTOM_LEFT);
@@ -97,9 +110,25 @@ public class StandardHeaderLayout extends CssLayout{
 	
 	private HorizontalLayout buildActionLayout(){
 		HorizontalLayout actionLayout = new HorizontalLayout();
+		HorizontalLayout cartLayout = new HorizontalLayout();
+		Label cartLabel = new Label();
+		cartLabel.setIcon(VaadinIcons.CART);
+		cartLayout.addComponent(cartLabel);
+		
+		cartLayout.addLayoutClickListener(e->{ 
+//			tc.alertme();
+			tc.getdimensions();
+		});
+		cartLayout.addStyleName("pointerCursor");
+		
 //		actionLayout.setWidth(25.0f, Unit.PERCENTAGE);
+		TextField cartText = new TextField("");
+		cartText.setIcon(VaadinIcons.CART);
+		
+		actionLayout.addComponents(cartLayout);
+		
 		actionLayout.setWidth("100px");
-		actionLayout.addStyleName("testborder");
+//		actionLayout.addStyleName("testborder");
 		//***add shopping icon
 		
 		return actionLayout;
@@ -119,7 +148,7 @@ public class StandardHeaderLayout extends CssLayout{
 									new Label(this.businessInfo.getBiAddress2() != null ?
 											this.businessInfo.getBiAddress2():""),
 									new Label(this.businessInfo.getBiCity() +", "+
-											this.businessInfo.getBiState() + " ZIP"));
+											this.businessInfo.getBiState() + ", "+ this.businessInfo.getBiZip()));
 											
 		return infoLayout;
 	}
@@ -128,7 +157,11 @@ public class StandardHeaderLayout extends CssLayout{
 	private MenuBar buildMenuBar(){
 	
 		//MenuBar menubar = new MenuBar();
-		final Command command = selectedItem -> Notification.show("Action " + selectedItem.getText(), Type.TRAY_NOTIFICATION);
+		//final Command command = selectedItem -> Notification.show("Action " + selectedItem.getText(), Type.TRAY_NOTIFICATION);
+		final Command command = selectedItem ->{ 
+				System.out.println("selectedItem ==>"+selectedItem.getText());
+				UI.getCurrent().getNavigator().navigateTo("about");
+			};
 		 
 		 
 		        MenuBar sample = new MenuBar();

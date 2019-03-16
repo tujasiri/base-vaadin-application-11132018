@@ -163,6 +163,12 @@ TimerComponent.prototype.openmenu= function() {
 		$( "#menudiv" ).show();
 	    $( "#menu" ).menu();
 	});
+	
+};
+
+TimerComponent.prototype.getdimensions= function() {
+//	$( function() {
+//	});
 };
 
 

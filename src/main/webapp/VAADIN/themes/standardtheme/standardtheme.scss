@@ -62,6 +62,8 @@
   }
   
    .outerdiv {
+  	 //position:absolute;
+  	 position:relative;
 	 width: 100% !important;
 	 height: 400px !important;
 	 border: 1px solid rgba(0, 0, 0, 0.1) !important;
@@ -76,10 +78,16 @@
   
   .headermenu {
   	position: absolute !important;
-    width: 25%  !important;
+    width: 50%  !important;
     margin-left: 300px !important;
     /*margin-top: 250px !important;*/
     
+  }
+  
+  .headerbackground {
+  	background-image: url("images/header-banner.png");
+  	height:450px;
+  	width:1000px;
   }
   
   .headerlogo {
@@ -89,7 +97,7 @@
 	margin-right: auto !important;
 	width: 200px !important;
 	height: 200px !important;
-	border: 1px solid red !important;
+	border: 10px solid red !important;
 	vertical-align: top !important;
   }
   
@@ -101,6 +109,11 @@
   	border: 4px solid rgba(0, 0, 0, 0.1);
   }
   
+  .headertestborder{
+  	border: 14px solid blue;
+  }
+  
+  
   .headerLayoutStyle{
   	// height:50px;
   	height:15%;
@@ -133,6 +146,18 @@
   	overflow: auto;
   }
   
+  //.displayblock .v-widget{
+  .displayblock {
+    display: block !important;
+  }
+  
+  .headerchildbackground {
+  	background-color:#E5E8E8  ;
+  }
+  
+  .pointerCursor{
+  	cursor:pointer;
+  }
   
   
   

@@ -14,11 +14,14 @@ import org.jsoup.parser.Tag;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.root.dao.AbstractDao;
 import com.vaadin.root.dao.DataService;
 import com.vaadin.root.dao.DefaultDao_;
 import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.dao.EntityManagerInstance;
+import com.vaadin.root.framework.AboutView_OLD;
+import com.vaadin.root.framework.DefaultView_OLD;
 import com.vaadin.root.model.MemberData;
 import com.vaadin.root.model.MerchTable;
 import com.vaadin.server.BootstrapFragmentResponse;
@@ -128,8 +131,16 @@ public class StandardUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
+        StandardMainScreen standardMainScreen = new StandardMainScreen();
+        
+        
+        setContent(standardMainScreen);
+        
+//        final Navigator nav = new Navigator(this, standardMainScreen.getStandardMainLayout());
+        final Navigator nav = new Navigator(this, standardMainScreen);
+        nav.addView("", StandardMainScreen.class );
+        nav.addView("about", AboutView_OLD.class);
     	
-        setContent(new StandardMainScreen());
     }
 
 }

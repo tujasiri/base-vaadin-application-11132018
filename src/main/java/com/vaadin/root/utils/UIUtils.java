@@ -4,6 +4,9 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.root.dao.DefaultDataService;
+import com.vaadin.root.framework.StandardFooterLayout;
+import com.vaadin.root.framework.StandardHeaderLayout;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Button;
@@ -34,5 +37,14 @@ public class UIUtils {
 		
 		return viewButton; 
 	}
+	
+	public static StandardHeaderLayout getStandardHeaderLayout(Long businessId){
+		return new StandardHeaderLayout( DefaultDataService.getInstance().getBusinessInfoDao().findById(businessId));
+	}
+	
+	public static StandardFooterLayout getStandardFooterLayout(Long businessId){
+		return new StandardFooterLayout( DefaultDataService.getInstance().getBusinessInfoDao().findById(businessId));
+	}
+	
 	
 }

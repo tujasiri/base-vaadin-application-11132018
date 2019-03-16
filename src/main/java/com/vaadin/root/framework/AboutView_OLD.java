@@ -1,4 +1,4 @@
-package com.vaadin.root;
+package com.vaadin.root.framework;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -26,7 +26,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-public class StandardMainScreen extends VerticalLayout implements View {
+public class AboutView_OLD extends VerticalLayout implements View {
 	
 	private VerticalLayout standardMainLayout = new VerticalLayout();
 	private HorizontalLayout subLayout = new HorizontalLayout();
@@ -36,7 +36,7 @@ public class StandardMainScreen extends VerticalLayout implements View {
 //		this.businessInfo = DefaultDataService.getInstance().getBusinessInfoDao().findById(2L);
 	private StandardSideLayout sideLayout = new StandardSideLayout();
 	
-	public StandardMainScreen(){
+	public AboutView_OLD(){
 		super();
 //		this.headerLayout = new StandardHeaderLayout( DefaultDataService.getInstance().getBusinessInfoDao().findById(2L));
 		this.headerLayout = UIUtils.getStandardHeaderLayout(2L);
@@ -47,6 +47,9 @@ public class StandardMainScreen extends VerticalLayout implements View {
 	
 	private void buildPage(){
 		
+		VerticalLayout vl = new VerticalLayout();
+		HorizontalLayout hl = new HorizontalLayout();
+		
 //		standardMainLayout.setSizeFull();
 		standardMainLayout.setSizeUndefined();
 		
@@ -55,6 +58,7 @@ public class StandardMainScreen extends VerticalLayout implements View {
 		
 //		standardMainPanel.setSizeFull();
 		standardMainPanel.setHeight("500px");
+		standardMainPanel.setWidth("800px");
 	
 		Label testLabel = new Label("Hello World!");
 		
@@ -63,6 +67,18 @@ public class StandardMainScreen extends VerticalLayout implements View {
 		gridLayout.setSizeFull();
 		gridLayout.setMargin(true);
 		gridLayout.setSpacing(true);
+		
+//		vl.setSizeFull();
+		vl.setHeight("1000px");
+		vl.setWidth("1000px");
+		vl.setMargin(true);
+		vl.setSpacing(true);
+		
+//		for(int x=0;x<1000;x++)
+//			vl.addComponent(new Label("Label "+x));
+//		
+//		for(int y=0;y<1000;y++)
+//			hl.addComponent(new Label("Label "+y));
 		
 		List<MerchTable> mtList = new ArrayList<MerchTable>();
 		List<MerchLayout> merchLayoutList = new ArrayList<MerchLayout>();
@@ -96,14 +112,19 @@ public class StandardMainScreen extends VerticalLayout implements View {
 		this.headerLayout.addStyleName("headerLayoutStyle");
 		
 		
-		standardMainLayout.addComponents(this.headerLayout, gridLayout);
-//		standardMainLayout.addComponents(gridLayout);
+//		standardMainLayout.addComponents(this.headerLayout, hl, vl);
+//		standardMainLayout.addComponents(this.headerLayout, gridLayout);
+		standardMainLayout.addComponents(this.headerLayout);
+		SpacerLabel spacer = new SpacerLabel();
+		spacer.addStyleName("testborder");
+		standardMainLayout.addComponents(spacer);
 		
 //		standardMainLayout.addComponents(this.headerLayout, this.subLayout);
 //		standardMainLayout.setExpandRatio(this.subLayout, 1);
 //		standardMainLayout.setExpandRatio(this.subLayout, 1);
 //		standardMainLayout.setExpandRatio(this.headerLayout, 1);
-		standardMainLayout.setExpandRatio(gridLayout, 1);
+		
+//		standardMainLayout.setExpandRatio(gridLayout, 1);
 		
 //		standardMainLayout.setComponentAlignment(gridLayout, Alignment.MIDDLE_CENTER);
 		

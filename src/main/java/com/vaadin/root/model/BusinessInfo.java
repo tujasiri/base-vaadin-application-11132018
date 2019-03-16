@@ -40,14 +40,25 @@ public class BusinessInfo implements Serializable {
 	@Column(name="bi_name")
 	private String biName;
 
+	@Column(name="bi_about")
+	private String biAbout;
+
 	@Column(name="bi_sm_id")
 	private Long biSmId;
 
 	@Column(name="bi_state")
 	private String biState;
 
+	@Column(name="bi_zip")
+	private String biZip;
+
 	@Column(name="bi_website")
 	private String biWebsite;
+
+	@Lob
+	@Column(name="bi_header")
+	private byte[] biHeader;
+
 
 	public BusinessInfo() {
 	}
@@ -123,5 +134,31 @@ public class BusinessInfo implements Serializable {
 	public void setBiWebsite(String biWebsite) {
 		this.biWebsite = biWebsite;
 	}
+
+	public String getBiAbout() {
+		return biAbout;
+	}
+
+	public void setBiAbout(String biAbout) {
+		this.biAbout = biAbout;
+	}
+
+	public String getBiZip() {
+		return biZip;
+	}
+
+	public void setBiZip(String biZip) {
+		this.biZip = biZip;
+	}
+
+	public byte[] getBiHeader() {
+		return biHeader;
+	}
+
+	public void setBiHeader(byte[] biHeader) {
+		this.biHeader = biHeader;
+	}
+	
+	
 
 }

@@ -17,7 +17,10 @@
 		<class>com.vaadin.root.model.MemberDataTest</class>
 		<class>com.vaadin.root.model.MerchTable</class>
 		<class>com.vaadin.root.model.New</class>
-		
+		<class>com.vaadin.root.model.BusinessInfo</class>
+		<!--  
+		<class>com.vaadin.root.model.SocialMedia</class>
+		-->
     	<properties>
     		<property name="eclipselink.logging.level" value="FINE"/>
     	</properties>

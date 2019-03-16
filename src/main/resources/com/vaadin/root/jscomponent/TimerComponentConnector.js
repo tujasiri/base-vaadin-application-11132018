@@ -26,9 +26,25 @@ window.com_vaadin_root_jscomponent_TimerComponent = function() {
 	this.openmenu= function(){
 		timer.openmenu();
 	};
-
-
+	
 	self = this;
+	
+	this.getdimensions= function(){
+		
+		timer.getdimensions();
+		
+		
+		var screenHeight = window.innerHeight;
+		var screenWidth = window.innerWidth;
+		
+		var json = {
+				height:screenHeight,
+				width:screenWidth
+		};
+		
+		self.senddimensions(JSON.stringify(json));
+	};
+	
 
 	// handle timer ticks
 	timer.onTick = function(time) {
