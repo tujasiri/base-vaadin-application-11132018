@@ -2,6 +2,7 @@ package com.vaadin.root.framework.views;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.root.framework.StandardHeaderLayout;
 import com.vaadin.root.model.BusinessInfo;
 import com.vaadin.root.utils.UIUtils;
 import com.vaadin.ui.Label;

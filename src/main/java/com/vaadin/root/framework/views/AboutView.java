@@ -12,6 +12,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.framework.MerchItemDetailLayout;
 import com.vaadin.root.framework.MerchLayout;
+import com.vaadin.root.framework.SpacerLabel;
 import com.vaadin.root.framework.StandardHeaderLayout;
 import com.vaadin.root.framework.StandardSideLayout;
 import com.vaadin.root.model.MerchTable;
