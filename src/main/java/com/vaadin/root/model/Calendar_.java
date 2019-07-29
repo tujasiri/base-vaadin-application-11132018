@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2018-10-17T12:43:14.497-0500")
+@Generated(value="Dali", date="2019-04-16T17:06:31.977-0500")
 @StaticMetamodel(Calendar.class)
 public class Calendar_ {
 	public static volatile SingularAttribute<Calendar, String> calAddress;
