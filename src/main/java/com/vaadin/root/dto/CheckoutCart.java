@@ -20,24 +20,20 @@ public class CheckoutCart {
     }
 
     public Boolean containsMerchItem(MerchTable merchItem){
-
         return false;
     }
 
     public void groupItemsByType(){
         //group items by type and compact itemsArray
-
     }
 
     public int countIndividualItem(MerchTable merchItem){
         int itemCount = 0;
-
         return itemCount;
     }
 
     public int removeIndividualItem(MerchTable merchItem){
         int itemCount = 0;
-
         return itemCount;
     }
 
@@ -77,7 +73,6 @@ public class CheckoutCart {
     public float calculateShipping(){
 
         float itemTotal = 0;
-
         return itemTotal;
 
     }

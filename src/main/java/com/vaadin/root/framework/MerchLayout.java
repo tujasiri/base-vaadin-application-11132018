@@ -5,15 +5,22 @@ import java.util.List;
 
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.root.StandardComponent;
+import com.vaadin.root.dto.CartSingleton;
+import com.vaadin.root.dto.CheckoutCart;
+import com.vaadin.root.framework.grids.CustomizationGrid;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.MerchTable;
 import com.vaadin.root.utils.UIUtils;
+import com.vaadin.root.windows.ItemCustomizationWindow;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class MerchLayout extends VerticalLayout{
@@ -29,7 +36,10 @@ public class MerchLayout extends VerticalLayout{
 	private VerticalLayout lowerComponentLayout = new VerticalLayout();
 	private ComboBox<Integer> qty = new ComboBox("Qty.:");
 //	private StandardComponent standard = new StandardComponent();
-	private TimerComponent standard = new TimerComponent();
+	private TimerComponent standard = new TimerComponent();      
+	private CheckoutCart checkoutCart = CartSingleton.getInstance().getCheckoutCart();
+	private List<MerchTable> itemsToBeAdded = new ArrayList<MerchTable>();
+
 	
 	public MerchLayout(MerchTable merchTableItem){
 		super();
@@ -107,9 +117,22 @@ public class MerchLayout extends VerticalLayout{
 		});
 		
 		this.merchButton.addListener(e->{
-			this.standard.alertme();
+
+			//customize item if there are varying options
+			//consider quantity
+			this.itemsToBeAdded = new ArrayList<MerchTable>();
+			int itemQuantity = this.qty.getValue().intValue();
+
+			for (int i=0;i < itemQuantity;i++){
+				itemsToBeAdded.add(this.merchTableItem);
+			}
+
+			checkoutCart.addItemToCart(this.merchTableItem);
+			
+			ItemCustomizationWindow customWindow = new ItemCustomizationWindow(itemsToBeAdded);
+			UI.getCurrent().addWindow(customWindow);
+			
 		});
-		
 		
 	}
 

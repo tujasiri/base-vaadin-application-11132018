@@ -1,5 +1,6 @@
 package com.vaadin.root;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
 import javax.persistence.EntityManager;
@@ -43,7 +44,9 @@ import com.vaadin.ui.VerticalLayout;
 @SuppressWarnings("serial")
 @Theme("standardtheme")
 @Widgetset("com.vaadin.DefaultWidgetSet")
-public class StandardUI extends UI {
+public class StandardUI extends UI {	
+	
+//	private static final long serialVersionUID = -8009964627576236599L;
 
     @WebServlet(value = "/*", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = StandardUI.class)

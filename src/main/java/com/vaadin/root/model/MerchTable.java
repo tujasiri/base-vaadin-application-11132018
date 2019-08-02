@@ -2,7 +2,12 @@ package com.vaadin.root.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.vaadin.root.dto.Customizations;
+
 import java.sql.Blob;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -17,6 +22,9 @@ import java.sql.Blob;
 })
 public class MerchTable implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	@Transient
+	private List<Customizations> itemCustomizations;
 
 	@Column(name="mt_image_id")
 	private String mtImageId;
@@ -133,5 +141,15 @@ public class MerchTable implements Serializable {
 	public void setMtImage(byte[] mtImage) {
 		this.mtImage = mtImage;
 	}
+
+	@Override
+	public String toString() {
+		return "MerchTable [itemCustomizations=" + itemCustomizations + ", mtImageId=" + mtImageId + ", mtItemDescLong="
+				+ mtItemDescLong + ", mtItemDescShort=" + mtItemDescShort + ", mtItemLink=" + mtItemLink
+				+ ", mtItemNum=" + mtItemNum + ", mtItemPrice=" + mtItemPrice + ", mtItemType=" + mtItemType
+				+ ", mtSpecialNote=" + mtSpecialNote + ", mtStockQty=" + mtStockQty + ", mtImage="
+				+ Arrays.toString(mtImage) + "]";
+	}
+	
 
 }

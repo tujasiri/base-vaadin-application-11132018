@@ -10,6 +10,8 @@ import java.util.List;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.root.dao.DefaultDataService;
+import com.vaadin.root.dto.CartSingleton;
+import com.vaadin.root.dto.CheckoutCart;
 import com.vaadin.root.framework.MerchItemDetailLayout;
 import com.vaadin.root.framework.MerchLayout;
 import com.vaadin.root.framework.StandardHeaderLayout;
@@ -35,6 +37,9 @@ public class StandardMainScreen extends VerticalLayout implements View {
 	private StandardHeaderLayout headerLayout;
 //		this.businessInfo = DefaultDataService.getInstance().getBusinessInfoDao().findById(2L);
 	private StandardSideLayout sideLayout = new StandardSideLayout();
+//	private CheckoutCart checkoutCart = new CheckoutCart();	
+	private CheckoutCart checkoutCart = CartSingleton.getInstance().getCheckoutCart();
+//  checkoutCart = CartSingleton.getInstance().getCheckoutCart();
 	
 	public StandardMainScreen(){
 		super();
