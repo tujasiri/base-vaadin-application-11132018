@@ -37,8 +37,8 @@ public class CheckoutCart {
         return itemCount;
     }
 
-    public void addItemToCart(MerchTable merchItem){
-        itemsArray.add(merchItem);
+    public void addItemToCart(MerchTable merchTableItem){
+        itemsArray.add(merchTableItem);
         /*
         for(MerchItem tmpMerchItem :itemsArray){
             System.out.println(String.format("In cart ==>%s", tmpMerchItem.getMt_item_desc_long()));

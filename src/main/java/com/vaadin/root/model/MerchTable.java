@@ -3,12 +3,6 @@ package com.vaadin.root.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
-import com.vaadin.root.dto.Customizations;
-
-import java.sql.Blob;
-import java.util.Arrays;
-import java.util.List;
-
 
 /**
  * The persistent class for the merch_table database table.
@@ -20,11 +14,19 @@ import java.util.List;
 		@NamedQuery(name="MerchTable.findAll", query="SELECT m FROM MerchTable m"),
 		@NamedQuery(name="MerchTable.findOneRecord", query="SELECT m FROM MerchTable m where m.mtItemNum = :idx")
 })
-public class MerchTable implements Serializable {
+public class MerchTable implements Cloneable, Serializable {
 	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name="mt_item_num")
+	private int mtItemNum;
 	
-	@Transient
-	private List<Customizations> itemCustomizations;
+	@Column(name="mt_ic_id")
+	private int mtIcId;
+
+	@Lob
+	@Column(name="mt_image")
+	private byte[] mtImage;
 
 	@Column(name="mt_image_id")
 	private String mtImageId;
@@ -37,16 +39,15 @@ public class MerchTable implements Serializable {
 
 	@Column(name="mt_item_link")
 	private String mtItemLink;
-	
-	@Id
-	@Column(name="mt_item_num")
-	private int mtItemNum;
 
 	@Column(name="mt_item_price")
 	private float mtItemPrice;
 
 	@Column(name="mt_item_type")
 	private String mtItemType;
+
+	@Column(name="mt_order_id")
+	private int mtOrderId;
 
 	@Lob
 	@Column(name="mt_special_note")
@@ -55,11 +56,23 @@ public class MerchTable implements Serializable {
 	@Column(name="mt_stock_qty")
 	private short mtStockQty;
 
-	@Lob
-	@Column(name="mt_image")
-	private byte[] mtImage;
-
 	public MerchTable() {
+	}
+
+	public int getMtItemNum() {
+		return this.mtItemNum;
+	}
+
+	public void setMtItemNum(int mtItemNum) {
+		this.mtItemNum = mtItemNum;
+	}
+
+	public byte[] getMtImage() {
+		return this.mtImage;
+	}
+
+	public void setMtImage(byte[] mtImage) {
+		this.mtImage = mtImage;
 	}
 
 	public String getMtImageId() {
@@ -94,14 +107,6 @@ public class MerchTable implements Serializable {
 		this.mtItemLink = mtItemLink;
 	}
 
-	public int getMtItemNum() {
-		return this.mtItemNum;
-	}
-
-	public void setMtItemNum(int mtItemNum) {
-		this.mtItemNum = mtItemNum;
-	}
-
 	public float getMtItemPrice() {
 		return this.mtItemPrice;
 	}
@@ -116,6 +121,14 @@ public class MerchTable implements Serializable {
 
 	public void setMtItemType(String mtItemType) {
 		this.mtItemType = mtItemType;
+	}
+
+	public int getMtOrderId() {
+		return this.mtOrderId;
+	}
+
+	public void setMtOrderId(int mtOrderId) {
+		this.mtOrderId = mtOrderId;
 	}
 
 	public String getMtSpecialNote() {
@@ -133,23 +146,21 @@ public class MerchTable implements Serializable {
 	public void setMtStockQty(short mtStockQty) {
 		this.mtStockQty = mtStockQty;
 	}
-	
-	public byte[] getMtImage() {
-		return mtImage;
+
+	public int getMtIcId() {
+		return mtIcId;
 	}
 
-	public void setMtImage(byte[] mtImage) {
-		this.mtImage = mtImage;
+	public void setMtIcId(int mtIcId) {
+		this.mtIcId = mtIcId;
 	}
 
 	@Override
-	public String toString() {
-		return "MerchTable [itemCustomizations=" + itemCustomizations + ", mtImageId=" + mtImageId + ", mtItemDescLong="
-				+ mtItemDescLong + ", mtItemDescShort=" + mtItemDescShort + ", mtItemLink=" + mtItemLink
-				+ ", mtItemNum=" + mtItemNum + ", mtItemPrice=" + mtItemPrice + ", mtItemType=" + mtItemType
-				+ ", mtSpecialNote=" + mtSpecialNote + ", mtStockQty=" + mtStockQty + ", mtImage="
-				+ Arrays.toString(mtImage) + "]";
+	public MerchTable clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return (MerchTable)super.clone();
 	}
+	
 	
 
 }

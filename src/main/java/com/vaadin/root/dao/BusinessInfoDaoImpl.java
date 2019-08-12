@@ -1,7 +1,7 @@
 package com.vaadin.root.dao;
 
 import com.vaadin.root.model.BusinessInfo;
-import com.vaadin.root.model.MerchTable;
+import com.vaadin.root.model.MerchTableOLD_;
 
 public class BusinessInfoDaoImpl extends DefaultDao implements BusinessInfoDao {
 

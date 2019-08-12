@@ -24,7 +24,7 @@ import com.vaadin.root.dao.EntityManagerInstance;
 import com.vaadin.root.framework.AboutView_OLD;
 import com.vaadin.root.framework.DefaultView_OLD;
 import com.vaadin.root.model.MemberData;
-import com.vaadin.root.model.MerchTable;
+import com.vaadin.root.model.MerchTableOLD_;
 import com.vaadin.server.BootstrapFragmentResponse;
 import com.vaadin.server.BootstrapListener;
 import com.vaadin.server.BootstrapPageResponse;

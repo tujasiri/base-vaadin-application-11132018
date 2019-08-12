@@ -10,6 +10,7 @@ import com.vaadin.root.dto.CheckoutCart;
 import com.vaadin.root.framework.grids.CustomizationGrid;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.MerchTable;
+import com.vaadin.root.model.ItemCustomization;
 import com.vaadin.root.utils.UIUtils;
 import com.vaadin.root.windows.ItemCustomizationWindow;
 import com.vaadin.ui.Alignment;
@@ -41,9 +42,9 @@ public class MerchLayout extends VerticalLayout{
 	private List<MerchTable> itemsToBeAdded = new ArrayList<MerchTable>();
 
 	
-	public MerchLayout(MerchTable merchTableItem){
+	public MerchLayout(MerchTable x){
 		super();
-		this.merchTableItem = merchTableItem;
+		this.merchTableItem = x;
 		buildLayout();
 		addListeners();
 	}
@@ -121,15 +122,46 @@ public class MerchLayout extends VerticalLayout{
 			//customize item if there are varying options
 			//consider quantity
 			this.itemsToBeAdded = new ArrayList<MerchTable>();
+			List<ItemCustomization> itemCustomizations = new ArrayList<ItemCustomization>();
 			int itemQuantity = this.qty.getValue().intValue();
 
 			for (int i=0;i < itemQuantity;i++){
-				itemsToBeAdded.add(this.merchTableItem);
+				//set temporary customization IDs until item cart additions are finalized
+				
+				ItemCustomization itemsCustTmp = new ItemCustomization();
+				itemsCustTmp.setIcId(i);
+				
+				MerchTable merchTableItemTmp = new MerchTable();
+				try {
+					merchTableItemTmp =  this.merchTableItem.clone();
+				} catch (CloneNotSupportedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				merchTableItemTmp.setMtIcId(i);
+				
+				
+				
+				itemCustomizations.add(itemsCustTmp);
+			
+				itemsToBeAdded.add(merchTableItemTmp);
 			}
+			
+			itemCustomizations.forEach(x->{
+				System.out.println(String.format("(itemCust) cust id in MerchLayout ==>%d",x.getIcId()));
+			});
+			
+			itemsToBeAdded.forEach(xu->{
+				System.out.println(String.format("(itemsToBeAdded) cust id in MerchLayout ==>%d",xu.getMtIcId()));
+			});
+
 
 			checkoutCart.addItemToCart(this.merchTableItem);
 			
-			ItemCustomizationWindow customWindow = new ItemCustomizationWindow(itemsToBeAdded);
+			ItemCustomizationWindow customWindow = new ItemCustomizationWindow(itemsToBeAdded,itemCustomizations);
+			customWindow.setItemCustomizations(itemCustomizations);
+
 			UI.getCurrent().addWindow(customWindow);
 			
 		});
