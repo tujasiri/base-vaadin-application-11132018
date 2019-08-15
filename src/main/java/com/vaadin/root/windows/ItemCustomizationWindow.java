@@ -8,7 +8,9 @@ import com.vaadin.root.framework.grids.CustomizationGrid;
 import com.vaadin.root.model.ItemCustomization;
 import com.vaadin.root.model.MerchTable;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -20,6 +22,10 @@ public class ItemCustomizationWindow extends Window{
 	private List<ItemCustomization> itemCustomizations = new ArrayList<>();
 	private CustomizationGrid grid;
 	private VerticalLayout layout = new VerticalLayout();
+	private HorizontalLayout buttonLayout = new HorizontalLayout();
+	private Button updateButton = new Button("Update");
+	private Button closeButton = new Button("Close");
+
 
 	public ItemCustomizationWindow(List<MerchTable> gridcontainer, List<ItemCustomization> customization){
 
@@ -38,6 +44,8 @@ public class ItemCustomizationWindow extends Window{
 		});
 		
 		this.grid = new CustomizationGrid(gridcontainer);
+		grid.setGridCustomizationContainer(this.getItemCustomizations());
+
 		this.grid.setHeight(80.0f,Unit.PERCENTAGE);
 		this.grid.setWidth(80.0f,Unit.PERCENTAGE);
 		this.setGrid(grid);

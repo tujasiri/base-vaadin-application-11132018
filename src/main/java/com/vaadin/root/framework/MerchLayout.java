@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.root.StandardComponent;
+import com.vaadin.root.dao.DefaultDao;
 import com.vaadin.root.dto.CartSingleton;
 import com.vaadin.root.dto.CheckoutCart;
 import com.vaadin.root.framework.grids.CustomizationGrid;
@@ -75,7 +76,9 @@ public class MerchLayout extends VerticalLayout{
 		this.buttonLayout.setSpacing(true);
 		
 		this.qty.setDataProvider(getComboDataProvider());
-		
+
+		this.merchButton.setStyleName("buttontest");		
+
 		this.buttonLayout.addComponents(this.merchButton, this.viewButton);
 		this.buttonLayout.setExpandRatio(this.merchButton, 1.0f);
 		this.buttonLayout.setExpandRatio(this.viewButton, 1.0f);
@@ -128,7 +131,18 @@ public class MerchLayout extends VerticalLayout{
 			for (int i=0;i < itemQuantity;i++){
 				//set temporary customization IDs until item cart additions are finalized
 				
+				DefaultDao dao = new DefaultDao();
+				
 				ItemCustomization itemsCustTmp = new ItemCustomization();
+				itemsCustTmp.setIcMtItemNum(this.merchTableItem.getMtItemNum());
+				
+//				dao.updateOrCreateEntity(itemsCustTmp, null, dao.getEntityManager());
+				dao.updateOrCreateEntity(itemsCustTmp, null);
+				
+				
+				
+				System.out.println(String.format("ID==>%d", itemsCustTmp.getIcId() ));
+
 				itemsCustTmp.setIcId(i);
 				
 				MerchTable merchTableItemTmp = new MerchTable();
@@ -141,23 +155,11 @@ public class MerchLayout extends VerticalLayout{
 				
 				merchTableItemTmp.setMtIcId(i);
 				
-				
-				
 				itemCustomizations.add(itemsCustTmp);
-			
 				itemsToBeAdded.add(merchTableItemTmp);
 			}
 			
-			itemCustomizations.forEach(x->{
-				System.out.println(String.format("(itemCust) cust id in MerchLayout ==>%d",x.getIcId()));
-			});
-			
-			itemsToBeAdded.forEach(xu->{
-				System.out.println(String.format("(itemsToBeAdded) cust id in MerchLayout ==>%d",xu.getMtIcId()));
-			});
-
-
-			checkoutCart.addItemToCart(this.merchTableItem);
+//			checkoutCart.addItemToCart(this.merchTableItem);
 			
 			ItemCustomizationWindow customWindow = new ItemCustomizationWindow(itemsToBeAdded,itemCustomizations);
 			customWindow.setItemCustomizations(itemCustomizations);

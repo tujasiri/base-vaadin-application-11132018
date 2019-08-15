@@ -18,7 +18,6 @@ public class EntityManagerInstance {
         if (emInstance == null ) {
         	
 //            EntityManagerFactory emf = Persistence.createEntityManagerFactory("application-unit");
-        	System.out.println("hello jello");
             EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("application-unit");
        		emInstance = emf.createEntityManager();
         }

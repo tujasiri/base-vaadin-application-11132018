@@ -15,6 +15,7 @@ public class ItemCustomization implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ic_id")
 	private int icId;
 
