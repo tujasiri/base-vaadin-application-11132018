@@ -60,7 +60,7 @@ public class CustomizationGrid extends Grid<MerchTable>{
 		}).setCaption("Color");
 		
 		this.addColumn(gender -> {
-			return this.getGridCustomizationContainer().get(this.gridContainer.indexOf(gender)).getIcColor();
+			return this.getGridCustomizationContainer().get(this.gridContainer.indexOf(gender)).getIcGender();
 //			return getCustomizationParm();
 		}).setCaption("Gender");
 		
@@ -95,9 +95,14 @@ public class CustomizationGrid extends Grid<MerchTable>{
 							currentCustomization.setIcGender(gender != null ? gender : currentCustomization.getIcGender());
 							refresh();
 						}
+						
+						public void test(){};
 
                 	  });
                 	  
+                	  selectCustWindow.getCbSize().setValue(currentCustomization.getIcSize());
+                	  selectCustWindow.getCbColor().setValue(currentCustomization.getIcColor());
+                	  selectCustWindow.getCbGender().setValue(currentCustomization.getIcGender());
                 	  
                 	  UI.getCurrent().addWindow(selectCustWindow);
               }));	

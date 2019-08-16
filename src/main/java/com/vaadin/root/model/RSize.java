@@ -10,7 +10,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="R_SIZES")
-@NamedQuery(name="RSize.findAll", query="SELECT r FROM RSize r")
+@NamedQueries(value = { @NamedQuery(name="RSize.findAll", query="SELECT r FROM RSize r"), 
+						@NamedQuery(name="RSize.findAllSizeVals", query="SELECT r.value FROM RSize r")
+})
 public class RSize implements Serializable {
 	private static final long serialVersionUID = 1L;
 

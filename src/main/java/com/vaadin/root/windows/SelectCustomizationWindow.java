@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.root.dao.DefaultDataService;
+import com.vaadin.root.dao.RTableDao;
 import com.vaadin.root.framework.listeners.UpdateListener;
 import com.vaadin.root.model.ItemCustomization;
 import com.vaadin.root.model.RSize;
@@ -28,8 +30,12 @@ public class SelectCustomizationWindow extends Window {
 
 	public SelectCustomizationWindow(){
 		buildWindow();
-	
+		addListeners();
+	} 
+
+	public void addListeners(){
 		this.getUpdateButton().addClickListener(e->{
+			
 			String size = this.getCbSize().getValue() != null ? this.getCbSize().getValue().toString() : "";
 			String color = this.getCbColor().getValue() != null ? this.getCbColor().getValue().toString() : "";
 			String gender = this.getCbGender().getValue() != null ? this.getCbGender().getValue().toString() : "";
@@ -46,8 +52,14 @@ public class SelectCustomizationWindow extends Window {
 		this.setModal(true);
 		setWidth(40.0f,Unit.PERCENTAGE);
 		setHeight(40.0f,Unit.PERCENTAGE);
-		cbSize.setDataProvider(getComboDataProvider());
-
+		
+		cbSize.setItems(DefaultDataService.getInstance().getRTableDao().findAllSizeStrings());
+		cbSize.setEmptySelectionAllowed(false);
+		cbColor.setItems(DefaultDataService.getInstance().getRTableDao().findAllColorStrings());
+		cbColor.setEmptySelectionAllowed(false);
+		cbGender.setItems(DefaultDataService.getInstance().getRTableDao().findAllGenderStrings());
+		cbGender.setEmptySelectionAllowed(false);
+		
 		buttonLayout.addComponents(updateButton,closeButton);
 		layout.addComponents(cbSize,cbColor,cbGender,buttonLayout);
 		setContent(layout);
