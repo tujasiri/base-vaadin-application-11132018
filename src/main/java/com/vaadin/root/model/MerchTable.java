@@ -1,6 +1,8 @@
 package com.vaadin.root.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
+
 import javax.persistence.*;
 
 
@@ -15,6 +17,8 @@ import javax.persistence.*;
 		@NamedQuery(name="MerchTable.findOneRecord", query="SELECT m FROM MerchTable m where m.mtItemNum = :idx")
 })
 public class MerchTable implements Cloneable, Serializable {
+	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -157,9 +161,19 @@ public class MerchTable implements Cloneable, Serializable {
 
 	@Override
 	public MerchTable clone() throws CloneNotSupportedException {
-		// TODO Auto-generated method stub
 		return (MerchTable)super.clone();
 	}
+
+	@Override
+	public String toString() {
+		return "MerchTable [mtItemNum=" + mtItemNum + ", mtIcId=" + mtIcId +/* ", mtImage=" + Arrays.toString(mtImage)
+
+				+*/ ", mtImageId=" + mtImageId + ", mtItemDescLong=" + mtItemDescLong + ", mtItemDescShort="
+				+ mtItemDescShort + ", mtItemLink=" + mtItemLink + ", mtItemPrice=" + mtItemPrice + ", mtItemType="
+				+ mtItemType + ", mtOrderId=" + mtOrderId + ", mtSpecialNote=" + mtSpecialNote + ", mtStockQty="
+				+ mtStockQty + "]\n\n";
+	}
+	
 	
 	
 

@@ -15,10 +15,6 @@ import java.util.Date;
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="or_id")
-	private int orId;
-
 	@Column(name="or_cb_id")
 	private int orCbId;
 
@@ -26,18 +22,18 @@ public class Order implements Serializable {
 	@Column(name="or_date")
 	private Date orDate;
 
+	@Column(name="or_ic_id")
+	private int orIcId;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="or_id")
+	private int orId;
+
 	@Column(name="or_mt_item_num")
 	private int orMtItemNum;
 
 	public Order() {
-	}
-
-	public int getOrId() {
-		return this.orId;
-	}
-
-	public void setOrId(int orId) {
-		this.orId = orId;
 	}
 
 	public int getOrCbId() {
@@ -54,6 +50,22 @@ public class Order implements Serializable {
 
 	public void setOrDate(Date orDate) {
 		this.orDate = orDate;
+	}
+
+	public int getOrIcId() {
+		return this.orIcId;
+	}
+
+	public void setOrIcId(int orIcId) {
+		this.orIcId = orIcId;
+	}
+
+	public int getOrId() {
+		return this.orId;
+	}
+
+	public void setOrId(int orId) {
+		this.orId = orId;
 	}
 
 	public int getOrMtItemNum() {

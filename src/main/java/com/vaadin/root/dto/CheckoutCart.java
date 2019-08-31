@@ -39,12 +39,10 @@ public class CheckoutCart {
 
     public void addItemToCart(MerchTable merchTableItem){
         itemsArray.add(merchTableItem);
-        /*
-        for(MerchItem tmpMerchItem :itemsArray){
-            System.out.println(String.format("In cart ==>%s", tmpMerchItem.getMt_item_desc_long()));
+    }
 
-        }
-        */
+    public void addItemsCart(List<MerchTable> merchTableItems){
+        itemsArray.addAll(merchTableItems);
     }
 
     public void removeItemFromCart(int positon){
@@ -76,5 +74,11 @@ public class CheckoutCart {
         return itemTotal;
 
     }
+
+	@Override
+	public String toString() {
+		return this.itemsArray.toString();	
+	}
+    
 
 }

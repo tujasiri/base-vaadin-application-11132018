@@ -29,7 +29,6 @@ public class CustomizationGrid extends Grid<MerchTable>{
 	
 	public CustomizationGrid(){
 	}
-	
 
 	public CustomizationGrid(List<MerchTable> customContainer){
 //		super();
@@ -40,10 +39,7 @@ public class CustomizationGrid extends Grid<MerchTable>{
 	public void buildGrid(){
 		this.getGridContainer().forEach(y->{
 			System.out.println(String.format("mt_ic_id in buildGrid()==>%s ",y.getMtIcId()));
-			
 		});
-//		ComboBox<RSize>cbSize = new ComboBox<RSize>(); 
-		ComboBox<Integer>cbSize = new ComboBox<Integer>(); 
 		
 		this.setItems(this.getGridContainer());
 		this.addColumn(MerchTable::getMtItemDescShort).setCaption("Item Description");
@@ -64,13 +60,8 @@ public class CustomizationGrid extends Grid<MerchTable>{
 //			return getCustomizationParm();
 		}).setCaption("Gender");
 		
-		
 		this.addColumn(edit -> "Edit Item",
                 new ButtonRenderer(clickEvent -> {
-//                    this.getEditor(); //????
-//			this.getGridCustomizationContainer().get(this.gridContainer.indexOf(gender)).getIcColor();
-                	
-                	
                 	
                 	MerchTable mt = (MerchTable)clickEvent.getItem();
                 	ItemCustomization currentCustomization = this.getGridCustomizationContainer().get(this.gridContainer.indexOf(mt));
@@ -96,8 +87,6 @@ public class CustomizationGrid extends Grid<MerchTable>{
 							refresh();
 						}
 						
-						public void test(){};
-
                 	  });
                 	  
                 	  selectCustWindow.getCbSize().setValue(currentCustomization.getIcSize());
@@ -107,21 +96,6 @@ public class CustomizationGrid extends Grid<MerchTable>{
                 	  UI.getCurrent().addWindow(selectCustWindow);
               }));	
 		
-//		this.addColumn(new ValueProvider<Integer,Integer>(){
-//
-////			@Override
-////			public Object apply(Object source) {
-////				// TODO Auto-generated method stub
-////				return null;
-////			}
-//
-//			@Override
-//			public Integer apply(Integer source) {
-//				// TODO Auto-generated method stub
-//				return cbSize.getValueh() ;
-//			}
-//			
-//		}).setCaption("Size").setWidth(100);
 		
 		this.getGridContainer().forEach(y->{
 			System.out.println(String.format("mt_ic_id==>%s ",y.getMtIcId()));
@@ -136,20 +110,6 @@ public class CustomizationGrid extends Grid<MerchTable>{
 		this.gridCustomizationContainer = itemcustomization;
 	}
 
-
-
-
-	private ListDataProvider<Integer> getSizeComboDataProvider(){
-		List<Integer> cbData = new ArrayList<>();
-		
-		for(int i=1;i<11;i++)
-			cbData.add(i);
-		
-		ListDataProvider<Integer> cbDataProvider = new ListDataProvider<>(cbData);
-		
-		return cbDataProvider;
-	}
-	
 	public List<MerchTable> getGridContainer() {
 		return gridContainer;
 	}
@@ -159,13 +119,13 @@ public class CustomizationGrid extends Grid<MerchTable>{
 	}
 	
 	private String getCustomizationParm(){
-		
 		return "";
-		
 		
 	}
 	
 	private void refresh(){
+		
+//		System.out.println("IN  REFRESH!");
 		this.setItems(new ArrayList<>());
 		this.setItems(this.getGridContainer());
 	}

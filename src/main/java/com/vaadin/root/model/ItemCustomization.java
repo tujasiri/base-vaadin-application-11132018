@@ -74,4 +74,10 @@ public class ItemCustomization implements Serializable {
 		this.icSize = icSize;
 	}
 
+	@Override
+	public String toString() {
+		return "ItemCustomization [icId=" + icId + ", icColor=" + icColor + ", icGender=" + icGender + ", icMtItemNum="
+				+ icMtItemNum + ", icSize=" + icSize + "]";
+	}
+
 }

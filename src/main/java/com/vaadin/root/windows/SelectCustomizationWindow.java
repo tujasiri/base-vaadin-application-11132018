@@ -19,7 +19,7 @@ import com.vaadin.ui.Window;
 public class SelectCustomizationWindow extends Window {
 	private ComboBox cbSize = new ComboBox("Select Size");
 	private ComboBox cbColor = new ComboBox("Select Color");
-	private ComboBox cbGender = new ComboBox("Select Size");
+	private ComboBox cbGender = new ComboBox("Select Gender");
 	private ItemCustomization itemCustom = new ItemCustomization();
 	private VerticalLayout layout = new VerticalLayout();
 	private HorizontalLayout buttonLayout = new HorizontalLayout();
@@ -41,6 +41,7 @@ public class SelectCustomizationWindow extends Window {
 			String gender = this.getCbGender().getValue() != null ? this.getCbGender().getValue().toString() : "";
 
 			this.getUpdatelistener().updateCustomizationRecord(size,color,gender);
+			System.out.println("HEEEEEEEERE");
 		});
 		
 		this.getCloseButton().addClickListener(e->{
@@ -121,17 +122,6 @@ public class SelectCustomizationWindow extends Window {
 		this.updatelistener = updatelistener;
 	}
 	
-	private ListDataProvider<String> getComboDataProvider(){
-		List<String> rSize = new ArrayList<>();
-		
-		rSize.add("S");
-		rSize.add("M");
-		rSize.add("L");
-		
-		ListDataProvider<String> cbDataProvider = new ListDataProvider<>(rSize);
-		
-		return cbDataProvider;
-	}	
 	
 	
 }
