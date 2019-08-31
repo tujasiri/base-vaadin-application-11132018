@@ -9,6 +9,10 @@
 	<name>base-vaadin-application-11132018</name>
 
 	<properties>
+<!--  
+		<vaadin.version>8.1.0</vaadin.version>
+        <vaadin.widgetset.mode>cdn</vaadin.widgetset.mode>
+!-->	
 		<vaadin.version>8.0.1</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 		<jetty.plugin.version>9.2.3.v20140905</jetty.plugin.version>
@@ -87,6 +91,16 @@
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes</artifactId>
+		</dependency>
+		<dependency>
+		   <groupId>de.datenhahn.vaadin</groupId>
+		   <artifactId>componentrenderer</artifactId>
+		   <version>1.0.3</version>
+		</dependency>
+		<dependency>
+		   <groupId>org.vaadin.addon</groupId>
+		   <artifactId>confirmdialog</artifactId>
+		   <version>3.2.0</version>
 		</dependency>
 	<!-- 
 		<dependency>

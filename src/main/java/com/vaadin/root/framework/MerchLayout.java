@@ -5,15 +5,24 @@ import java.util.List;
 
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.root.StandardComponent;
+import com.vaadin.root.dao.DefaultDao;
+import com.vaadin.root.dto.CartSingleton;
+import com.vaadin.root.dto.CheckoutCart;
+import com.vaadin.root.framework.grids.CustomizationGrid;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.MerchTable;
+import com.vaadin.root.model.ItemCustomization;
 import com.vaadin.root.utils.UIUtils;
+import com.vaadin.root.windows.ItemCustomizationWindow;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class MerchLayout extends VerticalLayout{
@@ -29,11 +38,14 @@ public class MerchLayout extends VerticalLayout{
 	private VerticalLayout lowerComponentLayout = new VerticalLayout();
 	private ComboBox<Integer> qty = new ComboBox("Qty.:");
 //	private StandardComponent standard = new StandardComponent();
-	private TimerComponent standard = new TimerComponent();
+	private TimerComponent standard = new TimerComponent();      
+	private CheckoutCart checkoutCart = CartSingleton.getInstance().getCheckoutCart();
+	private List<MerchTable> itemsToBeAdded = new ArrayList<MerchTable>();
+
 	
-	public MerchLayout(MerchTable merchTableItem){
+	public MerchLayout(MerchTable x){
 		super();
-		this.merchTableItem = merchTableItem;
+		this.merchTableItem = x;
 		buildLayout();
 		addListeners();
 	}
@@ -64,7 +76,9 @@ public class MerchLayout extends VerticalLayout{
 		this.buttonLayout.setSpacing(true);
 		
 		this.qty.setDataProvider(getComboDataProvider());
-		
+
+		this.merchButton.setStyleName("buttontest");		
+
 		this.buttonLayout.addComponents(this.merchButton, this.viewButton);
 		this.buttonLayout.setExpandRatio(this.merchButton, 1.0f);
 		this.buttonLayout.setExpandRatio(this.viewButton, 1.0f);
@@ -107,9 +121,52 @@ public class MerchLayout extends VerticalLayout{
 		});
 		
 		this.merchButton.addListener(e->{
-			this.standard.alertme();
+
+			//customize item if there are varying options
+			//consider quantity
+			this.itemsToBeAdded = new ArrayList<MerchTable>();
+			List<ItemCustomization> itemCustomizations = new ArrayList<ItemCustomization>();
+			int itemQuantity = this.qty.getValue().intValue();
+
+			for (int i=0;i < itemQuantity;i++){
+				//set temporary customization IDs until item cart additions are finalized
+				
+				DefaultDao dao = new DefaultDao();
+				
+				ItemCustomization itemsCustTmp = new ItemCustomization();
+				itemsCustTmp.setIcMtItemNum(this.merchTableItem.getMtItemNum());
+				
+//				dao.updateOrCreateEntity(itemsCustTmp, null, dao.getEntityManager());
+				dao.updateOrCreateEntity(itemsCustTmp, null);
+				
+				
+				
+				System.out.println(String.format("ID==>%d", itemsCustTmp.getIcId() ));
+
+				itemsCustTmp.setIcId(i);
+				
+				MerchTable merchTableItemTmp = new MerchTable();
+				try {
+					merchTableItemTmp =  this.merchTableItem.clone();
+				} catch (CloneNotSupportedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				merchTableItemTmp.setMtIcId(i);
+				
+				itemCustomizations.add(itemsCustTmp);
+				itemsToBeAdded.add(merchTableItemTmp);
+			}
+			
+//			checkoutCart.addItemToCart(this.merchTableItem);
+			
+			ItemCustomizationWindow customWindow = new ItemCustomizationWindow(itemsToBeAdded,itemCustomizations);
+			customWindow.setItemCustomizations(itemCustomizations);
+
+			UI.getCurrent().addWindow(customWindow);
+			
 		});
-		
 		
 	}
 

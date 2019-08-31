@@ -11,13 +11,23 @@
     	<non-jta-data-source>java:/mysqlDS</non-jta-data-source>
     !-->
     	<non-jta-data-source>java:comp/env/jdbc/mysqlDS</non-jta-data-source>
+	<!-- 
+    	<mapping-file>META-INF/eclipselink-orm.xml</mapping-file>
+    !-->
     	
-		<class>com.vaadin.root.model.Calendar</class>
 		<class>com.vaadin.root.model.MemberData</class>
 		<class>com.vaadin.root.model.MemberDataTest</class>
-		<class>com.vaadin.root.model.MerchTable</class>
+		<class>com.vaadin.root.model.MerchTableOLD_</class>
 		<class>com.vaadin.root.model.New</class>
 		<class>com.vaadin.root.model.BusinessInfo</class>
+		<class>com.vaadin.root.model.RColor</class>
+		<class>com.vaadin.root.model.RGender</class>
+		<class>com.vaadin.root.model.RMerchType</class>
+		<class>com.vaadin.root.model.RSize</class>
+		<class>com.vaadin.root.model.ItemCustomization</class>
+		<class>com.vaadin.root.model.MerchTable</class>
+		<class>com.vaadin.root.model.Order</class>
+		<class>model.MerchTableNew</class>
 		<!--  
 		<class>com.vaadin.root.model.SocialMedia</class>
 		-->

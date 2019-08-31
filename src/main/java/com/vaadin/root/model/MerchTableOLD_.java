@@ -1,9 +1,13 @@
 package com.vaadin.root.model;
 
 import java.io.Serializable;
-import java.util.Arrays;
-
 import javax.persistence.*;
+
+import com.vaadin.root.dto.Customizations;
+
+import java.sql.Blob;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -16,21 +20,11 @@ import javax.persistence.*;
 		@NamedQuery(name="MerchTable.findAll", query="SELECT m FROM MerchTable m"),
 		@NamedQuery(name="MerchTable.findOneRecord", query="SELECT m FROM MerchTable m where m.mtItemNum = :idx")
 })
-public class MerchTable implements Cloneable, Serializable {
-	
-
+public class MerchTableOLD_ implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@Column(name="mt_item_num")
-	private int mtItemNum;
 	
-	@Column(name="mt_ic_id")
-	private int mtIcId;
-
-	@Lob
-	@Column(name="mt_image")
-	private byte[] mtImage;
+	@Transient
+	private List<Customizations> itemCustomizations;
 
 	@Column(name="mt_image_id")
 	private String mtImageId;
@@ -43,15 +37,16 @@ public class MerchTable implements Cloneable, Serializable {
 
 	@Column(name="mt_item_link")
 	private String mtItemLink;
+	
+	@Id
+	@Column(name="mt_item_num")
+	private int mtItemNum;
 
 	@Column(name="mt_item_price")
 	private float mtItemPrice;
 
 	@Column(name="mt_item_type")
 	private String mtItemType;
-
-	@Column(name="mt_order_id")
-	private int mtOrderId;
 
 	@Lob
 	@Column(name="mt_special_note")
@@ -60,23 +55,11 @@ public class MerchTable implements Cloneable, Serializable {
 	@Column(name="mt_stock_qty")
 	private short mtStockQty;
 
-	public MerchTable() {
-	}
+	@Lob
+	@Column(name="mt_image")
+	private byte[] mtImage;
 
-	public int getMtItemNum() {
-		return this.mtItemNum;
-	}
-
-	public void setMtItemNum(int mtItemNum) {
-		this.mtItemNum = mtItemNum;
-	}
-
-	public byte[] getMtImage() {
-		return this.mtImage;
-	}
-
-	public void setMtImage(byte[] mtImage) {
-		this.mtImage = mtImage;
+	public MerchTableOLD_() {
 	}
 
 	public String getMtImageId() {
@@ -111,6 +94,14 @@ public class MerchTable implements Cloneable, Serializable {
 		this.mtItemLink = mtItemLink;
 	}
 
+	public int getMtItemNum() {
+		return this.mtItemNum;
+	}
+
+	public void setMtItemNum(int mtItemNum) {
+		this.mtItemNum = mtItemNum;
+	}
+
 	public float getMtItemPrice() {
 		return this.mtItemPrice;
 	}
@@ -125,14 +116,6 @@ public class MerchTable implements Cloneable, Serializable {
 
 	public void setMtItemType(String mtItemType) {
 		this.mtItemType = mtItemType;
-	}
-
-	public int getMtOrderId() {
-		return this.mtOrderId;
-	}
-
-	public void setMtOrderId(int mtOrderId) {
-		this.mtOrderId = mtOrderId;
 	}
 
 	public String getMtSpecialNote() {
@@ -150,31 +133,23 @@ public class MerchTable implements Cloneable, Serializable {
 	public void setMtStockQty(short mtStockQty) {
 		this.mtStockQty = mtStockQty;
 	}
-
-	public int getMtIcId() {
-		return mtIcId;
+	
+	public byte[] getMtImage() {
+		return mtImage;
 	}
 
-	public void setMtIcId(int mtIcId) {
-		this.mtIcId = mtIcId;
-	}
-
-	@Override
-	public MerchTable clone() throws CloneNotSupportedException {
-		return (MerchTable)super.clone();
+	public void setMtImage(byte[] mtImage) {
+		this.mtImage = mtImage;
 	}
 
 	@Override
 	public String toString() {
-		return "MerchTable [mtItemNum=" + mtItemNum + ", mtIcId=" + mtIcId +/* ", mtImage=" + Arrays.toString(mtImage)
-
-				+*/ ", mtImageId=" + mtImageId + ", mtItemDescLong=" + mtItemDescLong + ", mtItemDescShort="
-				+ mtItemDescShort + ", mtItemLink=" + mtItemLink + ", mtItemPrice=" + mtItemPrice + ", mtItemType="
-				+ mtItemType + ", mtOrderId=" + mtOrderId + ", mtSpecialNote=" + mtSpecialNote + ", mtStockQty="
-				+ mtStockQty + "]\n\n";
+		return "MerchTable [itemCustomizations=" + itemCustomizations + ", mtImageId=" + mtImageId + ", mtItemDescLong="
+				+ mtItemDescLong + ", mtItemDescShort=" + mtItemDescShort + ", mtItemLink=" + mtItemLink
+				+ ", mtItemNum=" + mtItemNum + ", mtItemPrice=" + mtItemPrice + ", mtItemType=" + mtItemType
+				+ ", mtSpecialNote=" + mtSpecialNote + ", mtStockQty=" + mtStockQty + ", mtImage="
+				+ Arrays.toString(mtImage) + "]";
 	}
-	
-	
 	
 
 }

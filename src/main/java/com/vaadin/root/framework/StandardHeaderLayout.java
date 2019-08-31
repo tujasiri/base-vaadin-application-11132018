@@ -6,6 +6,7 @@ import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.root.dao.DefaultDataService;
+import com.vaadin.root.dto.CartSingleton;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.BusinessInfo;
 import com.vaadin.root.utils.UIUtils;
@@ -118,6 +119,8 @@ public class StandardHeaderLayout extends CssLayout{
 		cartLayout.addLayoutClickListener(e->{ 
 //			tc.alertme();
 			tc.getdimensions();
+			System.out.println("ITEMS IN CART==>"+CartSingleton.getInstance().getCheckoutCart().toString());
+
 		});
 		cartLayout.addStyleName("pointerCursor");
 		

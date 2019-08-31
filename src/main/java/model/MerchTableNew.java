@@ -1,8 +1,6 @@
-package com.vaadin.root.model;
+package model;
 
 import java.io.Serializable;
-import java.util.Arrays;
-
 import javax.persistence.*;
 
 
@@ -12,19 +10,14 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="merch_table")
-@NamedQueries(value ={ 
-		@NamedQuery(name="MerchTable.findAll", query="SELECT m FROM MerchTable m"),
-		@NamedQuery(name="MerchTable.findOneRecord", query="SELECT m FROM MerchTable m where m.mtItemNum = :idx")
-})
-public class MerchTable implements Cloneable, Serializable {
-	
-
+@NamedQuery(name="MerchTableNew.findAll", query="SELECT m FROM MerchTableNew m")
+public class MerchTableNew implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="mt_item_num")
 	private int mtItemNum;
-	
+
 	@Column(name="mt_ic_id")
 	private int mtIcId;
 
@@ -60,7 +53,7 @@ public class MerchTable implements Cloneable, Serializable {
 	@Column(name="mt_stock_qty")
 	private short mtStockQty;
 
-	public MerchTable() {
+	public MerchTableNew() {
 	}
 
 	public int getMtItemNum() {
@@ -69,6 +62,14 @@ public class MerchTable implements Cloneable, Serializable {
 
 	public void setMtItemNum(int mtItemNum) {
 		this.mtItemNum = mtItemNum;
+	}
+
+	public int getMtIcId() {
+		return this.mtIcId;
+	}
+
+	public void setMtIcId(int mtIcId) {
+		this.mtIcId = mtIcId;
 	}
 
 	public byte[] getMtImage() {
@@ -150,31 +151,5 @@ public class MerchTable implements Cloneable, Serializable {
 	public void setMtStockQty(short mtStockQty) {
 		this.mtStockQty = mtStockQty;
 	}
-
-	public int getMtIcId() {
-		return mtIcId;
-	}
-
-	public void setMtIcId(int mtIcId) {
-		this.mtIcId = mtIcId;
-	}
-
-	@Override
-	public MerchTable clone() throws CloneNotSupportedException {
-		return (MerchTable)super.clone();
-	}
-
-	@Override
-	public String toString() {
-		return "MerchTable [mtItemNum=" + mtItemNum + ", mtIcId=" + mtIcId +/* ", mtImage=" + Arrays.toString(mtImage)
-
-				+*/ ", mtImageId=" + mtImageId + ", mtItemDescLong=" + mtItemDescLong + ", mtItemDescShort="
-				+ mtItemDescShort + ", mtItemLink=" + mtItemLink + ", mtItemPrice=" + mtItemPrice + ", mtItemType="
-				+ mtItemType + ", mtOrderId=" + mtOrderId + ", mtSpecialNote=" + mtSpecialNote + ", mtStockQty="
-				+ mtStockQty + "]\n\n";
-	}
-	
-	
-	
 
 }
