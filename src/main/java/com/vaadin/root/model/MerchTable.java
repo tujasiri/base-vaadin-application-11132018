@@ -60,6 +60,9 @@ public class MerchTable implements Cloneable, Serializable {
 	@Column(name="mt_stock_qty")
 	private short mtStockQty;
 
+	@Column(name="mt_customizeable")
+	private boolean mtCustomizeable;
+
 	public MerchTable() {
 	}
 
@@ -157,6 +160,15 @@ public class MerchTable implements Cloneable, Serializable {
 
 	public void setMtIcId(int mtIcId) {
 		this.mtIcId = mtIcId;
+	}
+	
+
+	public boolean isMtCustomizeable() {
+		return mtCustomizeable;
+	}
+
+	public void setMtCustomizeable(boolean mtCustomizeable) {
+		this.mtCustomizeable = mtCustomizeable;
 	}
 
 	@Override

@@ -8,11 +8,8 @@ import com.vaadin.root.model.*;
 public class CheckoutCart {
 
     public CheckoutCart(){
-        int test =0;
-
     }
 
-    //ArrayList<MerchItem> itemsArray;
     private List<MerchTable> itemsArray = new ArrayList<MerchTable>();
 
     public List<MerchTable> itemsInCart(){

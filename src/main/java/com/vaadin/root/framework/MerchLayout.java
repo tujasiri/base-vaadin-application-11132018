@@ -24,6 +24,9 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class MerchLayout extends VerticalLayout{
 	
@@ -41,6 +44,7 @@ public class MerchLayout extends VerticalLayout{
 	private TimerComponent standard = new TimerComponent();      
 	private CheckoutCart checkoutCart = CartSingleton.getInstance().getCheckoutCart();
 	private List<MerchTable> itemsToBeAdded = new ArrayList<MerchTable>();
+	private final static Logger logger = LoggerFactory.getLogger(MerchLayout.class);
 
 	
 	public MerchLayout(MerchTable x){
@@ -137,7 +141,12 @@ public class MerchLayout extends VerticalLayout{
 				itemsCustTmp.setIcMtItemNum(this.merchTableItem.getMtItemNum());
 				
 //				dao.updateOrCreateEntity(itemsCustTmp, null, dao.getEntityManager());
-				dao.updateOrCreateEntity(itemsCustTmp, null);
+				try {
+					dao.updateOrCreateEntity(itemsCustTmp, null);
+				} catch (Exception e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				
 				
 				
@@ -159,12 +168,18 @@ public class MerchLayout extends VerticalLayout{
 				itemsToBeAdded.add(merchTableItemTmp);
 			}
 			
-//			checkoutCart.addItemToCart(this.merchTableItem);
-			
-			ItemCustomizationWindow customWindow = new ItemCustomizationWindow(itemsToBeAdded,itemCustomizations);
-			customWindow.setItemCustomizations(itemCustomizations);
+//			logger.info("merchItemIsCustomizeable==>"+this.merchTableItem.isMtCustomizeable());
+			System.out.println("merchItemIsCustomizeable==>"+this.merchTableItem.isMtCustomizeable());
 
-			UI.getCurrent().addWindow(customWindow);
+			if(this.merchTableItem.isMtCustomizeable()) {
+			
+				ItemCustomizationWindow customWindow = new ItemCustomizationWindow(itemsToBeAdded,itemCustomizations);
+				customWindow.setItemCustomizations(itemCustomizations);
+				UI.getCurrent().addWindow(customWindow);
+
+			}else {
+				checkoutCart.addItemToCart(this.merchTableItem);
+			}
 			
 		});
 		

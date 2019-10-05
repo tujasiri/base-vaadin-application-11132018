@@ -6,6 +6,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -72,12 +73,16 @@ public class StandardMainScreen extends VerticalLayout implements View {
 		List<MerchTable> mtList = new ArrayList<MerchTable>();
 		List<MerchLayout> merchLayoutList = new ArrayList<MerchLayout>();
 		
-		for(int i=0;i<12;i++)
-			mtList.add(DefaultDataService.getInstance().getMerchDao().findOneRecord(12));
+		
+//		for(int i=0;i<25;i++)
+//			mtList.add(DefaultDataService.getInstance().getMerchDao().findOneRecord(12));
+		
+		mtList = DefaultDataService.getInstance().getMerchDao().findAll();
 		
 		mtList.stream().forEach(x->{
 		 merchLayoutList.add(new MerchLayout(x));
 		});
+
 		
 		int idx=0;
 		

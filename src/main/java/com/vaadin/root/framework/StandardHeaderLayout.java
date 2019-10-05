@@ -10,6 +10,7 @@ import com.vaadin.root.dto.CartSingleton;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.BusinessInfo;
 import com.vaadin.root.utils.UIUtils;
+import com.vaadin.root.windows.ShoppingCartWindow;
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -120,6 +121,8 @@ public class StandardHeaderLayout extends CssLayout{
 //			tc.alertme();
 			tc.getdimensions();
 			System.out.println("ITEMS IN CART==>"+CartSingleton.getInstance().getCheckoutCart().toString());
+			UI.getCurrent().addWindow(new ShoppingCartWindow());
+			
 
 		});
 		cartLayout.addStyleName("pointerCursor");
