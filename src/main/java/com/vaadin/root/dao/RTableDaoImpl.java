@@ -42,6 +42,7 @@ public class RTableDaoImpl extends DefaultDao implements RTableDao{
 	@Override
 	public List<String> findAllColorStrings() {
 		// TODO Auto-generated method stub
+//		return getEntityManager().createNamedQuery("RColor.findAll", RColor.class).getResultList();
 		return getEntityManager().createNamedQuery("RColor.findAll", RColor.class)
 								.getResultList()
 								.stream()
