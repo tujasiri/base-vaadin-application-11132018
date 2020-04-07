@@ -37,9 +37,14 @@ public class ShoppingCartGrid extends Grid<MerchTable> {
 	}
 	
 	
-	private void refresh(){
+	public void refresh(){
 		this.setItems(new ArrayList<>());
+		this.setGridContainer(CartSingleton.getInstance().getCheckoutCart().itemsInCart());
 		this.setItems(this.getGridContainer());
+
+		FooterRow row = this.getFooterRow(0);
+		row.getCell("cost").setText(String.format("%2.0f",CartSingleton.getInstance().getCheckoutCart().calculateTotal()));
+//		row.getCell("desc").setText("Total:");
 	}
 
 	public List<MerchTable> getGridContainer() {
