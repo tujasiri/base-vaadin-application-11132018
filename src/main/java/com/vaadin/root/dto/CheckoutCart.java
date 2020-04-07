@@ -35,6 +35,7 @@ public class CheckoutCart {
     }
 
     public void addItemToCart(MerchTable merchTableItem){
+		System.out.println("ADD ITEM TO CARRRT");
         itemsArray.add(merchTableItem);
     }
 
@@ -47,6 +48,7 @@ public class CheckoutCart {
     }
 
     public void emptyCart(){
+    	this.itemsArray.clear();
 
     }
 

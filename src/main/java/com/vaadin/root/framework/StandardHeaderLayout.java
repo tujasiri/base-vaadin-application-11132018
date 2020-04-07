@@ -120,6 +120,8 @@ public class StandardHeaderLayout extends CssLayout{
 		cartLayout.addLayoutClickListener(e->{ 
 //			tc.alertme();
 			tc.getdimensions();
+		
+			System.out.println(String.format("screen height ==> %d\n screen width ==> %d\n", tc.getScreenHeight(),tc.getScreenWidth()));
 			System.out.println("ITEMS IN CART==>"+CartSingleton.getInstance().getCheckoutCart().toString());
 			UI.getCurrent().addWindow(new ShoppingCartWindow());
 			

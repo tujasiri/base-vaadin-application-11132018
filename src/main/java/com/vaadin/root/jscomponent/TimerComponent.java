@@ -62,7 +62,12 @@ public class TimerComponent extends AbstractJavaScriptComponent {
                 Notification.show(arguments.asString());
 //            	String jsonString = arguments.asString();
 //                Notification.show(jsonString);
-                
+//                Notification.show("===>"+arguments.getObject(0).get("height").asNumber());
+                System.out.println("height===>"+Json.parse(arguments.get(0).asString()).getNumber("height"));
+                System.out.println("width===>"+Json.parse(arguments.get(0).asString()).getNumber("width"));
+               
+               setScreenHeight(Double.doubleToLongBits(Json.parse(arguments.get(0).asString()).getNumber("height")));
+               setScreenWidth(Double.doubleToLongBits(Json.parse(arguments.get(0).asString()).getNumber("width")));
             }
         });
     }
