@@ -17,10 +17,12 @@ import com.vaadin.root.framework.MerchItemDetailLayout;
 import com.vaadin.root.framework.MerchLayout;
 import com.vaadin.root.framework.StandardHeaderLayout;
 import com.vaadin.root.framework.StandardSideLayout;
+import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.MerchTable;
 import com.vaadin.root.utils.UIUtils;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
+import com.vaadin.shared.ui.orderedlayout.VerticalLayoutState;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -41,6 +43,7 @@ public class StandardMainScreen extends VerticalLayout implements View {
 //	private CheckoutCart checkoutCart = new CheckoutCart();	
 	private CheckoutCart checkoutCart = CartSingleton.getInstance().getCheckoutCart();
 //  checkoutCart = CartSingleton.getInstance().getCheckoutCart();
+	private TimerComponent tc = new TimerComponent();
 	
 	public StandardMainScreen(){
 		super();
@@ -86,6 +89,8 @@ public class StandardMainScreen extends VerticalLayout implements View {
 		
 		int idx=0;
 		
+		tc.getdimensions();
+		
 		for(int i=0;i<3;i++){
 			gridLayout.setRowExpandRatio(i,1.0f);
 			for(int j=0;j<4;j++){
@@ -96,6 +101,7 @@ public class StandardMainScreen extends VerticalLayout implements View {
 				ml.addStyleName("merchLayout");
 				gridLayout.addComponent(ml,j,i);
 //				gridLayout.addComponent(merchLayoutList.get(idx++),j,i);
+		tc.getdimensions();
 			}
 		}
 		
@@ -135,8 +141,7 @@ public class StandardMainScreen extends VerticalLayout implements View {
 		
 		addComponents(standardMainLayout);
 		setExpandRatio(standardMainLayout,1.0f);
-		
-		
+
 		
 		try {
 	
@@ -191,6 +196,21 @@ public class StandardMainScreen extends VerticalLayout implements View {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	protected VerticalLayoutState getState() {
+		// TODO Auto-generated method stub
+		return super.getState();
+	}
+
+	@Override
+	protected VerticalLayoutState getState(boolean markAsDirty) {
+		// TODO Auto-generated method stub
+		return super.getState(markAsDirty);
+	}
+	
+	
+
 	
 	
 }

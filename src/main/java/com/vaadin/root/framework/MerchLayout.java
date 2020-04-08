@@ -61,6 +61,8 @@ public class MerchLayout extends VerticalLayout{
 		
 		this.merchDesc.setCaption(this.merchTableItem.getMtItemDescShort());
 		this.merchImage = UIUtils.byteArrayToImage(this.merchTableItem.getMtImage());
+		this.merchImage.setHeight("300px");
+		this.merchImage.setWidth("300px");
 //		this.merchImage.setWidth(100.0f,Unit.PERCENTAGE);
 		
 		this.imageLayout.setSizeFull();
@@ -133,6 +135,7 @@ public class MerchLayout extends VerticalLayout{
 			int itemQuantity = this.qty.getValue().intValue();
 
 			for (int i=0;i < itemQuantity;i++){
+				System.out.println("ADD");
 				//set temporary customization IDs until item cart additions are finalized
 				
 				DefaultDao dao = new DefaultDao();
@@ -140,15 +143,13 @@ public class MerchLayout extends VerticalLayout{
 				ItemCustomization itemsCustTmp = new ItemCustomization();
 				itemsCustTmp.setIcMtItemNum(this.merchTableItem.getMtItemNum());
 				
-//				dao.updateOrCreateEntity(itemsCustTmp, null, dao.getEntityManager());
+				//dao.updateOrCreateEntity(itemsCustTmp, null, dao.getEntityManager());
 				try {
 					dao.updateOrCreateEntity(itemsCustTmp, null);
 				} catch (Exception e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
-				
-				
 				
 				System.out.println(String.format("ID==>%d", itemsCustTmp.getIcId() ));
 
@@ -166,6 +167,10 @@ public class MerchLayout extends VerticalLayout{
 				
 				itemCustomizations.add(itemsCustTmp);
 				itemsToBeAdded.add(merchTableItemTmp);
+				
+				this.qty.clear();
+				Notification.show("Item added.");
+			
 			}
 			
 //			logger.info("merchItemIsCustomizeable==>"+this.merchTableItem.isMtCustomizeable());
@@ -178,7 +183,10 @@ public class MerchLayout extends VerticalLayout{
 				UI.getCurrent().addWindow(customWindow);
 
 			}else {
-				checkoutCart.addItemToCart(this.merchTableItem);
+				System.out.println("ADD ITEM");
+				System.out.println("itemsToBeAdded==>"+itemsToBeAdded.toString());			
+//				checkoutCart.addItemToCart(this.merchTableItem);
+				checkoutCart.addItemsCart(itemsToBeAdded);
 			}
 			
 		});
