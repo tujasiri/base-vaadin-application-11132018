@@ -30,6 +30,7 @@ public class CheckoutCart {
     }
 
     public int removeIndividualItem(MerchTable merchItem){
+        itemsArray.remove(merchItem);
         int itemCount = 0;
         return itemCount;
     }

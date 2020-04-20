@@ -13,6 +13,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -44,6 +45,8 @@ public class ShoppingCartWindow extends Window {
 		});
 		
 		this.checkOutButton.addClickListener(coButton->{
+			UI.getCurrent().getNavigator().navigateTo("checkout");
+			this.close();
 		});
 	}
 
