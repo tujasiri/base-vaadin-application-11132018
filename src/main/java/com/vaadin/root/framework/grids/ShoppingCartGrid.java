@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vaadin.root.dto.CartSingleton;
+import com.vaadin.root.model.ItemCustomization;
 import com.vaadin.root.model.MerchTable;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.components.grid.FooterRow;
+import com.vaadin.ui.renderers.ButtonRenderer;
 
 public class ShoppingCartGrid extends Grid<MerchTable> {
 	
@@ -34,6 +37,22 @@ public class ShoppingCartGrid extends Grid<MerchTable> {
 		//add concatenated customizations to item desc	
 		this.addColumn(MerchTable::getMtItemDescShort).setCaption("Item Description").setId("desc");
 		this.addColumn(MerchTable::getMtItemPrice).setCaption("Cost").setId("cost");
+		
+		//if item is customizable
+		this.addColumn(edit -> "Edit Item",
+                new ButtonRenderer(clickEvent -> {
+       }));
+		
+		
+		this.addColumn(edit -> "Delete Item",
+                new ButtonRenderer(clickEvent -> {
+                	Notification.show("DELETE CLICKED!...");
+                	
+                	MerchTable mt = (MerchTable)clickEvent.getItem();
+        			CartSingleton.getInstance().getCheckoutCart().removeIndividualItem(mt);
+
+        			this.refresh();
+       }));
 	}
 	
 	

@@ -125,9 +125,15 @@ public class StandardHeaderLayout extends CssLayout{
 			System.out.println("ITEMS IN CART==>"+CartSingleton.getInstance().getCheckoutCart().toString());
 			UI.getCurrent().addWindow(new ShoppingCartWindow());
 			
+			//add listener to window to enable and disable 
+//			e.getComponent().setEnabled(false);
 
 		});
 		cartLayout.addStyleName("pointerCursor");
+		
+		
+	
+		
 		
 //		actionLayout.setWidth(25.0f, Unit.PERCENTAGE);
 		TextField cartText = new TextField("");
@@ -171,13 +177,17 @@ public class StandardHeaderLayout extends CssLayout{
 				UI.getCurrent().getNavigator().navigateTo("about");
 			};
 		 
+		final Command goToHome = selectedItem ->{ 
+				System.out.println("selectedItem ==>"+selectedItem.getText());
+				UI.getCurrent().getNavigator().navigateTo("home");
+			};
 		 
 		        MenuBar sample = new MenuBar();
 		        sample.setWidth(100.0f, Unit.PERCENTAGE);
 		        
 		        // Another top-level item
 		        com.vaadin.ui.MenuBar.MenuItem colds = sample.addItem("Cold", null, null);
-		        colds.addItem("Milk",      null, command);
+		        colds.addItem("Home",      null, goToHome);
 		        colds.addItem("Weissbier", null, command);
 		        
 		        // Another submenu item with a sub-submenu
