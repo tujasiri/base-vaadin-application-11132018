@@ -1,6 +1,6 @@
 package com.vaadin.root.dto;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class OrderFormDetails {
 
@@ -17,7 +17,7 @@ public class OrderFormDetails {
 
 	//cardInfo
 	private String cardNumber;
-	private LocalDate expirationDate;
+	private Date expirationDate;
 	private String cvvCode;
 
 
@@ -96,12 +96,12 @@ public class OrderFormDetails {
 
 
 
-	public LocalDate getExpirationDate() {
+	public Date getExpirationDate() {
 		return expirationDate;
 	}
 
 
-	public void setExpirationDate(LocalDate expirationLocalDate) {
+	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 

@@ -5,7 +5,11 @@ import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Year;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +26,8 @@ import com.stripe.model.Source.Card;
 import com.stripe.model.Token;
 import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
+import com.vaadin.data.converter.LocalDateTimeToDateConverter;
+import com.vaadin.data.converter.LocalDateToDateConverter;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -250,18 +256,63 @@ public class CheckoutView extends VerticalLayout implements View {
 		Map<String, Object> cardParams = new HashMap<>();
 		Map<String, Object> customerParams = new HashMap<>();
 		Map<String, Object> tokenParams = new HashMap<>();
+		
+		
+		//convert expiration date 
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
+		String expdate = sdf.format(ofd.getExpirationDate());
+		
+		
+		System.out.println("expdate==>"+expdate);
+		System.out.println("expdate yy ==>"+expdate.substring(6));
+		System.out.println("expdate mm ==>"+expdate.substring(0,2));
+		
+//		DateTimeFormatter TWO_YEAR_FORMATTER = DateTimeFormatter.ofPattern("yy");
+//	    Year expyear = TWO_YEAR_FORMATTER.parse(expdate.substring(6,7), Year::from);
+//				
+//		System.out.println("expyear==>"+expyear);
+		//create customer object if not exist
+		customerParams.put("email", ofd.getEmailAddress());
+		
+		try {
+			//if customer does not exist... *retrieve*
+			customer = Customer.create(customerParams);
+		} catch (StripeException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//create card object if not exist
+		cardParams.put("number", ofd.getCardNumber());
+		cardParams.put("exp_month", expdate.substring(0,2));
+//		cardParams.put("exp_year", "20"+expdate.substring(6));
+		cardParams.put("exp_year", "2020");
+		cardParams.put("cvc", ofd.getCvvCode());
+		
+		//create token
+		tokenParams.put("card", cardParams);
+		
+		try {
+			token = Token.create(tokenParams);
+		} catch (StripeException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 
 		// `source` is obtained with Stripe.js; see https://stripe.com/docs/payments/accept-a-payment-charges#web-create-token
 		Map<String, Object> params = new HashMap<>();
 		System.out.println("amount ==>"+ Math.round(calculateTotalAndShipping()));
 		params.put("amount", Math.round(calculateTotalAndShipping())*100);
 		params.put("currency", "usd");
-		params.put("source", "tok_mastercard");
+//		params.put("source", "tok_mastercard");
+		params.put("source", token.getId());
 		params.put("description", String.format("Truth Universal Music Application Charge :: %s",timestamp));
 
 		try {
 			Charge charge = Charge.create(params);
-			System.out.println("STATUS"+charge.getStatus());
+			System.out.println("STATUS==>"+charge.getStatus());
 		} catch (StripeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -341,6 +392,9 @@ public class CheckoutView extends VerticalLayout implements View {
 		email.setCaption("E-Mail");
 		
 		custInfoLayout.addComponents(firstName, lastName, addressLine1, addressLine2, city, state, zip, phone, email);
+		
+		
+		
 		
 		//card info
 		
@@ -434,9 +488,25 @@ public class CheckoutView extends VerticalLayout implements View {
 		
 		binder.forField(expDate)
 				.asRequired("Required")
+//				.bind(OrderFormDetails::getExpirationDate,OrderFormDetails::setExpirationDate);
+		        .withConverter(new LocalDateToDateConverter(ZoneId.systemDefault()))
 				.bind(OrderFormDetails::getExpirationDate,OrderFormDetails::setExpirationDate);
 		
 		
+		/****set dummy values*****/
+		firstName.setValue("Tajiri");
+		lastName.setValue("Ujasiri");
+		addressLine1.setValue("5000 Elysian Fields Ave");
+		addressLine2.setValue("Suite 0");
+		city.setValue("New Orleans");
+		state.setValue("LA");
+		zip.setValue("70122");
+		phone.setValue("5044815959");
+		email.setValue("truthuniversal@yahoo.com");
+		cardNumber.setValue("4242424242424242");
+		cvvCode.setValue("424");
+		expDate.setValue(LocalDate.of(20, 5, 1));
+		/*************************/
 		
 	
 		
