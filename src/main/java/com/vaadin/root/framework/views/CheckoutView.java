@@ -15,10 +15,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.vaadin.dialogs.ConfirmDialog;
+
 //import org.processbase.vaadin.addon.validator.CardNumberValidator;
 
 //import com.google.gwt.user.datepicker.client.DatePicker;
 import com.stripe.Stripe;
+import com.stripe.exception.ApiConnectionException;
+import com.stripe.exception.AuthenticationException;
+import com.stripe.exception.CardException;
+import com.stripe.exception.InvalidRequestException;
+import com.stripe.exception.RateLimitException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import com.stripe.model.Customer;
@@ -57,6 +64,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class CheckoutView extends VerticalLayout implements View {
@@ -79,6 +87,13 @@ public class CheckoutView extends VerticalLayout implements View {
 		setProperties();
 		buildPage();
 		addStyleName("scrollable");
+		
+		
+		for(int i=10; i>0;i--) {
+				System.out.println("i==>"+i);
+		}
+		
+		
 	}
 	
 	private void buildPage(){
@@ -167,7 +182,7 @@ public class CheckoutView extends VerticalLayout implements View {
 		this.grid.setCaptionAsHtml(true);
 		this.grid.setCaption("<h1>Order Summary</ht>");
 		
-		standardMainLayout.addComponents(this.grid,this.buildOrderForm(),this.chargeButton);
+		standardMainLayout.addComponents(this.grid,this.buildOrderForm());
 		
 		standardMainPanel.setContent(standardMainLayout);
 		
@@ -276,18 +291,47 @@ public class CheckoutView extends VerticalLayout implements View {
 		customerParams.put("email", ofd.getEmailAddress());
 		
 		try {
+			System.out.println("here create customer ==>");
 			//if customer does not exist... *retrieve*
 			customer = Customer.create(customerParams);
-		} catch (StripeException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (CardException e) {
+			  // Since it's a decline, CardException will be caught
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (RateLimitException e) {
+		  // Too many requests made to the API too quickly
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (InvalidRequestException e) {
+		  // Invalid parameters were supplied to Stripe's API
+//			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (AuthenticationException e) {
+		  // Authentication with Stripe's API failed
+		  // (maybe you changed API keys recently)
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (ApiConnectionException e) {
+		  // Network communication with Stripe failed
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (StripeException e) {
+		  // Display a very generic error to the user, and maybe send
+		  // yourself an email
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (Exception e) {
+		  // Something else happened, completely unrelated to Stripe
+			alertUser(e.getMessage());
+			e.printStackTrace();
 		}
 		
 		//create card object if not exist
 		cardParams.put("number", ofd.getCardNumber());
 		cardParams.put("exp_month", expdate.substring(0,2));
 //		cardParams.put("exp_year", "20"+expdate.substring(6));
-		cardParams.put("exp_year", "2020");
+//		System.out.println("exp_year==>"+expdate.substring(6));
+		cardParams.put("exp_year", String.format("20%s",expdate.substring(6)));
 		cardParams.put("cvc", ofd.getCvvCode());
 		
 		//create token
@@ -295,9 +339,36 @@ public class CheckoutView extends VerticalLayout implements View {
 		
 		try {
 			token = Token.create(tokenParams);
-		} catch (StripeException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (CardException e) {
+			  // Since it's a decline, CardException will be caught
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (RateLimitException e) {
+		  // Too many requests made to the API too quickly
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (InvalidRequestException e) {
+		  // Invalid parameters were supplied to Stripe's API
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (AuthenticationException e) {
+		  // Authentication with Stripe's API failed
+		  // (maybe you changed API keys recently)
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (ApiConnectionException e) {
+		  // Network communication with Stripe failed
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (StripeException e) {
+		  // Display a very generic error to the user, and maybe send
+		  // yourself an email
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (Exception e) {
+		  // Something else happened, completely unrelated to Stripe
+			alertUser(e.getMessage());
+			e.printStackTrace();
 		}
 		
 
@@ -313,8 +384,37 @@ public class CheckoutView extends VerticalLayout implements View {
 		try {
 			Charge charge = Charge.create(params);
 			System.out.println("STATUS==>"+charge.getStatus());
+			System.out.println("INVOICE==>"+charge.getInvoice());
+			alertUser("SUCCESS!  Invoice will be emailed to the address you provided.  Thank you for rocking with us!");
+		} catch (CardException e) {
+			  // Since it's a decline, CardException will be caught
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (RateLimitException e) {
+		  // Too many requests made to the API too quickly
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (InvalidRequestException e) {
+		  // Invalid parameters were supplied to Stripe's API
+//			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (AuthenticationException e) {
+		  // Authentication with Stripe's API failed
+		  // (maybe you changed API keys recently)
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (ApiConnectionException e) {
+		  // Network communication with Stripe failed
+			alertUser(e.getMessage());
+			e.printStackTrace();
 		} catch (StripeException e) {
-			// TODO Auto-generated catch block
+		  // Display a very generic error to the user, and maybe send
+		  // yourself an email
+			alertUser(e.getMessage());
+			e.printStackTrace();
+		} catch (Exception e) {
+		  // Something else happened, completely unrelated to Stripe
+			alertUser(e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -335,6 +435,8 @@ public class CheckoutView extends VerticalLayout implements View {
 		chargeButton.addClickListener(cButton->{
 			
 			try {
+				UIUtils.SendMessage();
+				
 				System.out.println("before writing bean==>"+orderFormObj.getFirstName());
 				binder.writeBean(orderFormObj);
 				System.out.println("after writing bean==>"+orderFormObj.getFirstName());
@@ -343,8 +445,6 @@ public class CheckoutView extends VerticalLayout implements View {
 				e.printStackTrace();
 			}
 					
-			
-			Notification.show("CLICKED!");
 			System.out.println("orderFormObj"+orderFormObj.toString());
 
 			//try catch!!
@@ -492,7 +592,6 @@ public class CheckoutView extends VerticalLayout implements View {
 		        .withConverter(new LocalDateToDateConverter(ZoneId.systemDefault()))
 				.bind(OrderFormDetails::getExpirationDate,OrderFormDetails::setExpirationDate);
 		
-		
 		/****set dummy values*****/
 		firstName.setValue("Tajiri");
 		lastName.setValue("Ujasiri");
@@ -512,6 +611,25 @@ public class CheckoutView extends VerticalLayout implements View {
 		
 
 		return orderForm;
+		
+	}
+	
+	private void alertUser(String errMsg){
+		ConfirmDialog.show(UI.getCurrent(), "Confirmation",
+//				"ERROR: "+errMsg.matches("^(.+?).") , "OK","Cancel", 
+				"ERROR: "+errMsg , "OK","Cancel", 
+		new ConfirmDialog.Listener() {
+
+			@Override
+			public void onClose(ConfirmDialog dialog) {
+				if (dialog.isConfirmed()) {
+					dialog.close();
+				} else {
+					dialog.close();
+				}
+			}
+		});
+		
 		
 	}
 	
