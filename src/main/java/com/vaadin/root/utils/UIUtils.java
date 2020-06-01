@@ -1,6 +1,7 @@
 package com.vaadin.root.utils;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.util.Base64;
 //import java.mail
@@ -21,6 +22,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
+import javax.servlet.http.HttpServletRequest;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.root.dao.DefaultDataService;
@@ -29,6 +31,7 @@ import com.vaadin.root.framework.StandardHeaderLayout;
 import com.vaadin.root.model.BusinessInfo;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
+import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Image;
 
@@ -72,12 +75,13 @@ public class UIUtils {
 		
 		Image headerBanner = UIUtils.byteArrayToImage(businessInfo.getBiHeader());
 		String encodedimg = Base64.getEncoder().encodeToString(businessInfo.getBiLogo());
-		String cid = String.format("%s",UUID.randomUUID());
-
+//		String cid = String.format("%s",UUID.randomUUID());
+//		String cid = "http://a.vimeocdn.com/si/email/Vimeo-logo-1a2e3b.png";
+		String cid = "images/banner.jpg";
 
 		 // Recipient's email ID needs to be mentioned.
-        String to = "truthuniversal@gmail.com";
-//        String to = "truthuniversal@yahoo.com";
+//        String to = "truthuniversal@gmail.com";
+        String to = "truthuniversal@yahoo.com";
 
         // Sender's email ID needs to be mentioned
         String from = "beats4truth@gmail.com";
@@ -114,7 +118,7 @@ public class UIUtils {
 
             // Create multipart message objects
 //			MimeMultipart multipart = new MimeMultipart("related");
-			MimeMultipart multipart = new MimeMultipart("mixed");
+			MimeMultipart multipart = new MimeMultipart("alternative");
 //			MimeBodyPart headerBodyPart = new MimeBodyPart();
 //			MimeBodyPart messageBodyPart = new MimeBodyPart();
 
@@ -126,7 +130,19 @@ public class UIUtils {
 //			DataSource fds = new FileDataSource("/home/manisha/javamail-mini-logo.png");
 			DataSource imageds = new ByteArrayDataSource(businessInfo.getBiHeader(),"image/png");
 			
-			headerBodyPart.setDataHandler(new DataHandler(imageds));
+		    String basePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();                
+		    
+		    System.out.println("basePath==>"+basePath);
+		    
+//		    HttpServletRequest req = null;
+//		    String servletPath = req.getServletContext().getContextPath();
+//		    System.out.println("servletPath==>"+servletPath);
+
+//File imagefile = new File();
+//	imagefile.createNewFile()
+			
+//			headerBodyPart.setDataHandler(new DataHandler(imageds));
+			
 			headerBodyPart.setHeader("Content-ID", "<"+cid+">");	
 			headerBodyPart.setDisposition(MimeBodyPart.INLINE);
 //			headerBodyPart.setFileName("banner.png");
@@ -146,18 +162,18 @@ public class UIUtils {
             // Now set the actual message
 //            message.setText("<h>This is the actual message</h>");
 //            message.setContent(hdr+"<b>This is the actual message</b>","text/html");
-           
+          
 			messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setContent("<img src=\"cid:"+cid+"\"><br><br><br><b>This is the actual message, with a banner above.</b>","text/html");
+//            messageBodyPart.setContent("<img src=\"cid:"+cid+"\"><br><br><br><b>This is the actual message, with a banner above.</b>","text/html");
+            messageBodyPart.setContent("<img src=\""+cid+"\"><br><br><br><b>This is the actual message, with a banner above.</b>","text/html");
 
-			multipart.addBodyPart(headerBodyPart);
+//			multipart.addBodyPart(headerBodyPart);
 			multipart.addBodyPart(messageBodyPart);
 
             message.setContent(multipart);
             
             System.out.println("multipart ==>"+multipart.toString());
 
-            
             System.out.println("sending...");
             // Send message
             Transport.send(message);
