@@ -110,6 +110,7 @@ public class UIUtils {
         });
 
         // Used to debug SMTP issues
+//        session.setDebug(true);
         session.setDebug(true);
 
         try {
