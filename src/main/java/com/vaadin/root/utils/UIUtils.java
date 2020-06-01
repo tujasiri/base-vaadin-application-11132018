@@ -77,7 +77,7 @@ public class UIUtils {
 		String encodedimg = Base64.getEncoder().encodeToString(businessInfo.getBiLogo());
 //		String cid = String.format("%s",UUID.randomUUID());
 //		String cid = "http://a.vimeocdn.com/si/email/Vimeo-logo-1a2e3b.png";
-		String cid = "images/banner.jpg";
+		String cid = "VAADIN/images/banner.jpg";
 
 		 // Recipient's email ID needs to be mentioned.
 //        String to = "truthuniversal@gmail.com";
