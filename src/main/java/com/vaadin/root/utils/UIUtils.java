@@ -189,9 +189,10 @@ public class UIUtils {
 			pdfAttachmentPart.setDisposition(MimeBodyPart.ATTACHMENT);
 
 			multipart.addBodyPart(pdfAttachmentPart);
-            message.setContent(multipart);
+//            message.setContent(multipart);
             
-            msgHtml+="<div>View/Download order invoice.<a href=\"http://166.62.122.123/invoices/truthuniversal_order.pdf\"></div>";            
+            msgHtml+="<div><a href=\"http://166.62.122.123/invoices/truthuniversal_order.pdf\">View/Download order invoice.</a></div>";            
+            
 		
 
             message.setText(msgHtml.toString(), "utf-8", "html");
@@ -287,7 +288,7 @@ public class UIUtils {
 
     	try {
 			HtmlConverter.convertToPdf(htmlString, new FileOutputStream(UIUtils.getDocumentRoot()+
-					 "\\truthuniversal-order.pdf"));
+					 "/truthuniversal_order.pdf"));
 			HtmlConverter.convertToPdf(htmlString, baos);
 			encodedPdf = Base64.getEncoder().encodeToString(baos.toByteArray());
 			
