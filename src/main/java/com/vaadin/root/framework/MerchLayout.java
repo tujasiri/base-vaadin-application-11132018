@@ -163,7 +163,8 @@ public class MerchLayout extends VerticalLayout{
 					e1.printStackTrace();
 				}
 				
-				merchTableItemTmp.setMtIcId(i);
+//				merchTableItemTmp.setMtIcId(i);
+				merchTableItemTmp.setMtIcId(0);
 				
 				itemCustomizations.add(itemsCustTmp);
 				itemsToBeAdded.add(merchTableItemTmp);

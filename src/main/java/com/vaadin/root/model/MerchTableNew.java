@@ -1,4 +1,4 @@
-package model;
+package com.vaadin.root.model;
 
 import java.io.Serializable;
 import javax.persistence.*;

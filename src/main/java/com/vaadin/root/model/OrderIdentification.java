@@ -1,7 +1,9 @@
-package model;
+package com.vaadin.root.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.vaadin.root.dao.DefaultDataService;
 
 
 /**
@@ -15,10 +17,17 @@ public class OrderIdentification implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="or_id")
 	private int orId;
 
+	@Column(name="or_complete")
+	private boolean orComplete;
+
+//	private byte orComplete;
+
 	public OrderIdentification() {
+//			DefaultDataService.getInstance().updateOrCreateEntity(MerchTable.class, null).getClass();
 	}
 
 	public int getOrId() {
@@ -27,6 +36,16 @@ public class OrderIdentification implements Serializable {
 
 	public void setOrId(int orId) {
 		this.orId = orId;
+	}
+
+//	public byte getOrComplete() {
+	public boolean getOrComplete() {
+		return this.orComplete;
+	}
+
+//	public void setOrComplete(byte orComplete) {
+	public void setOrComplete(boolean orComplete) {
+		this.orComplete = orComplete;
 	}
 
 }

@@ -12,8 +12,14 @@ import java.util.Date;
 @Entity
 @Table(name="orders")
 @NamedQuery(name="Order.findAll", query="SELECT o FROM Order o")
+
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="or_seq")
+	private long orSeq;
 
 	@Column(name="or_cb_id")
 	private int orCbId;
@@ -25,10 +31,9 @@ public class Order implements Serializable {
 	@Column(name="or_ic_id")
 	private int orIcId;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="or_id")
 	private int orId;
+
 
 	@Column(name="or_mt_item_num")
 	private int orMtItemNum;
@@ -74,6 +79,14 @@ public class Order implements Serializable {
 
 	public void setOrMtItemNum(int orMtItemNum) {
 		this.orMtItemNum = orMtItemNum;
+	}
+
+	public long getOrSeq() {
+		return orSeq;
+	}
+
+	public void setOrSeq(long orSeq) {
+		this.orSeq = orSeq;
 	}
 
 }

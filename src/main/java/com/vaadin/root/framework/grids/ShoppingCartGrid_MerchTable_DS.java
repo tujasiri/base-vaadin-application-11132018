@@ -5,17 +5,17 @@ import java.util.List;
 
 import com.vaadin.root.dto.CartSingleton;
 import com.vaadin.root.model.ItemCustomization;
-import com.vaadin.root.model.OrderSummary;
+import com.vaadin.root.model.MerchTable;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.components.grid.FooterRow;
 import com.vaadin.ui.renderers.ButtonRenderer;
 
-public class ShoppingCartGrid extends Grid<OrderSummary> {
+public class ShoppingCartGrid_MerchTable_DS extends Grid<MerchTable> {
 	
-	private	List<OrderSummary>gridContainer = new ArrayList<>();
+	private	List<MerchTable>gridContainer = new ArrayList<>();
 
-	public ShoppingCartGrid() {
+	public ShoppingCartGrid_MerchTable_DS() {
 		addListeners();
 		buildGrid();
 		addTotalRow();
@@ -32,11 +32,11 @@ public class ShoppingCartGrid extends Grid<OrderSummary> {
 	}
 
 	private void buildGrid(){
-		this.setItems(CartSingleton.getInstance().getCheckoutCart().getOrderSummary());
-		this.setGridContainer(CartSingleton.getInstance().getCheckoutCart().getOrderSummary());
+		this.setItems(CartSingleton.getInstance().getCheckoutCart().itemsInCart());
+		this.setGridContainer(CartSingleton.getInstance().getCheckoutCart().itemsInCart());
 		//add concatenated customizations to item desc	
-		this.addColumn(OrderSummary::getMtItemDescShort).setCaption("Item Description").setId("desc");
-		this.addColumn(OrderSummary::getMtItemPrice).setCaption("Cost").setId("cost");
+		this.addColumn(MerchTable::getMtItemDescShort).setCaption("Item Description").setId("desc");
+		this.addColumn(MerchTable::getMtItemPrice).setCaption("Cost").setId("cost");
 		
 		//if item is customizable
 		this.addColumn(edit -> "Edit Item",
@@ -48,9 +48,8 @@ public class ShoppingCartGrid extends Grid<OrderSummary> {
                 new ButtonRenderer(clickEvent -> {
                 	Notification.show("DELETE CLICKED!...");
                 	
-                	OrderSummary mt = (OrderSummary)clickEvent.getItem();
-                	
-        			CartSingleton.getInstance().getCheckoutCart().removeOrderItemFromCart(mt.getOrSeq());
+                	MerchTable mt = (MerchTable)clickEvent.getItem();
+        			CartSingleton.getInstance().getCheckoutCart().removeIndividualItem(mt);
 
         			this.refresh();
        }));
@@ -59,7 +58,7 @@ public class ShoppingCartGrid extends Grid<OrderSummary> {
 	
 	public void refresh(){
 		this.setItems(new ArrayList<>());
-		this.setGridContainer(CartSingleton.getInstance().getCheckoutCart().getOrderSummary());
+		this.setGridContainer(CartSingleton.getInstance().getCheckoutCart().itemsInCart());
 		this.setItems(this.getGridContainer());
 
 		FooterRow row = this.getFooterRow(0);
@@ -67,11 +66,11 @@ public class ShoppingCartGrid extends Grid<OrderSummary> {
 //		row.getCell("desc").setText("Total:");
 	}
 
-	public List<OrderSummary> getGridContainer() {
+	public List<MerchTable> getGridContainer() {
 		return gridContainer;
 	}
 
-	public void setGridContainer(List<OrderSummary> gridContainer) {
+	public void setGridContainer(List<MerchTable> gridContainer) {
 		this.gridContainer = gridContainer;
 	}
 

@@ -28,9 +28,10 @@ public class RMerchType implements Serializable {
 	@Column(name="value")
 	private String value;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(name="merch_type")
-    private MerchTypes merch_type;
+//	@Transient
+//	@Enumerated(EnumType.STRING)
+////	@Column(name="merch_type")
+//    private MerchTypes merch_type;
 
 //	bi-directional many-to-one association to RColor
 //	@OneToMany(mappedBy="value")
@@ -88,15 +89,15 @@ public class RMerchType implements Serializable {
 //		return RColor;
 //	}
 
-	public MerchTypes getMerch_type() {
-
-		System.out.println("merchType==>"+this.merch_type);
-		return this.merch_type;
-	}
-
-	public void setMerch_type(MerchTypes merch_type) {
-		System.out.println("merchType==>"+this.merch_type);
-		this.merch_type = merch_type;
-	}
+//	public MerchTypes getMerch_type() {
+//
+//		System.out.println("merchType==>"+this.merch_type);
+//		return this.merch_type;
+//	}
+//
+//	public void setMerch_type(MerchTypes merch_type) {
+//		System.out.println("merchType==>"+this.merch_type);
+//		this.merch_type = merch_type;
+//	}
 
 }

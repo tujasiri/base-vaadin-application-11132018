@@ -1,4 +1,4 @@
-package model;
+package com.vaadin.root.model;
 
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;

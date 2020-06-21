@@ -6,6 +6,7 @@ public class DefaultDataService extends DefaultDao implements DataService {
 	private static final MerchDao merchDao = new MerchDaoImpl();
 	private static final BusinessInfoDao businessInfoDao = new BusinessInfoDaoImpl();
 	private static final RTableDao rTableDao = new RTableDaoImpl();
+	private static final OrderSummaryDao orderSummaryDao = new OrderSummaryDaoImpl();
 			
 	private DefaultDataService(){} 
 	
@@ -27,7 +28,11 @@ public class DefaultDataService extends DefaultDao implements DataService {
 	public RTableDao getRTableDao() {
 		return rTableDao;
 	}
-	
+
+	@Override
+	public OrderSummaryDao getOrderSummaryDao() {
+		return orderSummaryDao;
+	}
 	
 
 

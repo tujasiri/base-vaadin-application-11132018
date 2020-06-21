@@ -63,6 +63,9 @@ public class MerchTable implements Cloneable, Serializable {
 	@Column(name="mt_customizeable")
 	private boolean mtCustomizeable;
 
+	@Column(name="mt_or_seq")
+	private long mtOrSeq;
+
 	public MerchTable() {
 	}
 
@@ -184,6 +187,14 @@ public class MerchTable implements Cloneable, Serializable {
 				+ mtItemDescShort + ", mtItemLink=" + mtItemLink + ", mtItemPrice=" + mtItemPrice + ", mtItemType="
 				+ mtItemType + ", mtOrderId=" + mtOrderId + ", mtSpecialNote=" + mtSpecialNote + ", mtStockQty="
 				+ mtStockQty + "]\n\n";
+	}
+
+	public long getMtOrSeq() {
+		return mtOrSeq;
+	}
+
+	public void setMtOrIdSeq(long mtOrSeq) {
+		this.mtOrSeq = mtOrSeq;
 	}
 	
 	

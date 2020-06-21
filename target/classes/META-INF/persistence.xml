@@ -27,7 +27,9 @@
 		<class>com.vaadin.root.model.ItemCustomization</class>
 		<class>com.vaadin.root.model.MerchTable</class>
 		<class>com.vaadin.root.model.Order</class>
-		<class>model.MerchTableNew</class>
+		<class>com.vaadin.root.model.MerchTableNew</class>
+		<class>com.vaadin.root.model.OrderIdentification</class>
+		<class>com.vaadin.root.model.OrderSummary</class>
 		<!--  
 		<class>com.vaadin.root.model.SocialMedia</class>
 		-->
