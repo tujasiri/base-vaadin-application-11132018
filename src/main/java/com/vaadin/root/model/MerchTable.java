@@ -26,7 +26,7 @@ public class MerchTable implements Cloneable, Serializable {
 	private int mtItemNum;
 	
 	@Column(name="mt_ic_id")
-	private int mtIcId;
+	private long mtIcId;
 
 	@Lob
 	@Column(name="mt_image")
@@ -157,11 +157,11 @@ public class MerchTable implements Cloneable, Serializable {
 		this.mtStockQty = mtStockQty;
 	}
 
-	public int getMtIcId() {
+	public long getMtIcId() {
 		return mtIcId;
 	}
 
-	public void setMtIcId(int mtIcId) {
+	public void setMtIcId(long mtIcId) {
 		this.mtIcId = mtIcId;
 	}
 	

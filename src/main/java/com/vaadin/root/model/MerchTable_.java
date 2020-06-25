@@ -4,11 +4,11 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2020-06-18T22:17:36.585-0500")
+@Generated(value="Dali", date="2020-06-22T08:47:44.902-0500")
 @StaticMetamodel(MerchTable.class)
 public class MerchTable_ {
 	public static volatile SingularAttribute<MerchTable, Integer> mtItemNum;
-	public static volatile SingularAttribute<MerchTable, Integer> mtIcId;
+	public static volatile SingularAttribute<MerchTable, Long> mtIcId;
 	public static volatile SingularAttribute<MerchTable, byte[]> mtImage;
 	public static volatile SingularAttribute<MerchTable, String> mtImageId;
 	public static volatile SingularAttribute<MerchTable, String> mtItemDescLong;

@@ -38,6 +38,7 @@ import com.vaadin.root.framework.StandardHeaderLayout;
 import com.vaadin.root.framework.grids.ShoppingCartGrid;
 import com.vaadin.root.model.BusinessInfo;
 import com.vaadin.root.model.MerchTable;
+import com.vaadin.root.model.OrderSummary;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.server.VaadinService;
@@ -160,7 +161,9 @@ public class UIUtils {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
             // Set Subject: header field
-            message.setSubject("Truth Universal Music ==> Order #000000007");
+            String subj = String.format("Truth Universal Music, LLC, Order #%d", CartSingleton.getInstance().getCheckoutCart().getOrder().getOrId());
+
+            message.setSubject(subj);
 
             // Now set the actual message
 //            message.setText("<h>This is the actual message</h>");
@@ -221,11 +224,13 @@ public class UIUtils {
 //			htmlTable+= "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">" +
 //					"<html>\n" + 
 
-		List<MerchTable> items = CartSingleton.getInstance().getCheckoutCart().itemsInCart();
+//		List<MerchTable> items = CartSingleton.getInstance().getCheckoutCart().itemsInCart();
+		List<OrderSummary> items = CartSingleton.getInstance().getCheckoutCart().getOrderSummary();
 		
 		int idx = 1;
 		
-		for(MerchTable item:items){
+//		for(MerchTable item:items){
+		for(OrderSummary item:items){
 			
 			rowStyle=getRowStyle(idx++);
 			

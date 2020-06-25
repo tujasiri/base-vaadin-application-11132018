@@ -3,17 +3,25 @@ package com.vaadin.root.framework.grids;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vaadin.root.dao.DefaultDao;
+import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.dto.CartSingleton;
+import com.vaadin.root.framework.listeners.UpdateListener;
 import com.vaadin.root.model.ItemCustomization;
+import com.vaadin.root.model.MerchTable;
 import com.vaadin.root.model.OrderSummary;
+import com.vaadin.root.windows.SelectCustomizationWindow;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.components.grid.FooterRow;
 import com.vaadin.ui.renderers.ButtonRenderer;
 
 public class ShoppingCartGrid extends Grid<OrderSummary> {
 	
 	private	List<OrderSummary>gridContainer = new ArrayList<>();
+	private	DefaultDao dao = new DefaultDao();
+
 
 	public ShoppingCartGrid() {
 		addListeners();
@@ -31,6 +39,7 @@ public class ShoppingCartGrid extends Grid<OrderSummary> {
 		row.getCell("desc").setText("Total:");
 	}
 
+	@SuppressWarnings("unchecked")
 	private void buildGrid(){
 		this.setItems(CartSingleton.getInstance().getCheckoutCart().getOrderSummary());
 		this.setGridContainer(CartSingleton.getInstance().getCheckoutCart().getOrderSummary());
@@ -41,7 +50,47 @@ public class ShoppingCartGrid extends Grid<OrderSummary> {
 		//if item is customizable
 		this.addColumn(edit -> "Edit Item",
                 new ButtonRenderer(clickEvent -> {
-       }));
+                	
+                	//MerchTable mt = (MerchTable)clickEvent.getItem();
+                	OrderSummary orderSummary = (OrderSummary)clickEvent.getItem();
+                	
+//                	if(orderSummary.getIcId() == 0) {
+                	if(!orderSummary.getMtCustomizeable()) {
+                		Notification.show("Item cannot be edited.",Notification.TYPE_WARNING_MESSAGE);
+                	}else {
+                		
+						ItemCustomization currentCustomization = dao.getEntityManager().find(ItemCustomization.class, orderSummary.getIcId());
+						
+						System.out.println("idk orderSumamry ItemNum ==>"+orderSummary.getMtItemNum());
+						System.out.println("idk orderSumamry icid ==>"+orderSummary.getMtIcId());
+						System.out.println("orderSummary element index ==>"+ this.gridContainer.indexOf(orderSummary));
+						
+						  SelectCustomizationWindow selectCustWindow = new SelectCustomizationWindow();
+						  
+						  selectCustWindow.setUpdatelistener(new UpdateListener() {
+
+							@Override
+							public void updateRecord() {
+								
+							}
+
+							@Override
+							public void updateCustomizationRecord(String size, String color, String gender) {
+								currentCustomization.setIcSize(size != null ? size : currentCustomization.getIcSize());
+								currentCustomization.setIcColor(color != null ? color : currentCustomization.getIcColor());
+								currentCustomization.setIcGender(gender != null ? gender : currentCustomization.getIcGender());
+								refresh();
+							}
+						  });
+						  
+						  selectCustWindow.getCbSize().setValue(currentCustomization.getIcSize());
+						  selectCustWindow.getCbColor().setValue(currentCustomization.getIcColor());
+						  selectCustWindow.getCbGender().setValue(currentCustomization.getIcGender());
+						  
+						  UI.getCurrent().addWindow(selectCustWindow);
+                	}
+
+       })).setId("editItem");
 		
 		
 		this.addColumn(edit -> "Delete Item",
@@ -65,6 +114,10 @@ public class ShoppingCartGrid extends Grid<OrderSummary> {
 		FooterRow row = this.getFooterRow(0);
 		row.getCell("cost").setText(String.format("%2.0f",CartSingleton.getInstance().getCheckoutCart().calculateTotal()));
 //		row.getCell("desc").setText("Total:");
+		
+		Column col = this.getColumn("editItem");
+
+			
 	}
 
 	public List<OrderSummary> getGridContainer() {

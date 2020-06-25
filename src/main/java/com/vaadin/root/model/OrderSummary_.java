@@ -5,13 +5,13 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2020-06-21T13:13:13.857-0500")
+@Generated(value="Dali", date="2020-06-25T12:13:00.568-0500")
 @StaticMetamodel(OrderSummary.class)
 public class OrderSummary_ {
 	public static volatile SingularAttribute<OrderSummary, Long> orSeq;
 	public static volatile SingularAttribute<OrderSummary, String> icColor;
 	public static volatile SingularAttribute<OrderSummary, String> icGender;
-	public static volatile SingularAttribute<OrderSummary, Integer> icId;
+	public static volatile SingularAttribute<OrderSummary, Long> icId;
 	public static volatile SingularAttribute<OrderSummary, Integer> icMtItemNum;
 	public static volatile SingularAttribute<OrderSummary, String> icSize;
 	public static volatile SingularAttribute<OrderSummary, Boolean> mtCustomizeable;
@@ -30,7 +30,7 @@ public class OrderSummary_ {
 	public static volatile SingularAttribute<OrderSummary, Short> mtStockQty;
 	public static volatile SingularAttribute<OrderSummary, Integer> orCbId;
 	public static volatile SingularAttribute<OrderSummary, Date> orDate;
-	public static volatile SingularAttribute<OrderSummary, Integer> orIcId;
+	public static volatile SingularAttribute<OrderSummary, Long> orIcId;
 	public static volatile SingularAttribute<OrderSummary, Integer> orId;
 	public static volatile SingularAttribute<OrderSummary, Integer> orMtItemNum;
 }

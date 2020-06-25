@@ -30,7 +30,7 @@ public class OrderSummary implements Serializable {
 	private String icGender;
 
 	@Column(name="ic_id")
-	private int icId;
+	private long icId;
 
 	@Column(name="ic_mt_item_num")
 	private int icMtItemNum;
@@ -90,7 +90,7 @@ public class OrderSummary implements Serializable {
 	private Date orDate;
 
 	@Column(name="or_ic_id")
-	private int orIcId;
+	private long orIcId;
 
 	@Column(name="or_id")
 	private int orId;
@@ -118,11 +118,11 @@ public class OrderSummary implements Serializable {
 		this.icGender = icGender;
 	}
 
-	public int getIcId() {
+	public long getIcId() {
 		return this.icId;
 	}
 
-	public void setIcId(int icId) {
+	public void setIcId(long icId) {
 		this.icId = icId;
 	}
 
@@ -270,11 +270,11 @@ public class OrderSummary implements Serializable {
 		this.orDate = orDate;
 	}
 
-	public int getOrIcId() {
+	public long getOrIcId() {
 		return this.orIcId;
 	}
 
-	public void setOrIcId(int orIcId) {
+	public void setOrIcId(long orIcId) {
 		this.orIcId = orIcId;
 	}
 

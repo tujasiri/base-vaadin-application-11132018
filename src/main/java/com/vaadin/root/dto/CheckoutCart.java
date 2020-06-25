@@ -3,6 +3,7 @@ package com.vaadin.root.dto;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
@@ -80,7 +81,6 @@ public class CheckoutCart {
 		
 		merchTableItems.stream().forEach(x->{
 			x.setMtOrderId(order.getOrId());
-			System.out.println("ITEM w/ORDER==>"+x.toString());
 
 			orderRecord.setOrIcId(x.getMtIcId());
 			orderRecord.setOrId(x.getMtOrderId());
@@ -89,9 +89,6 @@ public class CheckoutCart {
 			orderRecord = dao.updateOrCreateEntity(orderRecord,null);
 
 			x.setMtOrIdSeq(orderRecord.getOrSeq());
-//			orderRecord.setOrCbId();
-			//populate dynamic date set
-//			orderRecord.setOrDate(orDate);
 			
 		});
 
@@ -111,10 +108,9 @@ public class CheckoutCart {
     	orderItem = em.merge(orderItem);
     	em.remove(orderItem);
     	em.getTransaction().commit();
-    }
 
-    public void removeItemFromCart(int positon){
-        itemsInCart().remove(positon);
+    	//remove item from MerchTable array reference 
+        itemsInCart().removeIf(x->x.getMtOrSeq() == orseq);
     }
 
     public void emptyCart(){

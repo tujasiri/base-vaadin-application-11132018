@@ -29,7 +29,7 @@ public class Order implements Serializable {
 	private Date orDate;
 
 	@Column(name="or_ic_id")
-	private int orIcId;
+	private long orIcId;
 
 	@Column(name="or_id")
 	private int orId;
@@ -57,11 +57,11 @@ public class Order implements Serializable {
 		this.orDate = orDate;
 	}
 
-	public int getOrIcId() {
+	public long getOrIcId() {
 		return this.orIcId;
 	}
 
-	public void setOrIcId(int orIcId) {
+	public void setOrIcId(long orIcId) {
 		this.orIcId = orIcId;
 	}
 

@@ -17,7 +17,7 @@ public class ItemCustomization implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ic_id")
-	private int icId;
+	private long icId;
 
 	@Column(name="ic_color")
 	private String icColor;
@@ -34,11 +34,11 @@ public class ItemCustomization implements Serializable {
 	public ItemCustomization() {
 	}
 
-	public int getIcId() {
+	public long getIcId() {
 		return this.icId;
 	}
 
-	public void setIcId(int icId) {
+	public void setIcId(long icId) {
 		this.icId = icId;
 	}
 
