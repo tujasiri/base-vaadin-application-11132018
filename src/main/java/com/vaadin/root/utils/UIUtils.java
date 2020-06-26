@@ -171,7 +171,7 @@ public class UIUtils {
           
 			messageBodyPart = new MimeBodyPart();
 //            messageBodyPart.setContent("<img src=\"cid:"+cid+"\"><br><br><br><b>This is the actual message, with a banner above.</b>","text/html");
-			String msgHtml="<img src=\""+cid+"\"><br><br><br><b>This is the actual message, with a banner above.</b>";
+			String msgHtml="<img src=\""+cid+"\"><br><br><br><b>PEACE & Thank you for supporting Truth Universal Music, LLC!  Here are you order details:</b></b>";
 //			String msgHtml="";
 			msgHtml+=buildContentHtml();
 			
@@ -193,8 +193,13 @@ public class UIUtils {
 
 			multipart.addBodyPart(pdfAttachmentPart);
 //            message.setContent(multipart);
+		
+			
+			String invoiceFileName = String.format("truthuniversal_order_%d.pdf", CartSingleton.getInstance().getCheckoutCart().getOrder().getOrId());
+			
             
-            msgHtml+="<div><a href=\"http://166.62.122.123/invoices/truthuniversal_order.pdf\">View/Download order invoice.</a></div>";            
+//            msgHtml+="<div><a href=\"http://166.62.122.123/invoices/truthuniversal_order.pdf\">View/Download order invoice.</a></div>";            
+            msgHtml+=String.format("<div><a href=\"http://166.62.122.123/invoices/%s\">View/Download order invoice.</a></div>",getInvoiceFileName());            
             
 		
 
@@ -293,7 +298,12 @@ public class UIUtils {
 
     	try {
 			HtmlConverter.convertToPdf(htmlString, new FileOutputStream(UIUtils.getDocumentRoot()+
-					 "/truthuniversal_order.pdf"));
+					 "/"+getInvoiceFileName()));
+//			HtmlConverter.convertToPdf(htmlString, new FileOutputStream(UIUtils.getDocumentRoot()+
+//					 "/truthuniversal_order.pdf"));
+			
+			System.out.println("htmlString==>"+htmlString);
+			
 			HtmlConverter.convertToPdf(htmlString, baos);
 			encodedPdf = Base64.getEncoder().encodeToString(baos.toByteArray());
 			
@@ -325,5 +335,10 @@ public class UIUtils {
 
 		return docRoot;
 	}
+	
+	private static String getInvoiceFileName(){
+		return String.format("truthuniversal_order_%d.pdf", CartSingleton.getInstance().getCheckoutCart().getOrder().getOrId());
+	}
+			
 	
 }
