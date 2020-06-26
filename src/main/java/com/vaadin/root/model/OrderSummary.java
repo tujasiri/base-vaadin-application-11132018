@@ -2,6 +2,8 @@ package com.vaadin.root.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.Arrays;
 import java.util.Date;
 import java.math.BigInteger;
 
@@ -100,6 +102,18 @@ public class OrderSummary implements Serializable {
 
 
 	public OrderSummary() {
+	}
+
+	@Override
+	public String toString() {
+		return "OrderSummary [orSeq=" + orSeq + ", icColor=" + icColor + ", icGender=" + icGender + ", icId=" + icId
+				+ ", icMtItemNum=" + icMtItemNum + ", icSize=" + icSize + ", mtCustomizeable=" + mtCustomizeable
+				+ ", mtIcId=" + mtIcId + ", mtImageId=" + mtImageId
+				+ ", mtItemDescLong=" + mtItemDescLong + ", mtItemDescShort=" + mtItemDescShort + ", mtItemLink="
+				+ mtItemLink + ", mtItemNum=" + mtItemNum + ", mtItemPrice=" + mtItemPrice + ", mtItemType="
+				+ mtItemType + ", mtOrSeq=" + mtOrSeq + ", mtOrderId=" + mtOrderId + ", mtSpecialNote=" + mtSpecialNote
+				+ ", mtStockQty=" + mtStockQty + ", orCbId=" + orCbId + ", orDate=" + orDate + ", orIcId=" + orIcId
+				+ ", orId=" + orId + ", orMtItemNum=" + orMtItemNum + "]";
 	}
 
 	public String getIcColor() {
@@ -300,6 +314,11 @@ public class OrderSummary implements Serializable {
 
 	public void setOrSeq(long orSeq) {
 		this.orSeq = orSeq;
+	}
+
+	public String getCustomizationDetails() {
+		System.out.println(("CUSTS=>"+String.format("Customizations: %s,%s,%s",this.getIcColor(),this.getIcGender(),this.getIcSize())).trim());
+		return((this.getIcId() == 0) ? "": String.format("Customizations: %s,%s,%s",this.getIcColor(),this.getIcGender(),this.getIcSize())).trim();
 	}
 
 }

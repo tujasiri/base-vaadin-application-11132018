@@ -81,6 +81,7 @@ public class UIUtils {
 		return new StandardFooterLayout( DefaultDataService.getInstance().getBusinessInfoDao().findById(businessId));
 	}
 	
+	//public static void SendMessage() {
 	public static void SendMessage() {
 		
 		ShoppingCartGrid grid = new ShoppingCartGrid();
@@ -95,7 +96,6 @@ public class UIUtils {
 		String cid = "http://166.62.122.123:8080/website/VAADIN/images/banner.png";
 
 		 // Recipient's email ID needs to be mentioned.
-//        String to = "truthuniversal@gmail.com";
         String to = "truthuniversal@yahoo.com";
 
         // Sender's email ID needs to be mentioned
@@ -185,7 +185,6 @@ public class UIUtils {
 //			multipart.addBodyPart(headerBodyPart);
 //			multipart.addBodyPart(messageBodyPart);
 
-
 			DataSource pdfds = new ByteArrayDataSource(base64EncodedPdf ,"application/pdf");
 			pdfAttachmentPart.setDataHandler(new DataHandler(pdfds));
 			pdfAttachmentPart.setFileName("order_ordernumber.pdf");
@@ -194,14 +193,8 @@ public class UIUtils {
 			multipart.addBodyPart(pdfAttachmentPart);
 //            message.setContent(multipart);
 		
-			
-			String invoiceFileName = String.format("truthuniversal_order_%d.pdf", CartSingleton.getInstance().getCheckoutCart().getOrder().getOrId());
-			
-            
 //            msgHtml+="<div><a href=\"http://166.62.122.123/invoices/truthuniversal_order.pdf\">View/Download order invoice.</a></div>";            
             msgHtml+=String.format("<div><a href=\"http://166.62.122.123/invoices/%s\">View/Download order invoice.</a></div>",getInvoiceFileName());            
-            
-		
 
             message.setText(msgHtml.toString(), "utf-8", "html");
 
@@ -229,12 +222,10 @@ public class UIUtils {
 //			htmlTable+= "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">" +
 //					"<html>\n" + 
 
-//		List<MerchTable> items = CartSingleton.getInstance().getCheckoutCart().itemsInCart();
 		List<OrderSummary> items = CartSingleton.getInstance().getCheckoutCart().getOrderSummary();
 		
 		int idx = 1;
 		
-//		for(MerchTable item:items){
 		for(OrderSummary item:items){
 			
 			rowStyle=getRowStyle(idx++);
@@ -282,13 +273,11 @@ public class UIUtils {
 
 		htmlTable+="</table>";
 
-
 		return htmlTable;
 	}
 	
 	private static String getRowStyle(int rowIndex){
 		return rowIndex % 2 == 0 ? "background-color: #f2f2f2;" : "background-color: #ffffff;";
-		
 	}
 	
 	public static String createOrderPDF(String htmlString) {
@@ -299,10 +288,6 @@ public class UIUtils {
     	try {
 			HtmlConverter.convertToPdf(htmlString, new FileOutputStream(UIUtils.getDocumentRoot()+
 					 "/"+getInvoiceFileName()));
-//			HtmlConverter.convertToPdf(htmlString, new FileOutputStream(UIUtils.getDocumentRoot()+
-//					 "/truthuniversal_order.pdf"));
-			
-			System.out.println("htmlString==>"+htmlString);
 			
 			HtmlConverter.convertToPdf(htmlString, baos);
 			encodedPdf = Base64.getEncoder().encodeToString(baos.toByteArray());

@@ -46,15 +46,15 @@ public class ShoppingCartGrid extends Grid<OrderSummary> {
 		//add concatenated customizations to item desc	
 		this.addColumn(OrderSummary::getMtItemDescShort).setCaption("Item Description").setId("desc");
 		this.addColumn(OrderSummary::getMtItemPrice).setCaption("Cost").setId("cost");
+		this.addColumn(OrderSummary::getCustomizationDetails).setCaption("Customization Details").setId("customization");
 		
-		//if item is customizable
 		this.addColumn(edit -> "Edit Item",
                 new ButtonRenderer(clickEvent -> {
                 	
                 	//MerchTable mt = (MerchTable)clickEvent.getItem();
                 	OrderSummary orderSummary = (OrderSummary)clickEvent.getItem();
                 	
-//                	if(orderSummary.getIcId() == 0) {
+                	//if item is customizable allow edit, otherwise notify user that item is not customizable
                 	if(!orderSummary.getMtCustomizeable()) {
                 		Notification.show("Item cannot be edited.",Notification.TYPE_WARNING_MESSAGE);
                 	}else {
@@ -79,9 +79,18 @@ public class ShoppingCartGrid extends Grid<OrderSummary> {
 								currentCustomization.setIcSize(size != null ? size : currentCustomization.getIcSize());
 								currentCustomization.setIcColor(color != null ? color : currentCustomization.getIcColor());
 								currentCustomization.setIcGender(gender != null ? gender : currentCustomization.getIcGender());
+
+								dao.updateOrCreateEntity(currentCustomization, currentCustomization.getIcId());
+								
+								//update OrderSummary in cart so customizations are reflected in grid real time!
+								CartSingleton.getInstance().getCheckoutCart().getOrderSummary().stream()
+											.filter(x->(x.getIcId() == orderSummary.getIcId()))
+											.forEach(y->{ y.setIcColor(color);
+														  y.setIcGender(gender);
+														  y.setIcSize(size); });
+
 								refresh();
-							}
-						  });
+							}});
 						  
 						  selectCustWindow.getCbSize().setValue(currentCustomization.getIcSize());
 						  selectCustWindow.getCbColor().setValue(currentCustomization.getIcColor());
@@ -109,14 +118,12 @@ public class ShoppingCartGrid extends Grid<OrderSummary> {
 	public void refresh(){
 		this.setItems(new ArrayList<>());
 		this.setGridContainer(CartSingleton.getInstance().getCheckoutCart().getOrderSummary());
+		System.out.println("ORDER SUMMARY==>"+CartSingleton.getInstance().getCheckoutCart().getOrderSummary().toString());
 		this.setItems(this.getGridContainer());
 
 		FooterRow row = this.getFooterRow(0);
 		row.getCell("cost").setText(String.format("%2.0f",CartSingleton.getInstance().getCheckoutCart().calculateTotal()));
 //		row.getCell("desc").setText("Total:");
-		
-		Column col = this.getColumn("editItem");
-
 			
 	}
 

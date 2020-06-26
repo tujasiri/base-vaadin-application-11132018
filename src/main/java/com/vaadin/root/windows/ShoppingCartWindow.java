@@ -54,6 +54,7 @@ public class ShoppingCartWindow extends Window {
 		this.setHeight(50.0f,Unit.PERCENTAGE);
 		this.setWidth(50.0f,Unit.PERCENTAGE);
 		
+		this.grid.setWidth(100.0f,Unit.PERCENTAGE);
 		this.buttonLayout.addComponents(this.emptyButton,this.checkOutButton,this.closeButton);
     	this.layout.addComponents(this.grid,this.buttonLayout);
 		this.layout.setComponentAlignment(this.grid, Alignment.BOTTOM_CENTER);

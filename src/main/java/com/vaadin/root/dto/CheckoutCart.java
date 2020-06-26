@@ -114,8 +114,9 @@ public class CheckoutCart {
     }
 
     public void emptyCart(){
+    	//empties shopping cart and creates new order record so old items are not linked
     	this.itemsArray.clear();
-
+		this.order = dao.updateOrCreateEntity(this.order, null);
     }
 
     public double calculateTotal(){
