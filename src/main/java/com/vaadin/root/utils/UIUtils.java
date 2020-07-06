@@ -93,7 +93,8 @@ public class UIUtils {
 //		String cid = String.format("%s",UUID.randomUUID());
 //		String cid = "http://a.vimeocdn.com/si/email/Vimeo-logo-1a2e3b.png";
 //		String cid = "http://166.62.122.123:8080/website/images/banner.png";
-		String cid = "http://166.62.122.123:8080/website/VAADIN/images/banner.png";
+//		String cid = "http://166.62.122.123:8080/website/VAADIN/images/banner.png";
+		String cid = "http://166.62.122.123:8080/website/VAADIN/images/generic_tum_banner.png";
 
 		 // Recipient's email ID needs to be mentioned.
         String to = "truthuniversal@yahoo.com";
@@ -171,7 +172,7 @@ public class UIUtils {
           
 			messageBodyPart = new MimeBodyPart();
 //            messageBodyPart.setContent("<img src=\"cid:"+cid+"\"><br><br><br><b>This is the actual message, with a banner above.</b>","text/html");
-			String msgHtml="<img src=\""+cid+"\"><br><br><br><b>PEACE & Thank you for supporting Truth Universal Music, LLC!  Here are you order details:</b></b>";
+			String msgHtml="<img style=\"width:633px;height:96px;padding:8px;\" src=\""+cid+"\"><br><br><br><b>PEACE & Thank you for supporting Truth Universal Music, LLC!  Here are you order details:</b></b>";
 //			String msgHtml="";
 			msgHtml+=buildContentHtml();
 			
