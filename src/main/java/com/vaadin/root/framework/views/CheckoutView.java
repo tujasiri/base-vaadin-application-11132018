@@ -38,6 +38,7 @@ import com.vaadin.data.converter.LocalDateToDateConverter;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.root.dao.DefaultDao;
 import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.dto.CartSingleton;
 import com.vaadin.root.dto.OrderFormDetails;
@@ -48,7 +49,11 @@ import com.vaadin.root.framework.StandardHeaderLayout;
 import com.vaadin.root.framework.StandardSideLayout;
 import com.vaadin.root.framework.grids.ShoppingCartGrid;
 import com.vaadin.root.model.MerchTable;
+import com.vaadin.root.model.Order;
+import com.vaadin.root.model.OrderIdentification;
+import com.vaadin.root.utils.UIConstants;
 import com.vaadin.root.utils.UIUtils;
+import com.vaadin.root.windows.ShoppingCartWindow;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.ValueChangeMode;
@@ -180,7 +185,7 @@ public class CheckoutView extends VerticalLayout implements View {
 //		standardMainLayout.setComponentAlignment(gridLayout, Alignment.MIDDLE_CENTER);
 		this.grid.setSizeFull();
 		this.grid.setCaptionAsHtml(true);
-		this.grid.setCaption("<h1>Order Summary</ht>");
+		this.grid.setCaption(String.format("<h1>Order #%d Summary</ht>",CartSingleton.getInstance().getCheckoutCart().getOrder().getOrId()));
 		
 		standardMainLayout.addComponents(this.grid,this.buildOrderForm());
 		
@@ -263,7 +268,7 @@ public class CheckoutView extends VerticalLayout implements View {
 	private void makeCharge(OrderFormDetails ofd){
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		Stripe.apiKey = "sk_test_N8a1Y5MGiiuGg8n8SjouqAS3";
+		Stripe.apiKey = UIConstants.STRIPE_API_KEY;
 		Card card = new Card();
 		Customer customer = new Customer();
 		Token token = new Token();
@@ -296,33 +301,33 @@ public class CheckoutView extends VerticalLayout implements View {
 			customer = Customer.create(customerParams);
 		} catch (CardException e) {
 			  // Since it's a decline, CardException will be caught
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (RateLimitException e) {
 		  // Too many requests made to the API too quickly
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (InvalidRequestException e) {
 		  // Invalid parameters were supplied to Stripe's API
-//			alertUser(e.getMessage());
+//			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (AuthenticationException e) {
 		  // Authentication with Stripe's API failed
 		  // (maybe you changed API keys recently)
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (ApiConnectionException e) {
 		  // Network communication with Stripe failed
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (StripeException e) {
 		  // Display a very generic error to the user, and maybe send
 		  // yourself an email
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (Exception e) {
 		  // Something else happened, completely unrelated to Stripe
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		}
 		
@@ -341,33 +346,33 @@ public class CheckoutView extends VerticalLayout implements View {
 			token = Token.create(tokenParams);
 		} catch (CardException e) {
 			  // Since it's a decline, CardException will be caught
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (RateLimitException e) {
 		  // Too many requests made to the API too quickly
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (InvalidRequestException e) {
 		  // Invalid parameters were supplied to Stripe's API
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (AuthenticationException e) {
 		  // Authentication with Stripe's API failed
 		  // (maybe you changed API keys recently)
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (ApiConnectionException e) {
 		  // Network communication with Stripe failed
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (StripeException e) {
 		  // Display a very generic error to the user, and maybe send
 		  // yourself an email
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (Exception e) {
 		  // Something else happened, completely unrelated to Stripe
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		}
 		
@@ -379,42 +384,63 @@ public class CheckoutView extends VerticalLayout implements View {
 		params.put("currency", "usd");
 //		params.put("source", "tok_mastercard");
 		params.put("source", token.getId());
-		params.put("description", String.format("Truth Universal Music Application Charge :: %s",timestamp));
+		params.put("description", String.format("Truth Universal Music Application Charge:: Order# %d :: %s", 
+				CartSingleton.getInstance().getCheckoutCart().getOrder().getOrId(),timestamp));
 
 		try {
 			Charge charge = Charge.create(params);
 			System.out.println("STATUS==>"+charge.getStatus());
 			System.out.println("INVOICE==>"+charge.getInvoice());
-			alertUser("SUCCESS!  Invoice will be emailed to the address you provided.  Thank you for rocking with us!");
+			
+			//send email if charge succeeds
+			if(charge.getStatus().toUpperCase().equals("SUCCEEDED"))
+			{
+				UIUtils.SendMessage();
+				UIUtils.alertUser(UIConstants.PURCHASE_TRANSACTION_SUCCESS);
+				//set orderComplete to true
+				CartSingleton.getInstance().getCheckoutCart().getOrder().setOrComplete(true);
+
+				DefaultDao dao = new DefaultDao();
+				OrderIdentification order = CartSingleton.getInstance().getCheckoutCart().getOrder();
+				dao.updateOrCreateEntity(order, order.getOrId());
+				
+				CartSingleton.getInstance().getCheckoutCart().emptyCart();
+
+				//navigate to home
+				UI.getCurrent().getNavigator().navigateTo("checkout_complete");
+
+
+			}
+
 		} catch (CardException e) {
 			  // Since it's a decline, CardException will be caught
-			alertUser(e.getMessage());
+			UIUtils.alertUser(UIConstants.PURCHASE_TRANSACTION_FAILURE_CARD);
 			e.printStackTrace();
 		} catch (RateLimitException e) {
 		  // Too many requests made to the API too quickly
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (InvalidRequestException e) {
 		  // Invalid parameters were supplied to Stripe's API
-//			alertUser(e.getMessage());
+//			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (AuthenticationException e) {
 		  // Authentication with Stripe's API failed
 		  // (maybe you changed API keys recently)
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (ApiConnectionException e) {
 		  // Network communication with Stripe failed
-			alertUser(e.getMessage());
+			UIUtils.alertUser(e.getMessage());
 			e.printStackTrace();
 		} catch (StripeException e) {
 		  // Display a very generic error to the user, and maybe send
 		  // yourself an email
-			alertUser(e.getMessage());
+			UIUtils.alertUser(UIConstants.PURCHASE_TRANSACTION_FAILURE_GENERIC);
 			e.printStackTrace();
 		} catch (Exception e) {
 		  // Something else happened, completely unrelated to Stripe
-			alertUser(e.getMessage());
+			UIUtils.alertUser(UIConstants.PURCHASE_TRANSACTION_FAILURE_GENERIC);
 			e.printStackTrace();
 		}
 	}
@@ -431,30 +457,29 @@ public class CheckoutView extends VerticalLayout implements View {
 		OrderFormDetails orderFormObj = new OrderFormDetails();
 		Button chargeButton = new Button("Charge");
 		
-
 		chargeButton.addClickListener(cButton->{
 			
-			try {
-				UIUtils.SendMessage();
+			if(CartSingleton.getInstance().getCheckoutCart().itemsInCart().isEmpty()){
+					UIUtils.alertUser(UIConstants.PURCHASE_TRANSACTION_MSG_NONZERO);
+			}else{
+
+				try {
+					binder.writeBean(orderFormObj);
+				} catch (ValidationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
-				System.out.println("before writing bean==>"+orderFormObj.getFirstName());
-				binder.writeBean(orderFormObj);
-				System.out.println("after writing bean==>"+orderFormObj.getFirstName());
-			} catch (ValidationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-					
-			System.out.println("orderFormObj"+orderFormObj.toString());
+				System.out.println("orderFormObj"+orderFormObj.toString());
 
-			//try catch!!
+				//try catch!!
+				
+				if(binder.validate().isOk())
+					this.makeCharge(orderFormObj);
+				else
+					Notification.show("VALIDATION FAILED");
 			
-			if(binder.validate().isOk())
-				this.makeCharge(orderFormObj);
-			else
-				Notification.show("VALIDATION FAILED");
-
-//			this.grid.refresh();
+				}//end if :: condition ==> cart is empty
 		});				
 
 		orderForm.addStyleName("sectionborder");
@@ -593,9 +618,9 @@ public class CheckoutView extends VerticalLayout implements View {
 				.bind(OrderFormDetails::getExpirationDate,OrderFormDetails::setExpirationDate);
 		
 		/****set dummy values*****/
-		firstName.setValue("Tajiri");
-		lastName.setValue("Ujasiri");
-		addressLine1.setValue("5000 Elysian Fields Ave");
+		firstName.setValue("Machu");
+		lastName.setValue("Picchu");
+		addressLine1.setValue("1000 Franklin Ave.");
 		addressLine2.setValue("Suite 0");
 		city.setValue("New Orleans");
 		state.setValue("LA");
@@ -611,25 +636,6 @@ public class CheckoutView extends VerticalLayout implements View {
 		
 
 		return orderForm;
-		
-	}
-	
-	private void alertUser(String errMsg){
-		ConfirmDialog.show(UI.getCurrent(), "Confirmation",
-//				"ERROR: "+errMsg.matches("^(.+?).") , "OK","Cancel", 
-				"ERROR: "+errMsg , "OK","Cancel", 
-		new ConfirmDialog.Listener() {
-
-			@Override
-			public void onClose(ConfirmDialog dialog) {
-				if (dialog.isConfirmed()) {
-					dialog.close();
-				} else {
-					dialog.close();
-				}
-			}
-		});
-		
 		
 	}
 	

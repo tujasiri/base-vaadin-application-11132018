@@ -12,6 +12,7 @@ import com.vaadin.root.framework.grids.CustomizationGrid;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.MerchTable;
 import com.vaadin.root.model.ItemCustomization;
+import com.vaadin.root.utils.UIConstants;
 import com.vaadin.root.utils.UIUtils;
 import com.vaadin.root.windows.ItemCustomizationWindow;
 import com.vaadin.ui.Alignment;
@@ -132,63 +133,67 @@ public class MerchLayout extends VerticalLayout{
 			//consider quantity
 			this.itemsToBeAdded = new ArrayList<MerchTable>();
 			List<ItemCustomization> itemCustomizations = new ArrayList<ItemCustomization>();
-			int itemQuantity = this.qty.getValue().intValue();
+			int itemQuantity = (this.qty.getValue() == null) ? 0 : this.qty.getValue().intValue();
+			if(itemQuantity <= 0){
+				UIUtils.alertUser(UIConstants.PURCHASE_TRANSACTION_MSG_QUANTITY);
+			}else{
+				for (int i=0;i < itemQuantity;i++){
+					System.out.println("ADD");
+					//set temporary customization IDs until item cart additions are finalized
+					
+					DefaultDao dao = new DefaultDao();
+					
+					ItemCustomization itemsCustTmp = new ItemCustomization();
+					itemsCustTmp.setIcMtItemNum(this.merchTableItem.getMtItemNum());
+					
+					//dao.updateOrCreateEntity(itemsCustTmp, null, dao.getEntityManager());
+					try {
+						dao.updateOrCreateEntity(itemsCustTmp, null);
+					} catch (Exception e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					
+					System.out.println(String.format("ID==>%d", itemsCustTmp.getIcId() ));
 
-			for (int i=0;i < itemQuantity;i++){
-				System.out.println("ADD");
-				//set temporary customization IDs until item cart additions are finalized
+					itemsCustTmp.setIcId(i);
+					
+					MerchTable merchTableItemTmp = new MerchTable();
+					try {
+						merchTableItemTmp =  this.merchTableItem.clone();
+					} catch (CloneNotSupportedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+	//				merchTableItemTmp.setMtIcId(i);
+					merchTableItemTmp.setMtIcId(0);
+					
+					itemCustomizations.add(itemsCustTmp);
+					itemsToBeAdded.add(merchTableItemTmp);
+					
+					this.qty.clear();
+					Notification.show("Item added.");
 				
-				DefaultDao dao = new DefaultDao();
-				
-				ItemCustomization itemsCustTmp = new ItemCustomization();
-				itemsCustTmp.setIcMtItemNum(this.merchTableItem.getMtItemNum());
-				
-				//dao.updateOrCreateEntity(itemsCustTmp, null, dao.getEntityManager());
-				try {
-					dao.updateOrCreateEntity(itemsCustTmp, null);
-				} catch (Exception e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
 				}
 				
-				System.out.println(String.format("ID==>%d", itemsCustTmp.getIcId() ));
+	//			logger.info("merchItemIsCustomizeable==>"+this.merchTableItem.isMtCustomizeable());
+				System.out.println("merchItemIsCustomizeable==>"+this.merchTableItem.isMtCustomizeable());
 
-				itemsCustTmp.setIcId(i);
+				if(this.merchTableItem.isMtCustomizeable()) {
 				
-				MerchTable merchTableItemTmp = new MerchTable();
-				try {
-					merchTableItemTmp =  this.merchTableItem.clone();
-				} catch (CloneNotSupportedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					ItemCustomizationWindow customWindow = new ItemCustomizationWindow(itemsToBeAdded,itemCustomizations);
+					customWindow.setItemCustomizations(itemCustomizations);
+					UI.getCurrent().addWindow(customWindow);
+
+				}else {
+					System.out.println("ADD ITEM");
+					System.out.println("itemsToBeAdded==>"+itemsToBeAdded.toString());			
+	//				checkoutCart.addItemToCart(this.merchTableItem);
+					checkoutCart.addItemsCart(itemsToBeAdded);
 				}
-				
-//				merchTableItemTmp.setMtIcId(i);
-				merchTableItemTmp.setMtIcId(0);
-				
-				itemCustomizations.add(itemsCustTmp);
-				itemsToBeAdded.add(merchTableItemTmp);
-				
-				this.qty.clear();
-				Notification.show("Item added.");
-			
-			}
-			
-//			logger.info("merchItemIsCustomizeable==>"+this.merchTableItem.isMtCustomizeable());
-			System.out.println("merchItemIsCustomizeable==>"+this.merchTableItem.isMtCustomizeable());
 
-			if(this.merchTableItem.isMtCustomizeable()) {
-			
-				ItemCustomizationWindow customWindow = new ItemCustomizationWindow(itemsToBeAdded,itemCustomizations);
-				customWindow.setItemCustomizations(itemCustomizations);
-				UI.getCurrent().addWindow(customWindow);
-
-			}else {
-				System.out.println("ADD ITEM");
-				System.out.println("itemsToBeAdded==>"+itemsToBeAdded.toString());			
-//				checkoutCart.addItemToCart(this.merchTableItem);
-				checkoutCart.addItemsCart(itemsToBeAdded);
-			}
+			}//end if for qty check
 			
 		});
 		

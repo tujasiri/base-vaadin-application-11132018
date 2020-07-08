@@ -51,7 +51,7 @@ public class MerchTable implements Cloneable, Serializable {
 	private String mtItemType;
 
 	@Column(name="mt_order_id")
-	private int mtOrderId;
+	private long mtOrderId;
 
 	@Lob
 	@Column(name="mt_special_note")
@@ -133,11 +133,11 @@ public class MerchTable implements Cloneable, Serializable {
 		this.mtItemType = mtItemType;
 	}
 
-	public int getMtOrderId() {
+	public long getMtOrderId() {
 		return this.mtOrderId;
 	}
 
-	public void setMtOrderId(int mtOrderId) {
+	public void setMtOrderId(long mtOrderId) {
 		this.mtOrderId = mtOrderId;
 	}
 

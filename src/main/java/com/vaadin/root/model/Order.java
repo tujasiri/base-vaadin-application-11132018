@@ -32,7 +32,7 @@ public class Order implements Serializable {
 	private long orIcId;
 
 	@Column(name="or_id")
-	private int orId;
+	private long orId;
 
 
 	@Column(name="or_mt_item_num")
@@ -65,11 +65,11 @@ public class Order implements Serializable {
 		this.orIcId = orIcId;
 	}
 
-	public int getOrId() {
+	public long getOrId() {
 		return this.orId;
 	}
 
-	public void setOrId(int orId) {
+	public void setOrId(long orId) {
 		this.orId = orId;
 	}
 

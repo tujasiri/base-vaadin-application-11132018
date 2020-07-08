@@ -19,7 +19,7 @@ public class OrderIdentification implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="or_id")
-	private int orId;
+	private long orId;
 
 	@Column(name="or_complete")
 	private boolean orComplete;
@@ -30,11 +30,11 @@ public class OrderIdentification implements Serializable {
 //			DefaultDataService.getInstance().updateOrCreateEntity(MerchTable.class, null).getClass();
 	}
 
-	public int getOrId() {
+	public long getOrId() {
 		return this.orId;
 	}
 
-	public void setOrId(int orId) {
+	public void setOrId(long orId) {
 		this.orId = orId;
 	}
 

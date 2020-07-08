@@ -29,6 +29,8 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.vaadin.dialogs.ConfirmDialog;
+
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.dto.CartSingleton;
@@ -44,6 +46,7 @@ import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Image;
+import com.vaadin.ui.UI;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.kernel.pdf.PdfWriter;
 
@@ -172,8 +175,11 @@ public class UIUtils {
           
 			messageBodyPart = new MimeBodyPart();
 //            messageBodyPart.setContent("<img src=\"cid:"+cid+"\"><br><br><br><b>This is the actual message, with a banner above.</b>","text/html");
+
+			//add header banner to email
 			String msgHtml="<img style=\"width:633px;height:96px;padding:8px;\" src=\""+cid+"\"><br><br><br><b>PEACE & Thank you for supporting Truth Universal Music, LLC!  Here are you order details:</b></b>";
-//			String msgHtml="";
+			
+			//add teh remaining content to email message
 			msgHtml+=buildContentHtml();
 			
 			//create invoicePDF 
@@ -325,6 +331,24 @@ public class UIUtils {
 	private static String getInvoiceFileName(){
 		return String.format("truthuniversal_order_%d.pdf", CartSingleton.getInstance().getCheckoutCart().getOrder().getOrId());
 	}
-			
+	
+	public static void alertUser(String errMsg){
+		ConfirmDialog.show(UI.getCurrent(), "Confirmation",
+//				"ERROR: "+errMsg.matches("^(.+?).") , "OK","Cancel", 
+				 errMsg , "OK","Cancel", 
+		new ConfirmDialog.Listener() {
+
+			@Override
+			public void onClose(ConfirmDialog dialog) {
+				if (dialog.isConfirmed()) {
+					dialog.close();
+				} else {
+					dialog.close();
+				}
+			}
+		});
+		
+		
+	}			
 	
 }
