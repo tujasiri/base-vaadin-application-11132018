@@ -14,5 +14,6 @@ import com.vaadin.ui.Button.ClickListener;
 public interface UpdateListener {
 	public void updateRecord();
 	public void updateCustomizationRecord(String size,String color,String gender);
+	public void updateObject();
 
 }

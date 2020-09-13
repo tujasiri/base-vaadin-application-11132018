@@ -17,6 +17,7 @@ import com.vaadin.root.framework.MerchItemDetailLayout;
 import com.vaadin.root.framework.MerchLayout;
 import com.vaadin.root.framework.StandardHeaderLayout;
 import com.vaadin.root.framework.StandardSideLayout;
+import com.vaadin.root.framework.listeners.UpdateListener;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.MerchTable;
 import com.vaadin.root.utils.UIUtils;
@@ -96,6 +97,27 @@ public class StandardMainScreen extends VerticalLayout implements View {
 			for(int j=0;j<4;j++){
 				gridLayout.setColumnExpandRatio(j,1.0f);
 				MerchLayout ml = merchLayoutList.get(idx++);
+				ml.setCartUpdateListener(new UpdateListener() {
+
+					@Override
+					public void updateRecord() {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void updateCustomizationRecord(String size, String color, String gender) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void updateObject() {
+						getHeaderLayout().refresh();
+						
+					}
+					
+				});
 				ml.setHeightUndefined();
 //				ml.setWidth(10.0f,Unit.PERCENTAGE);
 				ml.addStyleName("merchLayout");
@@ -207,6 +229,14 @@ public class StandardMainScreen extends VerticalLayout implements View {
 	protected VerticalLayoutState getState(boolean markAsDirty) {
 		// TODO Auto-generated method stub
 		return super.getState(markAsDirty);
+	}
+
+	public StandardHeaderLayout getHeaderLayout() {
+		return headerLayout;
+	}
+
+	public void setHeaderLayout(StandardHeaderLayout headerLayout) {
+		this.headerLayout = headerLayout;
 	}
 	
 	

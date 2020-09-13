@@ -86,6 +86,10 @@ public class CustomizationGrid extends Grid<MerchTable>{
 							currentCustomization.setIcGender(gender != null ? gender : currentCustomization.getIcGender());
 							refresh();
 						}
+
+						@Override
+						public void updateObject() {
+						}
 						
                 	  });
                 	  

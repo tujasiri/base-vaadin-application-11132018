@@ -48,6 +48,7 @@ import com.vaadin.root.framework.SpacerLabel;
 import com.vaadin.root.framework.StandardHeaderLayout;
 import com.vaadin.root.framework.StandardSideLayout;
 import com.vaadin.root.framework.grids.ShoppingCartGrid;
+import com.vaadin.root.framework.listeners.UpdateListener;
 import com.vaadin.root.model.MerchTable;
 import com.vaadin.root.model.Order;
 import com.vaadin.root.model.OrderIdentification;
@@ -83,6 +84,7 @@ public class CheckoutView extends VerticalLayout implements View {
 	private StandardSideLayout sideLayout = new StandardSideLayout();
 	private ShoppingCartGrid grid = new ShoppingCartGrid();
 	private Button chargeButton = new Button("Charge");
+	private UpdateListener updateListener;
 
 	
 	public CheckoutView(){
@@ -225,6 +227,8 @@ public class CheckoutView extends VerticalLayout implements View {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		CartSingleton.getInstance().getCheckoutCart().setUpdateListener(this.getHeaderLayout().getHeaderUpdateListener());
 		
 		
 	}
@@ -631,12 +635,17 @@ public class CheckoutView extends VerticalLayout implements View {
 		cvvCode.setValue("424");
 		expDate.setValue(LocalDate.of(20, 5, 1));
 		/*************************/
-		
-	
-		
 
 		return orderForm;
 		
+	}
+	
+	public StandardHeaderLayout getHeaderLayout() {
+		return headerLayout;
+	}
+
+	public void setHeaderLayout(StandardHeaderLayout headerLayout) {
+		this.headerLayout = headerLayout;
 	}
 	
 }

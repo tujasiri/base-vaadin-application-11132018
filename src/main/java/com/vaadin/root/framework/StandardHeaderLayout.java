@@ -7,6 +7,7 @@ import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.dto.CartSingleton;
+import com.vaadin.root.framework.listeners.UpdateListener;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.BusinessInfo;
 import com.vaadin.root.utils.UIUtils;
@@ -35,9 +36,33 @@ public class StandardHeaderLayout extends CssLayout{
 	Image businessLogo = new Image();
 	Image headerBanner = new Image();
 	BusinessInfo businessInfo = new BusinessInfo();
+	UpdateListener headerUpdateListener = new UpdateListener(){
+
+		@Override
+		public void updateRecord() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void updateCustomizationRecord(String size, String color, String gender) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void updateObject() {
+				refresh();
+		}
+		
+	};
+
+	Label cartLabel = new Label();
 	
 //	Image businessOverlay = new Image();
 	
+	
+
 	public StandardHeaderLayout(BusinessInfo bi){
 			super();
 			this.businessInfo = bi;
@@ -113,9 +138,14 @@ public class StandardHeaderLayout extends CssLayout{
 	private HorizontalLayout buildActionLayout(){
 		HorizontalLayout actionLayout = new HorizontalLayout();
 		HorizontalLayout cartLayout = new HorizontalLayout();
-		Label cartLabel = new Label();
-		cartLabel.setIcon(VaadinIcons.CART);
-		cartLayout.addComponent(cartLabel);
+//		Label cartLabel = new Label();
+//		cartLabel.setIcon(VaadinIcons.CART);
+
+		this.cartLabel.setCaptionAsHtml(true);
+		this.cartLabel.setCaption(String.format("<div class=\"carticon\"><span class=\"icon\">"
+				+ "</span><span class=\"badge\">%d</span></div>",CartSingleton.getInstance().getCheckoutCart().itemsInCart().size()));
+				
+		cartLayout.addComponent(this.cartLabel);
 		
 		cartLayout.addLayoutClickListener(e->{ 
 //			tc.alertme();
@@ -125,8 +155,8 @@ public class StandardHeaderLayout extends CssLayout{
 			System.out.println("ITEMS IN CART==>"+CartSingleton.getInstance().getCheckoutCart().toString());
 			UI.getCurrent().addWindow(new ShoppingCartWindow());
 			
-			//add listener to window to enable and disable 
-//			e.getComponent().setEnabled(false);
+			//using Observer Pattern to update cart badge as items are added or deleted from cart
+			CartSingleton.getInstance().getCheckoutCart().setUpdateListener(this.headerUpdateListener);
 
 		});
 		cartLayout.addStyleName("pointerCursor");
@@ -134,17 +164,26 @@ public class StandardHeaderLayout extends CssLayout{
 		
 	
 		
+		Label testLabel = new Label("1");
 		
 //		actionLayout.setWidth(25.0f, Unit.PERCENTAGE);
 		TextField cartText = new TextField("");
+		cartText = new TextField("");
 		cartText.setIcon(VaadinIcons.CART);
 		
+
+
+		//testLabel.setId("carticon");
+		testLabel.addStyleName("badge");
+
+		
 		actionLayout.addComponents(cartLayout);
+		//actionLayout.addComponents(cartLayout, cartText);
 		
 		actionLayout.setWidth("100px");
 //		actionLayout.addStyleName("testborder");
 		//***add shopping icon
-		
+	
 		return actionLayout;
 	}
 	
@@ -212,6 +251,19 @@ public class StandardHeaderLayout extends CssLayout{
 		
 		return sample; 
 		
+	}
+	
+	public void refresh(){
+		this.cartLabel.setCaption(String.format("<div class=\"carticon\"><span class=\"icon\">"
+				+ "</span><span class=\"badge\">%d</span></div>",CartSingleton.getInstance().getCheckoutCart().itemsInCart().size()));
+	}
+	
+	public UpdateListener getHeaderUpdateListener() {
+		return headerUpdateListener;
+	}
+
+	public void setHeaderUpdateListener(UpdateListener headerUpdateListener) {
+		this.headerUpdateListener = headerUpdateListener;
 	}
 
 }

@@ -90,6 +90,12 @@ public class ShoppingCartGrid extends Grid<OrderSummary> {
 														  y.setIcSize(size); });
 
 								refresh();
+							}
+
+							@Override
+							public void updateObject() {
+								// TODO Auto-generated method stub
+								
 							}});
 						  
 						  selectCustWindow.getCbSize().setValue(currentCustomization.getIcSize());

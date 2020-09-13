@@ -234,4 +234,62 @@ a.close:hover {
   -moz-transition: color 1s ease;
   transition: color 1s ease;
 }
+/*
+#carticon {   
+    width:100px;
+    text-align:center;
+    vertical-align:bottom;
+    position: relative;
+}
+.badge:after{
+    content:"100";
+    position: absolute;
+    background: rgba(0,0,255,1);
+    height:2rem;
+    top:1rem;
+    right:1.5rem;
+    width:2rem;
+    //text-align: center;
+    text-align: top;
+    line-height: 2rem;;
+    font-size: 1rem;
+    border-radius: 50%;
+    color:white;
+    border:1px solid blue;
+}
+*/
+.carticon{
+  //background-color: #555;
+  background: url('./images/shopping-cart-solid.svg');
+  color: white;
+  text-decoration: none;
+  padding: 15px 26px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.carticon .badge {
+  position: absolute;
+  top: -10px;
+  right: -1px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
+
+.icon {
+    background: url('./images/shopping-cart-solid.svg');
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+	text-align:center;
+    //vertical-align:bottom;
+    position: relative;
+    /* Other styles here */
+}
+
+
+
 }

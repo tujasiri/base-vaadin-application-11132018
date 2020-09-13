@@ -9,6 +9,7 @@ import com.vaadin.root.dao.DefaultDao;
 import com.vaadin.root.dto.CartSingleton;
 import com.vaadin.root.dto.CheckoutCart;
 import com.vaadin.root.framework.grids.CustomizationGrid;
+import com.vaadin.root.framework.listeners.UpdateListener;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.MerchTable;
 import com.vaadin.root.model.ItemCustomization;
@@ -46,8 +47,9 @@ public class MerchLayout extends VerticalLayout{
 	private CheckoutCart checkoutCart = CartSingleton.getInstance().getCheckoutCart();
 	private List<MerchTable> itemsToBeAdded = new ArrayList<MerchTable>();
 	private final static Logger logger = LoggerFactory.getLogger(MerchLayout.class);
-
+	private UpdateListener cartUpdateListener;
 	
+
 	public MerchLayout(MerchTable x){
 		super();
 		this.merchTableItem = x;
@@ -191,12 +193,22 @@ public class MerchLayout extends VerticalLayout{
 					System.out.println("itemsToBeAdded==>"+itemsToBeAdded.toString());			
 	//				checkoutCart.addItemToCart(this.merchTableItem);
 					checkoutCart.addItemsCart(itemsToBeAdded);
+
+					//update cart item badge
+					this.getCartUpdateListener().updateObject();
 				}
 
 			}//end if for qty check
 			
 		});
 		
+	}
+	public UpdateListener getCartUpdateListener() {
+		return cartUpdateListener;
+	}
+
+	public void setCartUpdateListener(UpdateListener cartUpdateListener) {
+		this.cartUpdateListener = cartUpdateListener;
 	}
 
 }
