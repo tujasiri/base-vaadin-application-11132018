@@ -144,6 +144,13 @@
 		  <artifactId>stripe-java</artifactId>
 		  <version>18.14.0</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.ejb/javax.ejb-api -->
+		<dependency>
+			<groupId>javax.ejb</groupId>
+			<artifactId>javax.ejb-api</artifactId>
+			<version>3.2</version>
+		</dependency>
+		
 		
 	<!-- 
 		<dependency>

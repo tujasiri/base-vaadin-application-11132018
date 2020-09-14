@@ -1,5 +1,8 @@
 package com.vaadin.root.dto;
 
+import javax.ejb.Stateful;
+
+@Stateful
 public class CartSingleton {
 	
 	private CheckoutCart checkoutcart;
