@@ -2,8 +2,12 @@ package com.vaadin.root.dto;
 
 import javax.ejb.Stateful;
 
+import com.vaadin.server.VaadinSession;
+
 @Stateful
 public class CartSingleton {
+	
+	private VaadinSession cartsession = VaadinSession.getCurrent();
 	
 	private CheckoutCart checkoutcart;
 
@@ -16,8 +20,10 @@ public class CartSingleton {
     public static CartSingleton getInstance(){
         if (instance == null){
             instance = new CartSingleton();
+            instance.cartsession.setAttribute("cartinstance", new CartSingleton());
+
         }
-        return instance;
+        return (CartSingleton)instance.cartsession.getAttribute("cartinstance");
     }
 
     public CheckoutCart getCheckoutCart(){
