@@ -7,26 +7,16 @@ import com.vaadin.server.VaadinSession;
 @Stateful
 public class CartSingleton {
 	
-	private VaadinSession cartsession = VaadinSession.getCurrent();
-	
-	private CheckoutCart checkoutcart;
-
-    private static CartSingleton instance;
+    private static CartSingleton instance = new CartSingleton();
 
     private CartSingleton(){
-        checkoutcart = new CheckoutCart();
     }
 
     public static CartSingleton getInstance(){
-        if (instance == null){
-            instance = new CartSingleton();
-            instance.cartsession.setAttribute("cartinstance", new CartSingleton());
-
-        }
-        return (CartSingleton)instance.cartsession.getAttribute("cartinstance");
+        return instance;
     }
 
     public CheckoutCart getCheckoutCart(){
-        return checkoutcart;
+    	return (CheckoutCart)VaadinSession.getCurrent().getAttribute("shoppingcart");
     }
 }

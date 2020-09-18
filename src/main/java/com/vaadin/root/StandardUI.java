@@ -21,6 +21,7 @@ import com.vaadin.root.dao.DataService;
 import com.vaadin.root.dao.DefaultDao_;
 import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.dao.EntityManagerInstance;
+import com.vaadin.root.dto.CheckoutCart;
 import com.vaadin.root.framework.AboutView_OLD;
 import com.vaadin.root.framework.DefaultView_OLD;
 import com.vaadin.root.framework.views.AboutView;
@@ -38,6 +39,7 @@ import com.vaadin.server.SessionInitEvent;
 import com.vaadin.server.SessionInitListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
@@ -131,6 +133,7 @@ public class StandardUI extends UI {
 				}};
 				
 				event.getSession().addBootstrapListener(bsl);
+        VaadinSession.getCurrent().setAttribute("shoppingcart", new CheckoutCart());
 			
 		}
     	
@@ -151,6 +154,8 @@ public class StandardUI extends UI {
         nav.addView("about", AboutView.class);
         nav.addView("checkout", CheckoutView.class);
         nav.addView("checkout_complete", OrderCompleteView.class);
+
+
     	
     }
 

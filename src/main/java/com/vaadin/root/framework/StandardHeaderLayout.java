@@ -7,11 +7,13 @@ import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.dto.CartSingleton;
+import com.vaadin.root.dto.CheckoutCart;
 import com.vaadin.root.framework.listeners.UpdateListener;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.BusinessInfo;
 import com.vaadin.root.utils.UIUtils;
 import com.vaadin.root.windows.ShoppingCartWindow;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -142,9 +144,16 @@ public class StandardHeaderLayout extends CssLayout{
 //		cartLabel.setIcon(VaadinIcons.CART);
 
 		this.cartLabel.setCaptionAsHtml(true);
+		
 		this.cartLabel.setCaption(String.format("<div class=\"carticon\"><span class=\"icon\">"
 				+ "</span><span class=\"badge\">%d</span></div>",CartSingleton.getInstance().getCheckoutCart().itemsInCart().size()));
-				
+		
+//		CheckoutCart cc = (CheckoutCart)VaadinSession.getCurrent().getAttribute("shoppingcart");
+//		
+//
+//		this.cartLabel.setCaption(String.format("<div class=\"carticon\"><span class=\"icon\">"
+//				+ "</span><span class=\"badge\">%d</span></div>",cc.itemsInCart().size()));
+//				
 		cartLayout.addComponent(this.cartLabel);
 		
 		cartLayout.addLayoutClickListener(e->{ 
