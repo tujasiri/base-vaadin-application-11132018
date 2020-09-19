@@ -84,9 +84,9 @@ public class CheckoutCart {
     }
 
     public void addItemsCart(List<MerchTable> merchTableItems){
-		System.out.println("ORDER=======>"+order.getOrId());
 		
 		merchTableItems.stream().forEach(x->{
+		System.out.println("addItemsCart method ORDER=======>"+order.getOrId());
 			x.setMtOrderId(order.getOrId());
 
 			orderRecord.setOrIcId(x.getMtIcId());
@@ -99,7 +99,12 @@ public class CheckoutCart {
 			
 		});
 
+		merchTableItems.stream().forEach(x->{
+		    System.out.println("item==>"+x.toString());
+		});
+
         itemsArray.addAll(merchTableItems);
+        this.getUpdateListener().updateObject();
     }
     
     public List<OrderSummary> getOrderSummary(){

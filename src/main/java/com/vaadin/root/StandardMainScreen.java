@@ -84,7 +84,10 @@ public class StandardMainScreen extends VerticalLayout implements View {
 		mtList = DefaultDataService.getInstance().getMerchDao().findAll();
 		
 		mtList.stream().forEach(x->{
-		 merchLayoutList.add(new MerchLayout(x));
+			MerchLayout merchlayout = new MerchLayout(x);
+			merchlayout.setCartUpdateListener(this.getHeaderLayout().getHeaderUpdateListener());
+			merchLayoutList.add(merchlayout);
+		 //merchLayoutList.add(new MerchLayout(x));
 		});
 
 		

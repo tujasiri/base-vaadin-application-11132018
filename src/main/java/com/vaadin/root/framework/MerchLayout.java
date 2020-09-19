@@ -186,6 +186,9 @@ public class MerchLayout extends VerticalLayout{
 				
 					ItemCustomizationWindow customWindow = new ItemCustomizationWindow(itemsToBeAdded,itemCustomizations);
 					customWindow.setItemCustomizations(itemCustomizations);
+					customWindow.setCustUpdateLister(this.getCartUpdateListener());
+//					CartSingleton.getInstance().getCheckoutCart().setUpdateListener(this.getCartUpdateListener());
+//					this.getCartUpdateListener().updateObject();
 					UI.getCurrent().addWindow(customWindow);
 
 				}else {

@@ -10,6 +10,7 @@ import com.vaadin.root.dao.DefaultDao;
 import com.vaadin.root.dto.CartSingleton;
 import com.vaadin.root.dto.Customizations;
 import com.vaadin.root.framework.grids.CustomizationGrid;
+import com.vaadin.root.framework.listeners.UpdateListener;
 import com.vaadin.root.model.ItemCustomization;
 import com.vaadin.root.model.MerchTable;
 import com.vaadin.ui.Alignment;
@@ -31,6 +32,7 @@ public class ItemCustomizationWindow extends Window{
 	private HorizontalLayout buttonLayout = new HorizontalLayout();
 	private Button updateButton = new Button("Complete and Add to Cart");
 	private Button closeButton = new Button("Close");
+	private UpdateListener custUpdateLister;
 
 
 	public ItemCustomizationWindow(List<MerchTable> gridcontainer, List<ItemCustomization> customization){
@@ -61,10 +63,13 @@ public class ItemCustomizationWindow extends Window{
 
 	private void addListeners(){
 		this.updateButton.addClickListener(u->{
+			
+			CartSingleton.getInstance().getCheckoutCart().setUpdateListener(getCustUpdateLister());
+
 
 			if(!this.customizationsComplete()) {
 				ConfirmDialog.show(UI.getCurrent(), "Confirmation",
-					"Some customization fields have not be completed. Would you like to exit item editing and not add items to cart?" , "Yes", "No",
+					"Some customization fields have not be completed.  THIS REQUIRES CUSTOMIZATION.  Would you like to exit item editing and not add items to cart?" , "Yes", "No",
 					new ConfirmDialog.Listener() {
 
 						@Override
@@ -72,6 +77,7 @@ public class ItemCustomizationWindow extends Window{
 							if (dialog.isConfirmed()) {
 								//add update and insert of customizations	
 								writeCustomiztionsToDb();
+//								CartSingleton.getInstance().getCheckoutCart().addItemsCart(gridContainer);
 								close();
 							} else {
 								dialog.close();
@@ -194,10 +200,23 @@ public class ItemCustomizationWindow extends Window{
 		}
 		this.setGridContainer(merchTableAssocList);
 		
+		
+		CartSingleton.getInstance().getCheckoutCart().setUpdateListener(this.getCustUpdateLister());
+		
 		System.out.println("UPDATED gridContainer ==>"+this.getGridContainer().toString());
 		CartSingleton.getInstance().getCheckoutCart().addItemsCart(gridContainer);
 		System.out.println("CART==>"+CartSingleton.getInstance().getCheckoutCart().toString());
 		System.out.println("NUMBER OF ITMES IN CART==>"+CartSingleton.getInstance().getCheckoutCart().itemsInCart().size());
 			
 	}
+
+	public UpdateListener getCustUpdateLister() {
+		return custUpdateLister;
+	}
+
+	public void setCustUpdateLister(UpdateListener custUpdateLister) {
+		this.custUpdateLister = custUpdateLister;
+	}
+	
+	
 }

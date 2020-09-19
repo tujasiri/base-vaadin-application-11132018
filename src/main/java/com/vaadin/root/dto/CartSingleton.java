@@ -2,6 +2,7 @@ package com.vaadin.root.dto;
 
 import javax.ejb.Stateful;
 
+import com.vaadin.root.utils.UIUtils;
 import com.vaadin.server.VaadinSession;
 
 @Stateful
@@ -13,6 +14,7 @@ public class CartSingleton {
     }
 
     public static CartSingleton getInstance(){
+		System.out.println("IP ==>"+UIUtils.getIpAddress());
         return instance;
     }
 

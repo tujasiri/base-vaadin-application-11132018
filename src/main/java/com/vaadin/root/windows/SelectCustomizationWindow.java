@@ -42,6 +42,7 @@ public class SelectCustomizationWindow extends Window {
 
 			this.getUpdatelistener().updateCustomizationRecord(size,color,gender);
 			System.out.println("HEEEEEEEERE");
+			this.close();
 		});
 		
 		this.getCloseButton().addClickListener(e->{

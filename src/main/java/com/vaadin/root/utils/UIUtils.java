@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Base64;
 import java.util.List;
 //import java.mail
@@ -94,10 +96,10 @@ public class UIUtils {
 		Image headerBanner = UIUtils.byteArrayToImage(businessInfo.getBiHeader());
 		String encodedimg = Base64.getEncoder().encodeToString(businessInfo.getBiLogo());
 //		String cid = String.format("%s",UUID.randomUUID());
-//		String cid = "http://a.vimeocdn.com/si/email/Vimeo-logo-1a2e3b.png";
-//		String cid = "http://166.62.122.123:8080/website/images/banner.png";
-//		String cid = "http://166.62.122.123:8080/website/VAADIN/images/banner.png";
-		String cid = "http://166.62.122.123:8080/website/VAADIN/images/generic_tum_banner.png";
+//		String cid = "http://166.62.122.123:8080/website/VAADIN/images/generic_tum_banner.png";
+		String cid = "http://"+UIUtils.getIpAddress()+":8080/website/VAADIN/images/generic_tum_banner.png";
+
+		System.out.println("IP ==>"+UIUtils.getIpAddress());
 
 		 // Recipient's email ID needs to be mentioned.
         String to = "truthuniversal@yahoo.com";
@@ -200,8 +202,8 @@ public class UIUtils {
 			multipart.addBodyPart(pdfAttachmentPart);
 //            message.setContent(multipart);
 		
-//            msgHtml+="<div><a href=\"http://166.62.122.123/invoices/truthuniversal_order.pdf\">View/Download order invoice.</a></div>";            
-            msgHtml+=String.format("<div><a href=\"http://166.62.122.123/invoices/%s\">View/Download order invoice.</a></div>",getInvoiceFileName());            
+//            msgHtml+=String.format("<div><a href=\"http://166.62.122.123/invoices/%s\">View/Download order invoice.</a></div>",getInvoiceFileName());            
+            msgHtml+=String.format("<div><a href=\"http://%s/invoices/%s\">View/Download order invoice.</a></div>",getIpAddress( ),getInvoiceFileName());            
 
             message.setText(msgHtml.toString(), "utf-8", "html");
 
@@ -214,8 +216,7 @@ public class UIUtils {
         } catch (MessagingException | IOException mex) {
             mex.printStackTrace();
         }
-
-		
+        
 	}
 	
 	private static	String buildContentHtml() {
@@ -350,5 +351,17 @@ public class UIUtils {
 		
 		
 	}			
+
+	public static String getIpAddress(){
+		try {
+			return InetAddress.getLocalHost().getHostAddress().toString();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "127.0.0.1";
+
+	}
+        
 	
 }
