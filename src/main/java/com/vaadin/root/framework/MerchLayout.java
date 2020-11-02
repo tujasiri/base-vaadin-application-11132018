@@ -126,6 +126,7 @@ public class MerchLayout extends VerticalLayout{
 	private void addListeners(){
 		
 		this.viewButton.addListener(e->{
+			Notification.show("CLICKED!!");
 			this.standard.jquerytest();
 		});
 		

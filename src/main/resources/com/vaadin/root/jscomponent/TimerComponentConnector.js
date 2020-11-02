@@ -53,5 +53,8 @@ window.com_vaadin_root_jscomponent_TimerComponent = function() {
 			self.timeout();
 		}
 	};
+	//***************************************
+
+	//***************************************
 
 };

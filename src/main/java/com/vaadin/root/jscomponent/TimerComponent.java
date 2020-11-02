@@ -9,7 +9,8 @@ import javax.xml.*;
 //import elemental.json.JsonArray;
 import elemental.json.*;
 
-@JavaScript({ "Timer.js", "TimerComponentConnector.js", "jquery-1.12.4.js", "jquery-ui.js" })
+//@JavaScript({ "Timer.js", "TimerComponentConnector.js", "jquery-1.12.4.js", "jquery-ui.js" })
+@JavaScript({ "Timer.js", "TimerComponentConnector.js", "jquery-1.12.4.js", "jquery-ui.js", "jquery.rotate360.js" })
 public class TimerComponent extends AbstractJavaScriptComponent {
 
     private static final long serialVersionUID = -4318074441748905804L;
