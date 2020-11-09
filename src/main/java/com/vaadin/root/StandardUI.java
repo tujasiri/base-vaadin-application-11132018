@@ -51,7 +51,8 @@ import com.vaadin.ui.VerticalLayout;
 @Widgetset("com.vaadin.DefaultWidgetSet")
 public class StandardUI extends UI {	
 	
-//	private static final long serialVersionUID = -8009964627576236599L;
+	private static final long serialVersionUID = -8109964627576236599L;
+
 
     @WebServlet(value = "/*", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = StandardUI.class)

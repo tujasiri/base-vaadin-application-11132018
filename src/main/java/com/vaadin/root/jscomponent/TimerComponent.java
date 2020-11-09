@@ -10,6 +10,7 @@ import javax.xml.*;
 import elemental.json.*;
 
 //@JavaScript({ "Timer.js", "TimerComponentConnector.js", "jquery-1.12.4.js", "jquery-ui.js" })
+//@JavaScript({ "Timer.js", "TimerComponentConnector.js", "jquery-1.12.4.js", "jquery-ui.js" })
 @JavaScript({ "Timer.js", "TimerComponentConnector.js", "jquery-1.12.4.js", "jquery-ui.js", "jquery.rotate360.js" })
 public class TimerComponent extends AbstractJavaScriptComponent {
 
@@ -112,8 +113,9 @@ public class TimerComponent extends AbstractJavaScriptComponent {
         this.callFunction("alertyou");
     }
     
-    public void jquerytest() {
-        this.callFunction("jquerytest");
+    //public void jquerytest() {
+    public void jquerytest(String imageArray) {
+        this.callFunction("jquerytest",imageArray);
     }
     
     public void openmenu() {

@@ -1,5 +1,6 @@
 package com.vaadin.root.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +14,9 @@ import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.framework.listeners.UpdateListener;
 import com.vaadin.root.model.*;
 
-public class CheckoutCart {
+public class CheckoutCart implements Serializable{
+	
+	private static final long serialVersionUID = -810996462757623659L;
 
 	private	DefaultDao dao = new DefaultDao();
     private OrderIdentification order = new OrderIdentification();

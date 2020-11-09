@@ -3,11 +3,14 @@ package com.vaadin.root.dao;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import java.io.Serializable;
 import java.util.logging.Logger; 
 
-public class DefaultDao implements Dao {
+public class DefaultDao implements Dao, Serializable {
 	
-	Logger logger = Logger.getGlobal();
+	private static final long serialVersionUID = -820996462757623759L;
+	
+	private static final Logger logger = Logger.getGlobal();
 
 	public EntityManager getEntityManager() {
 		return new EntityManagerInstance().getEntityManager();

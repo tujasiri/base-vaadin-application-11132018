@@ -19,8 +19,8 @@ window.com_vaadin_root_jscomponent_TimerComponent = function() {
 		timer.alertme();
 	};
 	
-	this.jquerytest = function(){
-		timer.jquerytest();
+	this.jquerytest = function(imageArray){
+		timer.jquerytest(imageArray);
 	};
 	
 	this.openmenu= function(){
