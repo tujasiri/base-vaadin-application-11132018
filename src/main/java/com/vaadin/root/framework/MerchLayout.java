@@ -1,5 +1,6 @@
 package com.vaadin.root.framework;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class MerchLayout extends VerticalLayout{
+public class MerchLayout extends VerticalLayout implements Serializable {
+	
+	private static final long serialVersionUID = -8129964627576236599L;
+
 	
 	private MerchTable merchTableItem;
 	private Image merchImage;

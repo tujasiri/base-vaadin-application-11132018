@@ -19,7 +19,9 @@ import javax.persistence.*;
 public class MerchTable implements Cloneable, Serializable {
 	
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8149964627576236599L;
+
+	
 
 	@Id
 	@Column(name="mt_item_num")

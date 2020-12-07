@@ -1,5 +1,7 @@
 package com.vaadin.root.framework;
 
+import java.io.Serializable;
+
 import com.vaadin.client.ui.Icon;
 import com.vaadin.client.ui.menubar.MenuItem;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
@@ -29,7 +31,10 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-public class StandardHeaderLayout extends CssLayout{
+public class StandardHeaderLayout extends CssLayout implements Serializable {
+	
+	private static final long serialVersionUID = -8159964627576236599L;
+
 	
 	MenuBar standardMenu = new MenuBar();
 	TimerComponent tc = new TimerComponent();

@@ -49,9 +49,10 @@ import com.vaadin.ui.VerticalLayout;
 @SuppressWarnings("serial")
 @Theme("standardtheme")
 @Widgetset("com.vaadin.DefaultWidgetSet")
-public class StandardUI extends UI {	
+public class StandardUI extends UI implements Serializable{	
 	
-	private static final long serialVersionUID = -8109964627576236599L;
+//	private static final long serialVersionUID = -8119964627576236599L;
+	private static final long serialVersionUID = -8119964627576236599L;
 
 
     @WebServlet(value = "/*", asyncSupported = true)

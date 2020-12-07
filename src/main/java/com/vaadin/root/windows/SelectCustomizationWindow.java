@@ -1,5 +1,6 @@
 package com.vaadin.root.windows;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,10 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public class SelectCustomizationWindow extends Window {
+public class SelectCustomizationWindow extends Window implements Serializable{
+	
+	private static final long serialVersionUID = -8169964627576236599L;
+
 	private ComboBox cbSize = new ComboBox("Select Size");
 	private ComboBox cbColor = new ComboBox("Select Color");
 	private ComboBox cbGender = new ComboBox("Select Gender");
