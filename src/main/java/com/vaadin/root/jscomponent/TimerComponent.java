@@ -10,10 +10,10 @@ import javax.xml.*;
 import elemental.json.*;
 
 //@JavaScript({ "Timer.js", "TimerComponentConnector.js", "jquery-1.12.4.js", "jquery-ui.js" })
-@JavaScript({ "Timer.js", "TimerComponentConnector.js", "jquery-1.12.4.js", "jquery-ui.js", "jquery.rotate360.js" })
+@JavaScript({ "Timer.js", "TimerComponentConnector.js", "jquery-1.12.4.js", "jquery-ui.js" })
+//@JavaScript({ "Timer.js", "TimerComponentConnector.js", "jquery-1.12.4.js", "jquery-ui.js", "jquery.rotate360.js" })
 public class TimerComponent extends AbstractJavaScriptComponent {
 
-    private static final long serialVersionUID = -4318074441748905804L;
     private Long screenWidth;
     private Long screenHeight;
 
@@ -56,7 +56,6 @@ public class TimerComponent extends AbstractJavaScriptComponent {
 //        });
         
         this.addFunction("senddimensions", new JavaScriptFunction() {
-            private static final long serialVersionUID = -6857196720604898164L;
 
             @Override
             public void call(JsonArray arguments) {
@@ -111,9 +110,11 @@ public class TimerComponent extends AbstractJavaScriptComponent {
     public void alertyou() {
         this.callFunction("alertyou");
     }
-    
-    public void jquerytest() {
-        this.callFunction("jquerytest");
+//    
+    public void jquerytest(String imageArray) {
+        this.callFunction("jquerytest",imageArray);
+//    public void jquerytest() {
+//        this.callFunction("jquerytest");
     }
     
     public void openmenu() {
