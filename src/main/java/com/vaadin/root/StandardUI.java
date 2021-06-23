@@ -52,7 +52,6 @@ import com.vaadin.ui.VerticalLayout;
 public class StandardUI extends UI {	
 	
 //	private static final long serialVersionUID = -8009964627576236599L;
-//	private static final long serialVersionUID = -8009964627576236599L;
 
     @WebServlet(value = "/*", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = StandardUI.class)
@@ -84,10 +83,20 @@ public class StandardUI extends UI {
 					Element jqCssLink1 = new Element(Tag.valueOf("link"),"");
 					Element jqCssLink2 = new Element(Tag.valueOf("link"),"");
 					Element jqCssLink3 = new Element(Tag.valueOf("link"),"");
+					Element jqCssLink4 = new Element(Tag.valueOf("link"),"");
 					
+					Element jqScript = new Element(Tag.valueOf("script"),"");
+					Element jqScript2 = new Element(Tag.valueOf("script"),"");
+					Element jqScript3 = new Element(Tag.valueOf("script"),"");
+	/*				
     				jqCssLink1.attr("rel","stylesheet")
 		    				.attr("type","text/css")
 		    				.attr("href","./VAADIN/themes/standardtheme/css/jquery-ui.css");
+	*/
+					
+    				jqCssLink1.attr("rel","stylesheet")
+		    				.attr("type","text/css")
+		    				.attr("href","https://code.jquery.com/ui/1.12.1/themes/flick/jquery-ui.css");
 					
     				jqCssLink2.attr("rel","stylesheet")
 		    				.attr("type","text/css")
@@ -96,10 +105,26 @@ public class StandardUI extends UI {
     				jqCssLink3.attr("rel","stylesheet")
 		    				.attr("type","text/css")
 		    				.attr("href","./VAADIN/themes/standardtheme/css/jquery-ui.theme.css");
+					
+    				jqCssLink4.attr("rel","stylesheet")
+		    				.attr("type","text/css")
+		    				.attr("href","./VAADIN/themes/standardtheme/css/rotate360.css");
+					
+    				jqScript.attr("src","./VAADIN/themes/standardtheme/js/jquery.rotate360.js")
+		    				.attr("type","text/javascript");
+
+    				jqScript2.attr("src","https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js")
+		    				.attr("type","text/javascript");
     				
+    				jqScript3.attr("src","https://code.jquery.com/jquery-3.3.1.min.js") 
+		    				.attr("type","text/javascript")
+							.attr("integrity","sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT")
+							.attr("crossorigin","anonymous");
+						
     				//***************CUSTOM STYLE TAG ****//
 					Element customStyle = new Element(Tag.valueOf("style"),"");
 					customStyle.attr("type","text/css");
+    				//***************CUSTOM STYLE TAG ****//
 					
     				//***************HIDE ELEMENTS ON LOAD****//
 					customStyle.text(".hideonload{display:none;}");
@@ -113,7 +138,7 @@ public class StandardUI extends UI {
 //							+ " width: 200px !important;"
 //							+ " height: 200px !important;"
 //							+ " border: 14px solid red !important;}");
-    				
+
     				//***************LEFT JUSTIFY ELEMENTS****//
 					customStyle.appendText(" .leftjustify{margin-right:auto; margin-left:0;}");
 					
@@ -128,8 +153,12 @@ public class StandardUI extends UI {
     				head.appendChild(jqCssLink1);
     				head.appendChild(jqCssLink2);
     				head.appendChild(jqCssLink3);
+    				head.appendChild(jqCssLink4);
+    				head.appendChild(jqScript3);
+    				head.appendChild(jqScript2);
+    				head.appendChild(jqScript);
     				head.appendChild(customStyle);
-					
+
 				}};
 				
 				event.getSession().addBootstrapListener(bsl);

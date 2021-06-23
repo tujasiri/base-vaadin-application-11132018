@@ -13,7 +13,7 @@
 		<vaadin.version>8.1.0</vaadin.version>
 !-->	
 		<vaadin.version>8.0.1</vaadin.version>
-        <vaadin.widgetset.mode>cdn</vaadin.widgetset.mode>
+        <vaadin.widgetset.mode>local</vaadin.widgetset.mode>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 		<jetty.plugin.version>9.2.3.v20140905</jetty.plugin.version>
 		<project.source.version>1.8</project.source.version>
@@ -209,7 +209,6 @@
 					<execution>
 						<goals>
 							<goal>update-widgetset</goal>
-							<goal>compile</goal>
 							<!-- disabled by default to use on-the-fly theme compilation -->
 							<!-- <goal>compile-theme</goal> -->
 						</goals>

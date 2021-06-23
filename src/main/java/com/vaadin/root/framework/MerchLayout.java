@@ -3,11 +3,13 @@ package com.vaadin.root.framework;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ibm.icu.impl.duration.impl.Utils;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.root.StandardComponent;
 import com.vaadin.root.dao.DefaultDao;
 import com.vaadin.root.dto.CartSingleton;
 import com.vaadin.root.dto.CheckoutCart;
+import com.vaadin.root.dto.ImageData;
 import com.vaadin.root.framework.grids.CustomizationGrid;
 import com.vaadin.root.framework.listeners.UpdateListener;
 import com.vaadin.root.jscomponent.TimerComponent;
@@ -26,6 +28,11 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+
+import elemental.json.Json;
+import elemental.json.JsonArray;
+import elemental.json.JsonObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -126,7 +133,48 @@ public class MerchLayout extends VerticalLayout{
 	private void addListeners(){
 		
 		this.viewButton.addListener(e->{
-			this.standard.jquerytest();
+			Notification.show("CLICKED!!");
+			//this.standard.jquerytest();
+			
+			
+			
+			JsonArray jsonarray = Json.createArray();
+//			JsonObject jsonobj = Json.createObject();
+//			
+//
+//			UIUtils.getDummyImageMap().entrySet().forEach(m ->{
+//				jsonobj.put(m.getKey(),m.getValue());
+//				
+//			});
+
+			
+			int arrayindex =0;
+			
+			for(ImageData imgdata: UIUtils.getDummyImageList()) {
+				
+				JsonObject jsonobj = Json.createObject();
+				
+
+				UIUtils.getDummyImageMap().entrySet().forEach(m ->{
+					jsonobj.put(m.getKey(),m.getValue());
+					
+				});				
+				jsonobj.put("imgdata", imgdata.getImagedata());
+				
+				//System.out.println("imgdata==>"+imgdata.getImagedata());
+			
+				jsonarray.set(arrayindex++,jsonobj);
+			}
+			
+			
+			System.out.println("here setting listener");	
+		
+			this.standard.jquerytest(jsonarray.toJson().replace("\\\"",""));
+			//this.standard.jquerytest();
+			System.out.println("jsonarray==>"+jsonarray.toJson());
+			
+			//Notification.show(jsonarray.toJson());
+		
 		});
 		
 		this.merchButton.addListener(e->{
