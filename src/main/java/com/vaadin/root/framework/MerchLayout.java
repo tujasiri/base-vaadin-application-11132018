@@ -139,21 +139,29 @@ public class MerchLayout extends VerticalLayout{
 			
 			
 			JsonArray jsonarray = Json.createArray();
-			JsonObject jsonobj = Json.createObject();
-			
-
-			UIUtils.getDummyImageMap().entrySet().forEach(m ->{
-				jsonobj.put(m.getKey(),m.getValue());
-				
-			});
+//			JsonObject jsonobj = Json.createObject();
+//			
+//
+//			UIUtils.getDummyImageMap().entrySet().forEach(m ->{
+//				jsonobj.put(m.getKey(),m.getValue());
+//				
+//			});
 
 			
 			int arrayindex =0;
 			
 			for(ImageData imgdata: UIUtils.getDummyImageList()) {
+				
+				JsonObject jsonobj = Json.createObject();
+				
+
+				UIUtils.getDummyImageMap().entrySet().forEach(m ->{
+					jsonobj.put(m.getKey(),m.getValue());
+					
+				});				
 				jsonobj.put("imgdata", imgdata.getImagedata());
 				
-				System.out.println("imgdata==>"+imgdata.getImagedata());
+				//System.out.println("imgdata==>"+imgdata.getImagedata());
 			
 				jsonarray.set(arrayindex++,jsonobj);
 			}

@@ -388,15 +388,17 @@ System.out.println("here after path");
 	        Properties prop = new Properties();
 	        prop.load(input);
 	        
-	        String sValue = "";
 	        
 	        for(int i=0;i<prop.size();i++) {
+	        	
+	        	String sValue = "";
+				imagedata = new ImageData();
+				
 	        	sValue = prop.getProperty(Integer.toString(i+1));
 	        	System.out.println("sValue==>"+sValue);
 //	        	System.out.println("sValue==>"+sValue.replace("\"",""));
 				imagedata.setImagedata(sValue);
 				dummyImageList.add(imagedata);
-				imagedata = new ImageData();
 	        }
 		
 	    } catch (FileNotFoundException e) {

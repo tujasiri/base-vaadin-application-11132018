@@ -98,7 +98,6 @@ function TimerComponent(element) {
 		/************************************/
 $.fn.rotate360 = function () {
 	
-	//window.alert("rotate");
 
 	var options1 = {
 		//yourDirectory1: "images", //dir of images to 'rotate' through
@@ -116,20 +115,30 @@ $.fn.rotate360 = function () {
 	$("#slider").slider({ //jQuery UI slider widget, here using this method:
 		//$(selector, context).slider (options)
 		//(see api.jqueryui.com/slider/#method-option)
-		max: 36,
+		max: 4,
 		min: 1,
 		value: 1,
 		animate: true
 	});
 
 	function change_image(number) {
+		
+		var json_image_array = $("#image-data").data("prod_image_data");
+		
 		var prev_image = Number(number) - 1;
 		prev_image = prev_image == 0 ? 1 : prev_image;
 		prev_image = prev_image < 10 ? "0" + prev_image : prev_image;
-		//$("#bg_smooth").attr("src", options1.yourDirectory1.toLowerCase() + '/a_360_' + prev_image + '.jpg');
-		//$(this).css("background-image", "url(" + options1.yourDirectory1.toLowerCase() + "/a_360_" + number + ".jpg)");
-		$("#bg_smooth").attr("src", options1.yourDirectory1 + '/A_360_' + prev_image + '.jpg');
-		$(this).css("background-image", "url(" + options1.yourDirectory1 + "/A_360_" + number + ".jpg)");
+		
+		if(typeof json_image_array[Number(prev_image)].imgdata != 'undefined'){
+			$("#bg_smooth").attr("src", json_image_array[Number(prev_image)].imgdata );
+		}
+		
+		/*	
+		}else{
+			alert("undefined...");
+		}
+		*/
+		
 	}
 
 	function autoplaySliderAndImages() {
@@ -222,7 +231,12 @@ $.fn.rotate360 = function () {
 	      modal: true
 	    });
 	    
+	    
+		$( "#image-data" ).data( "prod_image_data", "[{\"imgdata\":\"testdata\"}]");
+
+	    
 		$("#main_image_container").rotate360();
+		$("#main_image_container").hide();
 		 
 //		 $( "#menu" ).hide();
 //		 $( "#menudiv" ).hide();
@@ -327,13 +341,27 @@ TimerComponent.prototype.jquerytest = function(imageArray) {
 	$( function() {
 		
 		this.imageArray = imageArray;
+		
+		var jsondata = JSON.parse(this.imageArray);
+		
+		for(var i = 0; i < jsondata.length; i++) {
+		    var obj = jsondata[i];
+		    //alert("Object.values(obj)==>"+Object.values(obj));
+		    //alert("Object.values(obj).imgdata==>"+Object.values(obj).imgdata);
+		    //alert("obj.imgdata==>"+obj.imgdata);
+		}
+		
+		
+		
 
-		alert("server data==>"+this.imageArray);
+		//alert("server data==>"+this.imageArray);
 
 		$("#image-data").data( "prod_image_data", JSON.parse(this.imageArray));
+		//$("#image-data").data( "prod_image_data", this.imageArray);
 
-		alert("passed data==>"+$("#image-data").data( "prod_image_data"));
-
+		//alert("passed data==>"+$("#image-data").data( "prod_image_data"));
+		
+		
 		$("#main_image_container").dialog("open");
 		$("#main_image_container").show();
 	      
