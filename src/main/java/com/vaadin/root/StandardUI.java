@@ -27,6 +27,7 @@ import com.vaadin.root.framework.DefaultView_OLD;
 import com.vaadin.root.framework.views.AboutView;
 import com.vaadin.root.framework.views.CheckoutView;
 import com.vaadin.root.framework.views.OrderCompleteView;
+import com.vaadin.root.framework.views.UploadImagesView;
 import com.vaadin.root.model.MemberData;
 import com.vaadin.root.model.MerchTableOLD_;
 import com.vaadin.server.BootstrapFragmentResponse;
@@ -183,6 +184,7 @@ public class StandardUI extends UI {
         nav.addView("about", AboutView.class);
         nav.addView("checkout", CheckoutView.class);
         nav.addView("checkout_complete", OrderCompleteView.class);
+        nav.addView("upload_images", UploadImagesView.class);
 
 
     	

@@ -230,6 +230,11 @@ public class StandardHeaderLayout extends CssLayout{
 				UI.getCurrent().getNavigator().navigateTo("home");
 			};
 		 
+		final Command goToUploadImages = selectedItem ->{ 
+				System.out.println("selectedItem ==>"+selectedItem.getText());
+				UI.getCurrent().getNavigator().navigateTo("upload_images");
+			};
+		 
 		        MenuBar sample = new MenuBar();
 		        sample.setWidth(100.0f, Unit.PERCENTAGE);
 		        
@@ -239,8 +244,8 @@ public class StandardHeaderLayout extends CssLayout{
 		        colds.addItem("Weissbier", null, command);
 		        
 		        // Another submenu item with a sub-submenu
-		        com.vaadin.ui.MenuBar.MenuItem sub = colds.addItem("Cold", null, null);
-		        colds.addItem("Sub1",      null, command);
+		        com.vaadin.ui.MenuBar.MenuItem sub = colds.addItem("Upload Images", null, null);
+		        colds.addItem("UploadImages",      null, goToUploadImages);
 		        colds.addItem("Sub2", null, command);
 
 		        // Another top-level item
