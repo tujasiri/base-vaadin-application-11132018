@@ -2,18 +2,27 @@ package com.vaadin.root.framework.views;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.root.dao.Dao;
+import com.vaadin.root.dao.DefaultDao;
+import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.framework.StandardHeaderLayout;
 import com.vaadin.root.model.BusinessInfo;
+import com.vaadin.root.model.MerchTable;
+import com.vaadin.root.model.ViewerImage;
 import com.vaadin.root.utils.UIUtils;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.FailedEvent;
 import com.vaadin.ui.Upload.FailedListener;
@@ -29,6 +38,9 @@ public class UploadImagesView extends VerticalLayout implements View {
 	final Upload upload = new Upload();
 	Button uploadButton = new Button("Save");
 	
+	ComboBox<MerchTable> merchItemCombo = new ComboBox<MerchTable>();
+	
+	
 //	public AboutView(BusinessInfo bi) {
 	public UploadImagesView() {
 		super();
@@ -37,8 +49,23 @@ public class UploadImagesView extends VerticalLayout implements View {
 	}
 	
 	private void buildLayout(){
+		this.merchItemCombo.addValueChangeListener(v->{
+			System.out.println("VALUE CHANGED");
+			System.out.println("merchitem==>"+this.merchItemCombo.getValue().getMtItemNum());
+		});
+		
+		this.merchItemCombo.setWidth("512px");
+		
+		this.merchItemCombo.setItems(this.getMerchItemList());
+		this.merchItemCombo.setItemCaptionGenerator(p->p.getMtItemNumAsString() + "::" + p.getMtItemDescShort());
 		
 		HorizontalLayout buttonPanel = new HorizontalLayout();
+		
+		this.upload.addAttachListener(x->{
+		});
+		
+		this.uploadButton.addClickListener(b->{
+		});
 		
 		this.uploadButton.setEnabled(false);
 
@@ -57,7 +84,7 @@ public class UploadImagesView extends VerticalLayout implements View {
 		
 		
 		StandardHeaderLayout standardHeader = UIUtils.getStandardHeaderLayout(2L);
-		addComponents(standardHeader, new Label("UPLOAD IMAGES"),buttonPanel);
+		addComponents(standardHeader, new Label("UPLOAD IMAGES"),buttonPanel, merchItemCombo);
 	}
 	
 	private void setProperties(){
@@ -71,36 +98,37 @@ public class UploadImagesView extends VerticalLayout implements View {
 		
 	}	
 	
+	public List<MerchTable> getMerchItemList(){
+    	return DefaultDataService.getInstance().getMerchDao().findAll();
+	}
+	
+	public void writeUploadImageToDB(int viMtItemNum, String viBase64Str){
+		ViewerImage vImg = new ViewerImage();
+		DefaultDao dao = new DefaultDao();
+		
+		vImg.setViBase64Str(viBase64Str);
+		vImg.setViMtItemNum(viMtItemNum);
+		dao.updateOrCreateEntity(vImg,null);
+	}
+	
 	private class UploadReceiver implements Receiver, SucceededListener, FailedListener {
 		
 		private ByteArrayOutputStream outStream;
 
-
 		@Override
 		public void uploadFailed(FailedEvent event) {
-			// TODO Auto-generated method stub
 			Notification.show("Upload FAILED!!");
-			
 		}
 
 		@Override
 		public void uploadSucceeded(SucceededEvent event) {
-			// TODO Auto-generated method stub
 			byte[] fileContent = outStream.toByteArray();
 			String encodedImageData = Base64.getEncoder().encodeToString(fileContent);
-			
-			Notification.show("encoded image data==>"+encodedImageData);
-			System.out.println("encoded image data==>"+encodedImageData);
-			
-			//write to image data to db
-
-
-			
+			writeUploadImageToDB(merchItemCombo.getValue().getMtItemNum(), encodedImageData);
 		}
 
 		@Override
 		public OutputStream receiveUpload(String filename, String mimeType) {
-			// TODO Auto-generated method stub
 			outStream = new ByteArrayOutputStream();
 			return outStream;
 		}
