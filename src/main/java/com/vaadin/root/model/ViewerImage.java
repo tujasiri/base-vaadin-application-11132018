@@ -15,7 +15,7 @@ import javax.persistence.*;
 @NamedQuery(name="ViewerImage.findById", 
 			query="SELECT v "
 					+ "FROM ViewerImage v "
-					+ "WHERE v.viSeq = :idx")
+					+ "WHERE v.viMtItemNum = :idx")
 })
 public class ViewerImage implements Serializable {
 	private static final long serialVersionUID = 1L;

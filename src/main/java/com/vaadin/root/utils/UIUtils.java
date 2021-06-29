@@ -38,6 +38,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.root.dao.DataService;
+import com.vaadin.root.dao.DefaultDao;
 import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.dto.CartSingleton;
 import com.vaadin.root.dto.CheckoutCart;
@@ -48,6 +50,7 @@ import com.vaadin.root.framework.grids.ShoppingCartGrid;
 import com.vaadin.root.model.BusinessInfo;
 import com.vaadin.root.model.MerchTable;
 import com.vaadin.root.model.OrderSummary;
+import com.vaadin.root.model.ViewerImage;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.server.VaadinService;
@@ -59,6 +62,9 @@ import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.kernel.pdf.PdfWriter;
 
 public class UIUtils {
+	
+	private static DefaultDao dao = new DefaultDao();
+	private static DataService ds;
 	
 	public static Image byteArrayToImage(final byte[]byteArray){
 		StreamSource streamSource = new StreamResource.StreamSource(){
@@ -381,7 +387,7 @@ public class UIUtils {
 		ImageData imagedata = new ImageData();
 		
 		String path = new java.io.File("").getAbsolutePath();
-System.out.println("here after path");
+		System.out.println("here after path");
 		
 		try (InputStream input = new FileInputStream("/mnt/c/Temp/base64/base64imagearray.properties")) {         
 		
@@ -430,6 +436,18 @@ System.out.println("here after path");
 		return dummyImageList;
 		
 	}
+	
+	public static List<ViewerImage> getImageList(int merchItemIndex){
+		List<ViewerImage> imageList = new ArrayList<ViewerImage>();
+		
+		imageList = DefaultDataService.getInstance().getViewerImagesDao().findById(merchItemIndex);
+
+		
+		System.out.println("imageList size==>"+imageList.size());
+		
+		return imageList;
+	}
+	
         
 	
 }

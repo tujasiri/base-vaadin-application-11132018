@@ -2,7 +2,6 @@ package com.vaadin.root.dao;
 
 import java.util.List;
 
-import com.vaadin.root.model.BusinessInfo;
 import com.vaadin.root.model.ViewerImage;
 
 public class ViewerImagesDaoImpl extends DefaultDao implements ViewerImagesDao {

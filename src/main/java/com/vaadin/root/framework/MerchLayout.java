@@ -14,6 +14,7 @@ import com.vaadin.root.framework.grids.CustomizationGrid;
 import com.vaadin.root.framework.listeners.UpdateListener;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.MerchTable;
+import com.vaadin.root.model.ViewerImage;
 import com.vaadin.root.model.ItemCustomization;
 import com.vaadin.root.utils.UIConstants;
 import com.vaadin.root.utils.UIUtils;
@@ -149,7 +150,7 @@ public class MerchLayout extends VerticalLayout{
 
 			
 			int arrayindex =0;
-			
+/*			
 			for(ImageData imgdata: UIUtils.getDummyImageList()) {
 				
 				JsonObject jsonobj = Json.createObject();
@@ -163,6 +164,23 @@ public class MerchLayout extends VerticalLayout{
 				
 				//System.out.println("imgdata==>"+imgdata.getImagedata());
 			
+				jsonarray.set(arrayindex++,jsonobj);
+			}
+*/
+			
+			
+			
+			//List<ViewerImage> imageList =  UIUtils.getImageList(merchTableItem.getMtItemNum());
+			
+			//testing until all items have viewer image lists
+//			List<ViewerImage> imageList =  
+			for(ViewerImage imgdata: UIUtils.getImageList(1)) {
+				JsonObject jsonobj = Json.createObject();
+				
+				UIUtils.getDummyImageMap().entrySet().forEach(m ->{
+					jsonobj.put(m.getKey(),m.getValue());
+				});				
+				jsonobj.put("imgdata", "data:image/png;base64,"+imgdata.getViBase64Str());
 				jsonarray.set(arrayindex++,jsonobj);
 			}
 			
