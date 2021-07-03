@@ -1,6 +1,7 @@
 package com.vaadin.root.framework.views;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -122,7 +123,20 @@ public class UploadImagesView extends VerticalLayout implements View {
 
 		@Override
 		public void uploadSucceeded(SucceededEvent event) {
-			byte[] fileContent = outStream.toByteArray();
+			byte[] origFileContent = outStream.toByteArray();
+//			byte[] fileContent = outStream.toByteArray();
+			
+			//change to init with "IMAGE NOT AVAILABLE"
+			
+			byte[] fileContent = null;
+			try {
+				fileContent = UIUtils.resizeImage(origFileContent);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			/**/
+			
 			String encodedImageData = Base64.getEncoder().encodeToString(fileContent);
 			writeUploadImageToDB(merchItemCombo.getValue().getMtItemNum(), encodedImageData);
 		}

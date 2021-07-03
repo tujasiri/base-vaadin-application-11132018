@@ -1,5 +1,10 @@
 package com.vaadin.root.utils;
 
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -22,6 +27,7 @@ import java.util.UUID;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.imageio.ImageIO;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -426,6 +432,72 @@ public class UIUtils {
 
 		return imageList;
 	}
+	
+	// convert byte[] to BufferedImage
+    public static BufferedImage toBufferedImage(byte[] bytes)
+        throws IOException {
+
+        InputStream is = new ByteArrayInputStream(bytes);
+        BufferedImage bi = ImageIO.read(is);
+        return bi;
+    }
+    
+//    private static void resize(BufferedImage bufferedImage) throws IOException {
+    public static byte[] resizeImage(byte[] byteArray) throws IOException {
+    	
+		int IMG_WIDTH=72;
+		int IMG_HEIGHT=72;
+    	
+    	BufferedImage bufferedImage = toBufferedImage(byteArray);
+    	
+    	BufferedImage newResizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+    	Graphics2D g = newResizedImage.createGraphics();
+
+		//Graphics2D g = bufferedImage.createGraphics();
+		
+		//g.setBackground(Color.WHITE);
+		//g.setPaint(Color.WHITE);
+		
+		// background transparent
+		g.setComposite(AlphaComposite.Src);
+		g.fillRect(0, 0, IMG_WIDTH, IMG_HEIGHT);
+		
+		/* try addRenderingHints()
+		// VALUE_RENDER_DEFAULT = good tradeoff of performance vs quality
+		// VALUE_RENDER_SPEED   = prefer speed
+		// VALUE_RENDER_QUALITY = prefer quality
+		g.setRenderingHint(RenderingHints.KEY_RENDERING,
+		           RenderingHints.VALUE_RENDER_QUALITY);
+		
+		// controls how image pixels are filtered or resampled
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+		           RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		
+		// antialiasing, on
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		           RenderingHints.VALUE_ANTIALIAS_ON);*/
+		/*
+		Map<RenderingHints.Key,Object> hints = new HashMap<>();
+		hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.addRenderingHints(hints);
+		*/
+		
+		// puts the original image into the newResizedImage
+		g.drawImage(bufferedImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
+		g.dispose();
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        ImageIO.write(bufferedImage, "jpeg", baos);
+        ImageIO.write(newResizedImage, "png", baos);
+        
+        byte[] bytes = baos.toByteArray();
+        
+        return bytes;
+
+} 
+    
 	
         
 	
