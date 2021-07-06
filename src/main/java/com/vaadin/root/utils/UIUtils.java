@@ -445,8 +445,8 @@ public class UIUtils {
 //    private static void resize(BufferedImage bufferedImage) throws IOException {
     public static byte[] resizeImage(byte[] byteArray) throws IOException {
     	
-		int IMG_WIDTH=72;
-		int IMG_HEIGHT=72;
+		int IMG_WIDTH=300;
+		int IMG_HEIGHT=300;
     	
     	BufferedImage bufferedImage = toBufferedImage(byteArray);
     	
@@ -476,13 +476,13 @@ public class UIUtils {
 		// antialiasing, on
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 		           RenderingHints.VALUE_ANTIALIAS_ON);*/
-		/*
+		
 		Map<RenderingHints.Key,Object> hints = new HashMap<>();
 		hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.addRenderingHints(hints);
-		*/
+		
 		
 		// puts the original image into the newResizedImage
 		g.drawImage(bufferedImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
@@ -490,7 +490,7 @@ public class UIUtils {
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 //        ImageIO.write(bufferedImage, "jpeg", baos);
-        ImageIO.write(newResizedImage, "png", baos);
+        ImageIO.write(newResizedImage, "jpeg", baos);
         
         byte[] bytes = baos.toByteArray();
         

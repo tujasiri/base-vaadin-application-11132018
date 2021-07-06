@@ -290,6 +290,10 @@ a.close:hover {
     /* Other styles here */
 }
 
+ .no-title_bar .ui-dialog-titlebar {
+  display: none;
+}
+
 
 
 
