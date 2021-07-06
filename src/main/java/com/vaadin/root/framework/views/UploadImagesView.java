@@ -127,9 +127,10 @@ public class UploadImagesView extends VerticalLayout implements View {
 //			byte[] fileContent = outStream.toByteArray();
 			
 			//change to init with "IMAGE NOT AVAILABLE"
-			
 			byte[] fileContent = null;
+			
 			try {
+				System.out.println("HERE B4 RESIZE");
 				fileContent = UIUtils.resizeImage(origFileContent);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

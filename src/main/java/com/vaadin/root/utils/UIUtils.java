@@ -445,12 +445,13 @@ public class UIUtils {
 //    private static void resize(BufferedImage bufferedImage) throws IOException {
     public static byte[] resizeImage(byte[] byteArray) throws IOException {
     	
-		int IMG_WIDTH=300;
-		int IMG_HEIGHT=300;
+		int IMG_WIDTH=800;
+		int IMG_HEIGHT=800;
     	
     	BufferedImage bufferedImage = toBufferedImage(byteArray);
     	
-    	BufferedImage newResizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+    	//BufferedImage newResizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+    	BufferedImage newResizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
     	Graphics2D g = newResizedImage.createGraphics();
 
 		//Graphics2D g = bufferedImage.createGraphics();
@@ -481,6 +482,7 @@ public class UIUtils {
 		hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		hints.put(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
 		g.addRenderingHints(hints);
 		
 		

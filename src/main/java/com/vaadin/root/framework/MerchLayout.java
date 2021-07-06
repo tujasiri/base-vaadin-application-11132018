@@ -189,7 +189,7 @@ public class MerchLayout extends VerticalLayout{
 		
 			this.standard.jquerytest(jsonarray.toJson().replace("\\\"",""));
 			//this.standard.jquerytest();
-			System.out.println("jsonarray==>"+jsonarray.toJson());
+//			System.out.println("jsonarray==>"+jsonarray.toJson());
 			
 			//Notification.show(jsonarray.toJson());
 		
