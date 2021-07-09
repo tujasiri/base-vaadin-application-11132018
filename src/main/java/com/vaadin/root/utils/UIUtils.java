@@ -480,7 +480,8 @@ public class UIUtils {
 		
 		Map<RenderingHints.Key,Object> hints = new HashMap<>();
 		hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-		hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+//		hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 		hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		hints.put(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
 		g.addRenderingHints(hints);
@@ -492,7 +493,7 @@ public class UIUtils {
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 //        ImageIO.write(bufferedImage, "jpeg", baos);
-        ImageIO.write(newResizedImage, "jpeg", baos);
+        ImageIO.write(newResizedImage, "png", baos);
         
         byte[] bytes = baos.toByteArray();
         
