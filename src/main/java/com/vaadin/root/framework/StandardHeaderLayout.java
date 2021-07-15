@@ -238,6 +238,9 @@ public class StandardHeaderLayout extends CssLayout{
 		        MenuBar sample = new MenuBar();
 		        sample.setWidth(100.0f, Unit.PERCENTAGE);
 		        
+		        //HOME top-level item
+		        com.vaadin.ui.MenuBar.MenuItem homeItem = sample.addItem("HOME", null, goToHome);
+		        
 		        // Another top-level item
 		        com.vaadin.ui.MenuBar.MenuItem colds = sample.addItem("Cold", null, null);
 		        colds.addItem("Home",      null, goToHome);
