@@ -8,6 +8,7 @@ public class DefaultDataService extends DefaultDao implements DataService {
 	private static final RTableDao rTableDao = new RTableDaoImpl();
 	private static final OrderSummaryDao orderSummaryDao = new OrderSummaryDaoImpl();
 	private static final ViewerImagesDao viewerImagesDao = new ViewerImagesDaoImpl();
+	private static final SocialMediaDao socialMediaDao = new SocialMediaDaoImpl();
 			
 	private DefaultDataService(){} 
 	
@@ -38,6 +39,11 @@ public class DefaultDataService extends DefaultDao implements DataService {
 	@Override
 	public ViewerImagesDao getViewerImagesDao() {
 		return viewerImagesDao;
+	}
+
+	@Override
+	public SocialMediaDao getSocialMediaDao() {
+		return socialMediaDao;
 	}
 	
 

@@ -71,6 +71,8 @@ public class MerchLayout extends VerticalLayout{
 		setSpacing(true);
 		
 		this.merchDesc.setCaption(this.merchTableItem.getMtItemDescShort());
+		this.merchDesc.addStyleName("merch-desc-label");		
+		
 		this.merchImage = UIUtils.byteArrayToImage(this.merchTableItem.getMtImage());
 		this.merchImage.setHeight("300px");
 		this.merchImage.setWidth("300px");
@@ -185,8 +187,6 @@ public class MerchLayout extends VerticalLayout{
 			}
 			
 			
-			System.out.println("here setting listener");	
-		
 			this.standard.jquerytest(jsonarray.toJson().replace("\\\"",""));
 			//this.standard.jquerytest();
 //			System.out.println("jsonarray==>"+jsonarray.toJson());

@@ -31,8 +31,8 @@
 		<class>com.vaadin.root.model.OrderIdentification</class>
 		<class>com.vaadin.root.model.OrderSummary</class>
 		<class>com.vaadin.root.model.ViewerImage</class>
-		<!--  
 		<class>com.vaadin.root.model.SocialMedia</class>
+		<!--  
 		-->
     	<properties>
     		<property name="eclipselink.logging.level" value="FINE"/>

@@ -24,6 +24,7 @@ import com.vaadin.root.dao.EntityManagerInstance;
 import com.vaadin.root.dto.CheckoutCart;
 import com.vaadin.root.framework.AboutView_OLD;
 import com.vaadin.root.framework.DefaultView_OLD;
+import com.vaadin.root.framework.MusicView;
 import com.vaadin.root.framework.views.AboutView;
 import com.vaadin.root.framework.views.CheckoutView;
 import com.vaadin.root.framework.views.OrderCompleteView;
@@ -185,6 +186,7 @@ public class StandardUI extends UI {
         nav.addView("checkout", CheckoutView.class);
         nav.addView("checkout_complete", OrderCompleteView.class);
         nav.addView("upload_images", UploadImagesView.class);
+        nav.addView("video_view", MusicView.class);
 
 
     	

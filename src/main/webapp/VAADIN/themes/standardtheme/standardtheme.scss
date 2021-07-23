@@ -76,6 +76,13 @@
   }
   */
   
+.v-menubar-menuitem, .v-menubar, .v-menubar-headermenu, .merch-desc-label  {
+	font-family: "Oswald", sans-serif;
+	//font-size: 1.125rem;
+	font-size: medium;
+	font-weight: heavy;
+  }
+  
   .headermenu {
   	position: absolute !important;
     width: 50%  !important;
@@ -277,6 +284,17 @@ a.close:hover {
   border-radius: 50%;
   background: red;
   color: white;
+}
+
+.socialmediaicon {
+    height: 50px;
+    width: 50px;
+    display: inline-block;
+	text-align:center;
+    position: relative;
+  	//padding: 10px 10px 10px;
+  	padding: 10px;
+    
 }
 
 .icon {

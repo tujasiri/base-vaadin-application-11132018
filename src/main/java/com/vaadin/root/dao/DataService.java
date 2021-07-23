@@ -9,5 +9,5 @@ public interface DataService {
 	public RTableDao getRTableDao();
 	public OrderSummaryDao getOrderSummaryDao();
 	public ViewerImagesDao getViewerImagesDao();
-
+	public SocialMediaDao getSocialMediaDao();
 }

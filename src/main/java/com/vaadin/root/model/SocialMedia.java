@@ -36,6 +36,12 @@ public class SocialMedia implements Serializable {
 	@Column(name="sm_twitter")
 	private String smTwitter;
 
+	@Column(name="sm_spotify")
+	private String smSpotify;
+
+	@Column(name="sm_applemusic")
+	private String smApplemusic;
+	
 	public SocialMedia() {
 	}
 
@@ -94,5 +100,23 @@ public class SocialMedia implements Serializable {
 	public void setSmTwitter(String smTwitter) {
 		this.smTwitter = smTwitter;
 	}
+
+	public String getSmSpotify() {
+		return smSpotify;
+	}
+
+	public void setSmSpotify(String smSpotify) {
+		this.smSpotify = smSpotify;
+	}
+
+	public String getSmApplemusic() {
+		return smApplemusic;
+	}
+
+	public void setSmApplemusic(String smApplemusic) {
+		this.smApplemusic = smApplemusic;
+	}
+	
+	
 
 }

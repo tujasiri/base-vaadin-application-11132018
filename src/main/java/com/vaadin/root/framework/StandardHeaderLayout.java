@@ -5,12 +5,14 @@ import com.vaadin.client.ui.menubar.MenuItem;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.root.dao.DataService;
 import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.dto.CartSingleton;
 import com.vaadin.root.dto.CheckoutCart;
 import com.vaadin.root.framework.listeners.UpdateListener;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.BusinessInfo;
+import com.vaadin.root.model.SocialMedia;
 import com.vaadin.root.utils.UIUtils;
 import com.vaadin.root.windows.ShoppingCartWindow;
 import com.vaadin.server.VaadinSession;
@@ -60,6 +62,7 @@ public class StandardHeaderLayout extends CssLayout{
 	};
 
 	Label cartLabel = new Label();
+	Label socialLabel = new Label();
 	
 //	Image businessOverlay = new Image();
 	
@@ -100,10 +103,12 @@ public class StandardHeaderLayout extends CssLayout{
 //		standardMenu.setSizeUndefined();
 		
 		HorizontalLayout actionLayout = buildActionLayout();
-		VerticalLayout infoLayout = buildInfoLayout();
+//		VerticalLayout infoLayout = buildInfoLayout();
+		VerticalLayout socialLayout = buildSocialLayout();
 		
 //		infoContentLayout.addComponents(buildInfoLayout(), buildActionLayout());
-		infoContentLayout.addComponents(infoLayout, actionLayout);
+//		infoContentLayout.addComponents(infoLayout, actionLayout);
+		infoContentLayout.addComponents(socialLayout, actionLayout);
 		
 //		infoContentLayout.setComponentAlignment(infoLayout, Alignment.BOTTOM_RIGHT);
 //		infoContentLayout.setComponentAlignment(actionLayout, Alignment.BOTTOM_RIGHT);
@@ -215,23 +220,57 @@ public class StandardHeaderLayout extends CssLayout{
 		return infoLayout;
 	}
 	
+	private VerticalLayout buildSocialLayout(){
+		VerticalLayout socialLayout = new VerticalLayout();
+		socialLayout.setWidth("350px");
+		socialLayout.addStyleName("testborder");
+		
+		
+		DefaultDataService ds = DefaultDataService.getInstance();
+		
+		SocialMedia sm = ds.getSocialMediaDao().findAll();
+		
+		String fbiconurl = "http://"+UIUtils.getIpAddress()+":8080/base-vaadin-application-11132018-1.0-SNAPSHOT/VAADIN/themes/standardtheme/images/facebook.svg";
+		String twittericonurl = "http://"+UIUtils.getIpAddress()+":8080/base-vaadin-application-11132018-1.0-SNAPSHOT/VAADIN/themes/standardtheme/images/twitter.svg";
+		String igiconurl = "http://"+UIUtils.getIpAddress()+":8080/base-vaadin-application-11132018-1.0-SNAPSHOT/VAADIN/themes/standardtheme/images/instagram.svg";
+		String spotifyiconurl = "http://"+UIUtils.getIpAddress()+":8080/base-vaadin-application-11132018-1.0-SNAPSHOT/VAADIN/themes/standardtheme/images/spotify.svg";
+		
+		this.socialLabel.setCaptionAsHtml(true);
+		this.socialLabel.setCaption(String.format("<div id=\"socialmedia\">"
+				+ "<a href=\"%s\"><span class=\"socialmediaicon\" style=\"background:url('%s');\"></span></a>"
+				+ "<a href=\"%s\"><span class=\"socialmediaicon\" style=\"background:url('%s');\"></span></a>"
+				+ "<a href=\"%s\"><span class=\"socialmediaicon\" style=\"background:url('%s');\"></span></a>"
+				+ "<a href=\"%s\"><span class=\"socialmediaicon\" style=\"background:url('%s');\"></span></a>"
+				+ "</div>",
+				sm.getSmFacebook(),fbiconurl,
+				sm.getSmTwitter(), twittericonurl,
+				sm.getSmInstagram(), igiconurl,
+				sm.getSmSpotify(), spotifyiconurl));
+		
+		socialLayout.addComponents(this.socialLabel);
+											
+		return socialLayout;
+	}
+	
 	
 	private MenuBar buildMenuBar(){
 	
 		//MenuBar menubar = new MenuBar();
 		//final Command command = selectedItem -> Notification.show("Action " + selectedItem.getText(), Type.TRAY_NOTIFICATION);
 		final Command command = selectedItem ->{ 
-				System.out.println("selectedItem ==>"+selectedItem.getText());
 				UI.getCurrent().getNavigator().navigateTo("about");
 			};
 		 
 		final Command goToHome = selectedItem ->{ 
-				System.out.println("selectedItem ==>"+selectedItem.getText());
 				UI.getCurrent().getNavigator().navigateTo("home");
 			};
 		 
+		final Command goToVideo= selectedItem ->{ 
+				UI.getCurrent().getNavigator().navigateTo("video_view");
+			};
+		 
+		 
 		final Command goToUploadImages = selectedItem ->{ 
-				System.out.println("selectedItem ==>"+selectedItem.getText());
 				UI.getCurrent().getNavigator().navigateTo("upload_images");
 			};
 		 
@@ -240,6 +279,15 @@ public class StandardHeaderLayout extends CssLayout{
 		        
 		        //HOME top-level item
 		        com.vaadin.ui.MenuBar.MenuItem homeItem = sample.addItem("HOME", null, goToHome);
+		        
+		        //MUSIC top-level item
+		        com.vaadin.ui.MenuBar.MenuItem musicItem = sample.addItem("MUSIC", null, goToVideo);
+		        
+		        //VIDEO top-level item
+		        com.vaadin.ui.MenuBar.MenuItem videoItem = sample.addItem("VIDEO", null, goToVideo);
+		        
+		        //MERCH top-level item
+		        com.vaadin.ui.MenuBar.MenuItem merchItem = sample.addItem("MERCH", null, goToHome);
 		        
 		        // Another top-level item
 		        com.vaadin.ui.MenuBar.MenuItem colds = sample.addItem("Cold", null, null);

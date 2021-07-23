@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
@@ -500,6 +501,33 @@ public class UIUtils {
         return bytes;
 
 } 
+    
+    public static String getYoutubeData(){
+    	String command = "curl -X GET https://youtube.googleapis.com/youtube/v3/playlistItems?"
+    			+ "part=snippet&playlistId=PL27ADCBF28ECBAB71&key=AIzaSyB3miWsL2VZ-brY_U-XAovZ6X9IasNRTFI"; 
+    	
+    	try {
+			Process process = Runtime.getRuntime().exec(command);
+			System.out.println("*********process exec");
+			
+			InputStream is = process.getInputStream();
+			
+			ByteArrayOutputStream result = new ByteArrayOutputStream();
+	        byte[] buffer = new byte[4096];
+	        int length;
+	        while ((length = is.read(buffer)) != -1) {
+	            result.write(buffer, 0, length);
+	        }
+
+	        System.out.println("the goods ==> "+result.toString(StandardCharsets.UTF_8.name()));
+	        return result.toString(StandardCharsets.UTF_8.name());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	return "{}";
+    }
     
 	
         
