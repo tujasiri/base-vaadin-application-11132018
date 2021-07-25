@@ -98,6 +98,7 @@ public class UIUtils {
 	}
 	
 	public static StandardHeaderLayout getStandardHeaderLayout(Long businessId){
+		System.out.println("Bruh");
 		return new StandardHeaderLayout( DefaultDataService.getInstance().getBusinessInfoDao().findById(businessId));
 	}
 	

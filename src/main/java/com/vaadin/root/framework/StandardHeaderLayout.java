@@ -13,6 +13,7 @@ import com.vaadin.root.framework.listeners.UpdateListener;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.BusinessInfo;
 import com.vaadin.root.model.SocialMedia;
+import com.vaadin.root.utils.UIConstants;
 import com.vaadin.root.utils.UIUtils;
 import com.vaadin.root.windows.ShoppingCartWindow;
 import com.vaadin.server.VaadinSession;
@@ -72,7 +73,7 @@ public class StandardHeaderLayout extends CssLayout{
 			super();
 			this.businessInfo = bi;
 			this.businessLogo = UIUtils.byteArrayToImage(this.businessInfo.getBiLogo());
-			this.headerBanner = UIUtils.byteArrayToImage(this.businessInfo.getBiHeader());
+//			this.headerBanner = UIUtils.byteArrayToImage(this.businessInfo.getBiHeader());
 			buildLayout();
 	}
 	
@@ -261,6 +262,10 @@ public class StandardHeaderLayout extends CssLayout{
 				UI.getCurrent().getNavigator().navigateTo("about");
 			};
 		 
+		final Command goToAbout = selectedItem ->{ 
+				UI.getCurrent().getNavigator().navigateTo("about");
+			};
+			
 		final Command goToHome = selectedItem ->{ 
 				UI.getCurrent().getNavigator().navigateTo("home");
 			};
@@ -272,6 +277,10 @@ public class StandardHeaderLayout extends CssLayout{
 		 
 		final Command goToUploadImages = selectedItem ->{ 
 				UI.getCurrent().getNavigator().navigateTo("upload_images");
+			};
+			
+		final Command goToMerch = selectedItem ->{ 
+				UI.getCurrent().getNavigator().navigateTo("merch");
 			};
 		 
 		        MenuBar sample = new MenuBar();
@@ -287,8 +296,14 @@ public class StandardHeaderLayout extends CssLayout{
 		        com.vaadin.ui.MenuBar.MenuItem videoItem = sample.addItem("VIDEO", null, goToVideo);
 		        
 		        //MERCH top-level item
-		        com.vaadin.ui.MenuBar.MenuItem merchItem = sample.addItem("MERCH", null, goToHome);
+		        com.vaadin.ui.MenuBar.MenuItem merchItem = sample.addItem("MERCH", null, goToMerch);
 		        
+		        //ABOUT top-level item
+		        com.vaadin.ui.MenuBar.MenuItem aboutItem = sample.addItem("ABOUT", null, goToAbout);
+		        
+//		        if(!UIConstants.APP_IS_LIVE)
+		        
+		        /*
 		        // Another top-level item
 		        com.vaadin.ui.MenuBar.MenuItem colds = sample.addItem("Cold", null, null);
 		        colds.addItem("Home",      null, goToHome);
@@ -312,6 +327,7 @@ public class StandardHeaderLayout extends CssLayout{
 		        // Another top-level itemd
 		        com.vaadin.ui.MenuBar.MenuItem last = sample.addItem("Dummy Dummy Item", null, null);
 		        last.addItem("Dummy Node",      null, command);
+		        */
 		
 		
 		return sample; 

@@ -130,13 +130,6 @@ public class StandardMainScreen extends VerticalLayout implements View {
 			}
 		}
 		
-		/********************************************************/
-		//Test Youtube data request
-		
-		UIUtils.getYoutubeData();
-		
-		/********************************************************/
-		
 		gridLayout.setSizeFull();
 		this.subLayout.setSizeFull();
 		

@@ -93,6 +93,9 @@
   
   .headerbackground {
   	background-image: url("images/header-banner.png");
+  	background-repeat: no-repeat;
+  	background-size: cover;
+  	background-position: left;
   	height:450px;
   	width:1000px;
   }

@@ -1,11 +1,10 @@
-package com.vaadin.root.framework;
+package com.vaadin.root;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,22 +23,16 @@ import com.vaadin.root.model.MerchTable;
 import com.vaadin.root.utils.UIUtils;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
-import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.orderedlayout.VerticalLayoutState;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
-//import com.vaadin.ui.gridLayoutMusic;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-import elemental.json.Json;
-import elemental.json.JsonArray;
-import elemental.json.JsonObject;
-
-public class MusicView extends VerticalLayout implements View {
+public class MerchView extends VerticalLayout implements View {
 	
 	private VerticalLayout standardMainLayout = new VerticalLayout();
 	private HorizontalLayout subLayout = new HorizontalLayout();
@@ -53,7 +46,7 @@ public class MusicView extends VerticalLayout implements View {
 //  checkoutCart = CartSingleton.getInstance().getCheckoutCart();
 	private TimerComponent tc = new TimerComponent();
 	
-	public MusicView(){
+	public MerchView(){
 		super();
 //		this.headerLayout = new StandardHeaderLayout( DefaultDataService.getInstance().getBusinessInfoDao().findById(2L));
 		this.headerLayout = UIUtils.getStandardHeaderLayout(2L);
@@ -75,64 +68,86 @@ public class MusicView extends VerticalLayout implements View {
 	
 		Label testLabel = new Label("Hello World!");
 		
-		GridLayout gridLayoutMusic = new GridLayout(4,3);
+		GridLayout gridLayout = new GridLayout(4,3);
 		
-		gridLayoutMusic.setSizeFull();
-		gridLayoutMusic.setMargin(true);
-		gridLayoutMusic.setSpacing(true);
+		gridLayout.setSizeFull();
+		gridLayout.setMargin(true);
+		gridLayout.setSpacing(true);
+		
+		List<MerchTable> mtList = new ArrayList<MerchTable>();
+		List<MerchLayout> merchLayoutList = new ArrayList<MerchLayout>();
+		
+		
+//		for(int i=0;i<25;i++)
+//			mtList.add(DefaultDataService.getInstance().getMerchDao().findOneRecord(12));
+		
+		mtList = DefaultDataService.getInstance().getMerchDao().findAll();
+		
+		mtList.stream().forEach(x->{
+			MerchLayout merchlayout = new MerchLayout(x);
+			merchlayout.setCartUpdateListener(this.getHeaderLayout().getHeaderUpdateListener());
+			merchLayoutList.add(merchlayout);
+		 //merchLayoutList.add(new MerchLayout(x));
+		});
+
 		
 		int idx=0;
 		
 		tc.getdimensions();
 		
-		String youtubeJsonStr = UIUtils.getYoutubeData();
-		JsonObject jsonobj = Json.parse(youtubeJsonStr.replace("\\\"",""));
-		
-		JsonArray jsonarray = jsonobj.get("items");
-		
-		String iframeVal ="<iframe width=\"560\" height=\"315\" "
-				+ "src=\"https://www.youtube.com/embed/%s\" "
-				+ "frameborder=\"0\" allow=\"accelerometer; autoplay; "
-				+ "encrypted-media; gyroscope; picture-in-picture\" allowfullscreen>"
-				+ "</iframe>"; 
-		
-		Label video = new Label();
-		int itemsIndex = 0;
-		
 		for(int i=0;i<3;i++){
-			gridLayoutMusic.setRowExpandRatio(i,1.0f);
-			for(int j=0;j<3;j++){
-				if(itemsIndex < jsonarray.length()){
-					gridLayoutMusic.setColumnExpandRatio(j,1.0f);
-					video = new Label();
-					video.setValue(String.format(iframeVal, jsonarray.getObject(itemsIndex++)
-														.getObject("snippet")
-														.getObject("resourceId")
-														.getString("videoId")));
-			        video.setContentMode(ContentMode.HTML);
-					video.addStyleName("merchLayout");
-					gridLayoutMusic.addComponent(video,j,i);
-				}
+			gridLayout.setRowExpandRatio(i,1.0f);
+			for(int j=0;j<4;j++){
+				gridLayout.setColumnExpandRatio(j,1.0f);
+				MerchLayout ml = merchLayoutList.get(idx++);
+				ml.setCartUpdateListener(new UpdateListener() {
+
+					@Override
+					public void updateRecord() {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void updateCustomizationRecord(String size, String color, String gender) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void updateObject() {
+						getHeaderLayout().refresh();
+						
+					}
+					
+				});
+				ml.setHeightUndefined();
+//				ml.setWidth(10.0f,Unit.PERCENTAGE);
+				ml.addStyleName("merchLayout");
+				gridLayout.addComponent(ml,j,i);
+//				gridLayout.addComponent(merchLayoutList.get(idx++),j,i);
+		tc.getdimensions();
 			}
 		}
 		
-		gridLayoutMusic.setSizeFull();
+		
+		gridLayout.setSizeFull();
 		this.subLayout.setSizeFull();
 		
-//		this.subLayout.addComponents(gridLayoutMusic, this.sideLayout);
+//		this.subLayout.addComponents(gridLayout, this.sideLayout);
 		this.headerLayout.addStyleName("headerLayoutStyle");
 		
 		
-		standardMainLayout.addComponents(this.headerLayout, gridLayoutMusic);
-//		standardMainLayout.addComponents(gridLayoutMusic);
+		standardMainLayout.addComponents(this.headerLayout, gridLayout);
+//		standardMainLayout.addComponents(gridLayout);
 		
 //		standardMainLayout.addComponents(this.headerLayout, this.subLayout);
 //		standardMainLayout.setExpandRatio(this.subLayout, 1);
 //		standardMainLayout.setExpandRatio(this.subLayout, 1);
 //		standardMainLayout.setExpandRatio(this.headerLayout, 1);
-		standardMainLayout.setExpandRatio(gridLayoutMusic, 1);
+		standardMainLayout.setExpandRatio(gridLayout, 1);
 		
-//		standardMainLayout.setComponentAlignment(gridLayoutMusic, Alignment.MIDDLE_CENTER);
+//		standardMainLayout.setComponentAlignment(gridLayout, Alignment.MIDDLE_CENTER);
 		
 		standardMainPanel.setContent(standardMainLayout);
 		
