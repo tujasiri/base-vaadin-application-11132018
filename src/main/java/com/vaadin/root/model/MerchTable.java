@@ -196,6 +196,9 @@ public class MerchTable implements Cloneable, Serializable {
 	public void setMtOrIdSeq(long mtOrSeq) {
 		this.mtOrSeq = mtOrSeq;
 	}
+	public String getMtItemNumAsString() {
+		return Integer.toString(this.mtItemNum);
+	}
 	
 	
 	

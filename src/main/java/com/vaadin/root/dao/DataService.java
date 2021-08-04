@@ -8,5 +8,6 @@ public interface DataService {
 	public BusinessInfoDao getBusinessInfoDao();
 	public RTableDao getRTableDao();
 	public OrderSummaryDao getOrderSummaryDao();
-
+	public ViewerImagesDao getViewerImagesDao();
+	public SocialMediaDao getSocialMediaDao();
 }

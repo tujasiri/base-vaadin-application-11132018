@@ -24,9 +24,12 @@ import com.vaadin.root.dao.EntityManagerInstance;
 import com.vaadin.root.dto.CheckoutCart;
 import com.vaadin.root.framework.AboutView_OLD;
 import com.vaadin.root.framework.DefaultView_OLD;
+import com.vaadin.root.framework.MusicView;
 import com.vaadin.root.framework.views.AboutView;
 import com.vaadin.root.framework.views.CheckoutView;
+import com.vaadin.root.framework.views.HomeView;
 import com.vaadin.root.framework.views.OrderCompleteView;
+import com.vaadin.root.framework.views.UploadImagesView;
 import com.vaadin.root.model.MemberData;
 import com.vaadin.root.model.MerchTableOLD_;
 import com.vaadin.server.BootstrapFragmentResponse;
@@ -170,19 +173,25 @@ public class StandardUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-        StandardMainScreen standardMainScreen = new StandardMainScreen();
+//        StandardMainScreen standardMainScreen = new StandardMainScreen();
+//        setContent(standardMainScreen);
         
-        
-        setContent(standardMainScreen);
+        HomeView homeScreen = new HomeView();
+        setContent(homeScreen);
         
 //        final Navigator nav = new Navigator(this, standardMainScreen.getStandardMainLayout());
-        final Navigator nav = new Navigator(this, standardMainScreen);
-        nav.addView("", StandardMainScreen.class );
+//        final Navigator nav = new Navigator(this, standardMainScreen);
+        final Navigator nav = new Navigator(this, homeScreen);
+//        nav.addView("", StandardMainScreen.class );
+        nav.addView("", HomeView.class);
 //      nav.addView("about", AboutView_OLD.class);
-        nav.addView("home", StandardMainScreen.class);
         nav.addView("about", AboutView.class);
         nav.addView("checkout", CheckoutView.class);
         nav.addView("checkout_complete", OrderCompleteView.class);
+        nav.addView("upload_images", UploadImagesView.class);
+        nav.addView("video_view", MusicView.class);
+        nav.addView("home", HomeView.class);
+        nav.addView("merch", StandardMainScreen.class);
 
 
     	

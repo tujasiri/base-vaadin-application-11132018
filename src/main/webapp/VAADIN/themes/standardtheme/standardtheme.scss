@@ -76,6 +76,13 @@
   }
   */
   
+.v-menubar-menuitem, .v-menubar, .v-menubar-headermenu, .merch-desc-label  {
+	font-family: "Oswald", sans-serif;
+	//font-size: 1.125rem;
+	font-size: medium;
+	font-weight: heavy;
+  }
+  
   .headermenu {
   	position: absolute !important;
     width: 50%  !important;
@@ -86,6 +93,9 @@
   
   .headerbackground {
   	background-image: url("images/header-banner.png");
+  	background-repeat: no-repeat;
+  	background-size: cover;
+  	background-position: left;
   	height:450px;
   	width:1000px;
   }
@@ -279,6 +289,17 @@ a.close:hover {
   color: white;
 }
 
+.socialmediaicon {
+    height: 50px;
+    width: 50px;
+    display: inline-block;
+	text-align:center;
+    position: relative;
+  	//padding: 10px 10px 10px;
+  	padding: 10px;
+    
+}
+
 .icon {
     background: url('./images/shopping-cart-solid.svg');
     height: 20px;
@@ -289,6 +310,12 @@ a.close:hover {
     position: relative;
     /* Other styles here */
 }
+
+ .no-title_bar .ui-dialog-titlebar {
+  display: none;
+}
+
+
 
 
 

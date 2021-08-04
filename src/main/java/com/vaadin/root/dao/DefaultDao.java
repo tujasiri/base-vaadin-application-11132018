@@ -6,7 +6,6 @@ import javax.persistence.EntityManagerFactory;
 import java.util.logging.Logger; 
 
 public class DefaultDao implements Dao {
-	
 	Logger logger = Logger.getGlobal();
 
 	public EntityManager getEntityManager() {
