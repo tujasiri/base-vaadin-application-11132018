@@ -2,6 +2,7 @@ package com.vaadin.root.framework;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.ibm.icu.impl.duration.impl.Utils;
 import com.vaadin.data.provider.ListDataProvider;
@@ -120,6 +121,11 @@ public class MerchLayout extends VerticalLayout{
 		setExpandRatio(this.lowerComponentLayout, 1.0f);
 //		setComponentAlignment(this.qty, Alignment.MIDDLE_LEFT);
 //		setComponentAlignment(this.buttonLayout, Alignment.MIDDLE_LEFT);
+		
+		this.qty.addValueChangeListener(v->{
+			System.out.println("qty VALUE CHANGED");
+			System.out.println("qty==>"+this.qty.getValue());
+		});
 	}
 	
 	private ListDataProvider<Integer> getComboDataProvider(){
@@ -201,13 +207,26 @@ public class MerchLayout extends VerticalLayout{
 			//consider quantity
 			this.itemsToBeAdded = new ArrayList<MerchTable>();
 			List<ItemCustomization> itemCustomizations = new ArrayList<ItemCustomization>();
-			int itemQuantity = (this.qty.getValue() == null) ? 0 : this.qty.getValue().intValue();
-			if(itemQuantity <= 0){
+//			int itemQuantity = (this.qty.getValue() == null) ? 0 : this.qty.getValue().intValue();
+			int itemQuantity = 0;
+			itemQuantity = ((Objects.isNull(this.qty.getValue())) ? 0 : (this.qty.getValue().intValue()));
+			
+			
+			/*
+		System.out.println("this.qty.getValue==>"+this.qty.getValue());	
+		System.out.println("this.qty.getValue.intValue()==>"+this.qty.getValue().intValue());	
+		System.out.println("itemQuantity ==>"+itemQuantity);	
+		*/
+		
+		System.out.println("BEFORE IF isNULL======>"+Objects.isNull(this.qty.getValue()));
+		
+//			if(itemQuantity <= 0){
+//			if((itemQuantity <= 0) && (Objects.isNull(this.qty.getValue()))){
+			if((Objects.isNull(this.qty.getValue()))){
 				UIUtils.alertUser(UIConstants.PURCHASE_TRANSACTION_MSG_QUANTITY);
 			}else{
+				
 				for (int i=0;i < itemQuantity;i++){
-					System.out.println("ADD");
-					//set temporary customization IDs until item cart additions are finalized
 					
 					DefaultDao dao = new DefaultDao();
 					
@@ -258,13 +277,15 @@ public class MerchLayout extends VerticalLayout{
 					UI.getCurrent().addWindow(customWindow);
 
 				}else {
-					System.out.println("ADD ITEM");
-					System.out.println("itemsToBeAdded==>"+itemsToBeAdded.toString());			
-	//				checkoutCart.addItemToCart(this.merchTableItem);
-					checkoutCart.addItemsCart(itemsToBeAdded);
-
+					try {
+						checkoutCart.addItemsCart(itemsToBeAdded);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					
 					//update cart item badge
 					this.getCartUpdateListener().updateObject();
+
 				}
 
 			}//end if for qty check
