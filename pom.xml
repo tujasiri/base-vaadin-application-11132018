@@ -12,7 +12,7 @@
 <!--  
 		<vaadin.version>8.1.0</vaadin.version>
 !-->	
-		<vaadin.version>8.0.1</vaadin.version>
+		<vaadin.version>8.14.1</vaadin.version>
         <vaadin.widgetset.mode>cdn</vaadin.widgetset.mode>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 		<jetty.plugin.version>9.2.3.v20140905</jetty.plugin.version>
