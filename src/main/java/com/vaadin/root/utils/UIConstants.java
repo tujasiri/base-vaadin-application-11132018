@@ -11,6 +11,9 @@ public class UIConstants {
 	//CONSTANTS
 	public static String STRIPE_API_KEY = "sk_test_N8a1Y5MGiiuGg8n8SjouqAS3";
 //	public static String STRIPE_API_KEY = "pk_live_LXbT7GmRv8NFS6oD1KOKZ9UL";
+    public static final String YOUTUBE_API_KEY = "AIzaSyCiiKTJiuebsa-z_NCfcMbelgK_KemqPqo";
+    public static final Boolean APP_IS_LIVE = false;
+//    public static final Boolean APP_IS_LIVE = true;
 
 
 	//TRANSACTION MESSAGES
@@ -27,4 +30,5 @@ public class UIConstants {
 	//MESSAGES
 	public static String PURCHASE_TRANSACTION_MSG_NONZERO = "There are no items in the cart.";
 	public static String PURCHASE_TRANSACTION_MSG_QUANTITY = "A quantity must be specified in order to add an item to your cart.";
+
 }

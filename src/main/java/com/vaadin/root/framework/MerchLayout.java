@@ -2,16 +2,20 @@ package com.vaadin.root.framework;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import com.ibm.icu.impl.duration.impl.Utils;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.root.StandardComponent;
 import com.vaadin.root.dao.DefaultDao;
 import com.vaadin.root.dto.CartSingleton;
 import com.vaadin.root.dto.CheckoutCart;
+import com.vaadin.root.dto.ImageData;
 import com.vaadin.root.framework.grids.CustomizationGrid;
 import com.vaadin.root.framework.listeners.UpdateListener;
 import com.vaadin.root.jscomponent.TimerComponent;
 import com.vaadin.root.model.MerchTable;
+import com.vaadin.root.model.ViewerImage;
 import com.vaadin.root.model.ItemCustomization;
 import com.vaadin.root.utils.UIConstants;
 import com.vaadin.root.utils.UIUtils;
@@ -26,6 +30,11 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+
+import elemental.json.Json;
+import elemental.json.JsonArray;
+import elemental.json.JsonObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,6 +72,8 @@ public class MerchLayout extends VerticalLayout{
 		setSpacing(true);
 		
 		this.merchDesc.setCaption(this.merchTableItem.getMtItemDescShort());
+		this.merchDesc.addStyleName("merch-desc-label");		
+		
 		this.merchImage = UIUtils.byteArrayToImage(this.merchTableItem.getMtImage());
 		this.merchImage.setHeight("300px");
 		this.merchImage.setWidth("300px");
@@ -110,6 +121,11 @@ public class MerchLayout extends VerticalLayout{
 		setExpandRatio(this.lowerComponentLayout, 1.0f);
 //		setComponentAlignment(this.qty, Alignment.MIDDLE_LEFT);
 //		setComponentAlignment(this.buttonLayout, Alignment.MIDDLE_LEFT);
+		
+		this.qty.addValueChangeListener(v->{
+			System.out.println("qty VALUE CHANGED");
+			System.out.println("qty==>"+this.qty.getValue());
+		});
 	}
 	
 	private ListDataProvider<Integer> getComboDataProvider(){
@@ -126,7 +142,63 @@ public class MerchLayout extends VerticalLayout{
 	private void addListeners(){
 		
 		this.viewButton.addListener(e->{
-			this.standard.jquerytest();
+			Notification.show("CLICKED!!");
+			//this.standard.jquerytest();
+			
+			
+			
+			JsonArray jsonarray = Json.createArray();
+//			JsonObject jsonobj = Json.createObject();
+//			
+//
+//			UIUtils.getDummyImageMap().entrySet().forEach(m ->{
+//				jsonobj.put(m.getKey(),m.getValue());
+//				
+//			});
+
+			
+			int arrayindex =0;
+/*			
+			for(ImageData imgdata: UIUtils.getDummyImageList()) {
+				
+				JsonObject jsonobj = Json.createObject();
+				
+
+				UIUtils.getDummyImageMap().entrySet().forEach(m ->{
+					jsonobj.put(m.getKey(),m.getValue());
+					
+				});				
+				jsonobj.put("imgdata", imgdata.getImagedata());
+				
+				//System.out.println("imgdata==>"+imgdata.getImagedata());
+			
+				jsonarray.set(arrayindex++,jsonobj);
+			}
+*/
+			
+			
+			
+			//List<ViewerImage> imageList =  UIUtils.getImageList(merchTableItem.getMtItemNum());
+			
+			//testing until all items have viewer image lists
+//			List<ViewerImage> imageList =  
+			for(ViewerImage imgdata: UIUtils.getImageList(1)) {
+				JsonObject jsonobj = Json.createObject();
+				
+				UIUtils.getDummyImageMap().entrySet().forEach(m ->{
+					jsonobj.put(m.getKey(),m.getValue());
+				});				
+				jsonobj.put("imgdata", "data:image/png;base64,"+imgdata.getViBase64Str());
+				jsonarray.set(arrayindex++,jsonobj);
+			}
+			
+			
+			this.standard.jquerytest(jsonarray.toJson().replace("\\\"",""));
+			//this.standard.jquerytest();
+//			System.out.println("jsonarray==>"+jsonarray.toJson());
+			
+			//Notification.show(jsonarray.toJson());
+		
 		});
 		
 		this.merchButton.addListener(e->{
@@ -135,13 +207,26 @@ public class MerchLayout extends VerticalLayout{
 			//consider quantity
 			this.itemsToBeAdded = new ArrayList<MerchTable>();
 			List<ItemCustomization> itemCustomizations = new ArrayList<ItemCustomization>();
-			int itemQuantity = (this.qty.getValue() == null) ? 0 : this.qty.getValue().intValue();
-			if(itemQuantity <= 0){
+//			int itemQuantity = (this.qty.getValue() == null) ? 0 : this.qty.getValue().intValue();
+			int itemQuantity = 0;
+			itemQuantity = ((Objects.isNull(this.qty.getValue())) ? 0 : (this.qty.getValue().intValue()));
+			
+			
+			/*
+		System.out.println("this.qty.getValue==>"+this.qty.getValue());	
+		System.out.println("this.qty.getValue.intValue()==>"+this.qty.getValue().intValue());	
+		System.out.println("itemQuantity ==>"+itemQuantity);	
+		*/
+		
+		System.out.println("BEFORE IF isNULL======>"+Objects.isNull(this.qty.getValue()));
+		
+//			if(itemQuantity <= 0){
+//			if((itemQuantity <= 0) && (Objects.isNull(this.qty.getValue()))){
+			if((Objects.isNull(this.qty.getValue()))){
 				UIUtils.alertUser(UIConstants.PURCHASE_TRANSACTION_MSG_QUANTITY);
 			}else{
+				
 				for (int i=0;i < itemQuantity;i++){
-					System.out.println("ADD");
-					//set temporary customization IDs until item cart additions are finalized
 					
 					DefaultDao dao = new DefaultDao();
 					
@@ -192,13 +277,15 @@ public class MerchLayout extends VerticalLayout{
 					UI.getCurrent().addWindow(customWindow);
 
 				}else {
-					System.out.println("ADD ITEM");
-					System.out.println("itemsToBeAdded==>"+itemsToBeAdded.toString());			
-	//				checkoutCart.addItemToCart(this.merchTableItem);
-					checkoutCart.addItemsCart(itemsToBeAdded);
-
+					try {
+						checkoutCart.addItemsCart(itemsToBeAdded);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					
 					//update cart item badge
 					this.getCartUpdateListener().updateObject();
+
 				}
 
 			}//end if for qty check

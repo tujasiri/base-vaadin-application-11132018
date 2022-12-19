@@ -1,16 +1,26 @@
 package com.vaadin.root.utils;
 
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 //import java.mail
 import java.util.Properties;
 import java.util.UUID;
@@ -18,6 +28,7 @@ import java.util.UUID;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.imageio.ImageIO;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -34,25 +45,33 @@ import javax.servlet.http.HttpServletRequest;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.root.dao.DataService;
+import com.vaadin.root.dao.DefaultDao;
 import com.vaadin.root.dao.DefaultDataService;
 import com.vaadin.root.dto.CartSingleton;
 import com.vaadin.root.dto.CheckoutCart;
+import com.vaadin.root.dto.ImageData;
 import com.vaadin.root.framework.StandardFooterLayout;
 import com.vaadin.root.framework.StandardHeaderLayout;
 import com.vaadin.root.framework.grids.ShoppingCartGrid;
 import com.vaadin.root.model.BusinessInfo;
 import com.vaadin.root.model.MerchTable;
 import com.vaadin.root.model.OrderSummary;
+import com.vaadin.root.model.ViewerImage;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Image;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.kernel.pdf.PdfWriter;
 
 public class UIUtils {
+	
+	private static DefaultDao dao = new DefaultDao();
+	private static DataService ds;
 	
 	public static Image byteArrayToImage(final byte[]byteArray){
 		StreamSource streamSource = new StreamResource.StreamSource(){
@@ -79,6 +98,7 @@ public class UIUtils {
 	}
 	
 	public static StandardHeaderLayout getStandardHeaderLayout(Long businessId){
+		System.out.println("Bruh");
 		return new StandardHeaderLayout( DefaultDataService.getInstance().getBusinessInfoDao().findById(businessId));
 	}
 	
@@ -362,6 +382,155 @@ public class UIUtils {
 		return "127.0.0.1";
 
 	}
+	
+	public static Map<String,String> getDummyImageMap(){
+		Map dummyImageMap = new HashMap<String,String>();
+		
+		return dummyImageMap;
+		
+	}
+
+	public static List<ImageData> getDummyImageList(){
+		List<ImageData>dummyImageList = new ArrayList<ImageData>();
+		ImageData imagedata = new ImageData();
+		
+		String path = new java.io.File("").getAbsolutePath();
+		System.out.println("here after path");
+		
+		try (InputStream input = new FileInputStream("/mnt/c/Temp/base64/base64imagearray.properties")) {         
+		
+	        Properties prop = new Properties();
+	        prop.load(input);
+	        
+	        
+	        for(int i=0;i<prop.size();i++) {
+	        	
+	        	String sValue = "";
+				imagedata = new ImageData();
+				
+	        	sValue = prop.getProperty(Integer.toString(i+1));
+	        	System.out.println("sValue==>"+sValue);
+//	        	System.out.println("sValue==>"+sValue.replace("\"",""));
+				imagedata.setImagedata(sValue);
+				dummyImageList.add(imagedata);
+	        }
+		
+	    } catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		
+		return dummyImageList;
+		
+	}
+	
+	public static List<ViewerImage> getImageList(int merchItemIndex){
+		List<ViewerImage> imageList = new ArrayList<ViewerImage>();
+		
+		imageList = DefaultDataService.getInstance().getViewerImagesDao().findById(merchItemIndex);
+
+		return imageList;
+	}
+	
+	// convert byte[] to BufferedImage
+    public static BufferedImage toBufferedImage(byte[] bytes)
+        throws IOException {
+
+        InputStream is = new ByteArrayInputStream(bytes);
+        BufferedImage bi = ImageIO.read(is);
+        return bi;
+    }
+    
+//    private static void resize(BufferedImage bufferedImage) throws IOException {
+    public static byte[] resizeImage(byte[] byteArray) throws IOException {
+    	
+		int IMG_WIDTH=800;
+		int IMG_HEIGHT=800;
+    	
+    	BufferedImage bufferedImage = toBufferedImage(byteArray);
+    	
+    	//BufferedImage newResizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+    	BufferedImage newResizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
+    	Graphics2D g = newResizedImage.createGraphics();
+
+		//Graphics2D g = bufferedImage.createGraphics();
+		
+		//g.setBackground(Color.WHITE);
+		//g.setPaint(Color.WHITE);
+		
+		// background transparent
+		g.setComposite(AlphaComposite.Src);
+		g.fillRect(0, 0, IMG_WIDTH, IMG_HEIGHT);
+		
+		/* try addRenderingHints()
+		// VALUE_RENDER_DEFAULT = good tradeoff of performance vs quality
+		// VALUE_RENDER_SPEED   = prefer speed
+		// VALUE_RENDER_QUALITY = prefer quality
+		g.setRenderingHint(RenderingHints.KEY_RENDERING,
+		           RenderingHints.VALUE_RENDER_QUALITY);
+		
+		// controls how image pixels are filtered or resampled
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+		           RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		
+		// antialiasing, on
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		           RenderingHints.VALUE_ANTIALIAS_ON);*/
+		
+		Map<RenderingHints.Key,Object> hints = new HashMap<>();
+		hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+//		hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+		hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		hints.put(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+		g.addRenderingHints(hints);
+		
+		
+		// puts the original image into the newResizedImage
+		g.drawImage(bufferedImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
+		g.dispose();
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        ImageIO.write(bufferedImage, "jpeg", baos);
+        ImageIO.write(newResizedImage, "png", baos);
+        
+        byte[] bytes = baos.toByteArray();
+        
+        return bytes;
+
+} 
+    
+    public static String getYoutubeData(){
+    	String command = "curl -X GET https://youtube.googleapis.com/youtube/v3/playlistItems?"
+    			+ "part=snippet&playlistId=PL27ADCBF28ECBAB71&key=AIzaSyB3miWsL2VZ-brY_U-XAovZ6X9IasNRTFI"; 
+    	
+    	try {
+			Process process = Runtime.getRuntime().exec(command);
+			System.out.println("*********process exec");
+			
+			InputStream is = process.getInputStream();
+			
+			ByteArrayOutputStream result = new ByteArrayOutputStream();
+	        byte[] buffer = new byte[4096];
+	        int length;
+	        while ((length = is.read(buffer)) != -1) {
+	            result.write(buffer, 0, length);
+	        }
+
+	        System.out.println("the goods ==> "+result.toString(StandardCharsets.UTF_8.name()));
+	        return result.toString(StandardCharsets.UTF_8.name());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	return "{}";
+    }
+    
+	
         
 	
 }

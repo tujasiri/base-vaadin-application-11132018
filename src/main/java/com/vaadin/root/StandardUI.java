@@ -24,9 +24,12 @@ import com.vaadin.root.dao.EntityManagerInstance;
 import com.vaadin.root.dto.CheckoutCart;
 import com.vaadin.root.framework.AboutView_OLD;
 import com.vaadin.root.framework.DefaultView_OLD;
+import com.vaadin.root.framework.MusicView;
 import com.vaadin.root.framework.views.AboutView;
 import com.vaadin.root.framework.views.CheckoutView;
+import com.vaadin.root.framework.views.HomeView;
 import com.vaadin.root.framework.views.OrderCompleteView;
+import com.vaadin.root.framework.views.UploadImagesView;
 import com.vaadin.root.model.MemberData;
 import com.vaadin.root.model.MerchTableOLD_;
 import com.vaadin.server.BootstrapFragmentResponse;
@@ -51,7 +54,6 @@ import com.vaadin.ui.VerticalLayout;
 @Widgetset("com.vaadin.DefaultWidgetSet")
 public class StandardUI extends UI {	
 	
-//	private static final long serialVersionUID = -8009964627576236599L;
 //	private static final long serialVersionUID = -8009964627576236599L;
 
     @WebServlet(value = "/*", asyncSupported = true)
@@ -84,10 +86,20 @@ public class StandardUI extends UI {
 					Element jqCssLink1 = new Element(Tag.valueOf("link"),"");
 					Element jqCssLink2 = new Element(Tag.valueOf("link"),"");
 					Element jqCssLink3 = new Element(Tag.valueOf("link"),"");
+					Element jqCssLink4 = new Element(Tag.valueOf("link"),"");
 					
+					Element jqScript = new Element(Tag.valueOf("script"),"");
+					Element jqScript2 = new Element(Tag.valueOf("script"),"");
+					Element jqScript3 = new Element(Tag.valueOf("script"),"");
+	/*				
     				jqCssLink1.attr("rel","stylesheet")
 		    				.attr("type","text/css")
 		    				.attr("href","./VAADIN/themes/standardtheme/css/jquery-ui.css");
+	*/
+					
+    				jqCssLink1.attr("rel","stylesheet")
+		    				.attr("type","text/css")
+		    				.attr("href","https://code.jquery.com/ui/1.12.1/themes/flick/jquery-ui.css");
 					
     				jqCssLink2.attr("rel","stylesheet")
 		    				.attr("type","text/css")
@@ -96,10 +108,26 @@ public class StandardUI extends UI {
     				jqCssLink3.attr("rel","stylesheet")
 		    				.attr("type","text/css")
 		    				.attr("href","./VAADIN/themes/standardtheme/css/jquery-ui.theme.css");
+					
+    				jqCssLink4.attr("rel","stylesheet")
+		    				.attr("type","text/css")
+		    				.attr("href","./VAADIN/themes/standardtheme/css/rotate360.css");
+					
+    				jqScript.attr("src","./VAADIN/themes/standardtheme/js/jquery.rotate360.js")
+		    				.attr("type","text/javascript");
+
+    				jqScript2.attr("src","https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js")
+		    				.attr("type","text/javascript");
     				
+    				jqScript3.attr("src","https://code.jquery.com/jquery-3.3.1.min.js") 
+		    				.attr("type","text/javascript")
+							.attr("integrity","sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT")
+							.attr("crossorigin","anonymous");
+						
     				//***************CUSTOM STYLE TAG ****//
 					Element customStyle = new Element(Tag.valueOf("style"),"");
 					customStyle.attr("type","text/css");
+    				//***************CUSTOM STYLE TAG ****//
 					
     				//***************HIDE ELEMENTS ON LOAD****//
 					customStyle.text(".hideonload{display:none;}");
@@ -113,7 +141,7 @@ public class StandardUI extends UI {
 //							+ " width: 200px !important;"
 //							+ " height: 200px !important;"
 //							+ " border: 14px solid red !important;}");
-    				
+
     				//***************LEFT JUSTIFY ELEMENTS****//
 					customStyle.appendText(" .leftjustify{margin-right:auto; margin-left:0;}");
 					
@@ -128,8 +156,12 @@ public class StandardUI extends UI {
     				head.appendChild(jqCssLink1);
     				head.appendChild(jqCssLink2);
     				head.appendChild(jqCssLink3);
+    				head.appendChild(jqCssLink4);
+    				head.appendChild(jqScript3);
+    				head.appendChild(jqScript2);
+    				head.appendChild(jqScript);
     				head.appendChild(customStyle);
-					
+
 				}};
 				
 				event.getSession().addBootstrapListener(bsl);
@@ -141,19 +173,25 @@ public class StandardUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-        StandardMainScreen standardMainScreen = new StandardMainScreen();
+//        StandardMainScreen standardMainScreen = new StandardMainScreen();
+//        setContent(standardMainScreen);
         
-        
-        setContent(standardMainScreen);
+        HomeView homeScreen = new HomeView();
+        setContent(homeScreen);
         
 //        final Navigator nav = new Navigator(this, standardMainScreen.getStandardMainLayout());
-        final Navigator nav = new Navigator(this, standardMainScreen);
-        nav.addView("", StandardMainScreen.class );
+//        final Navigator nav = new Navigator(this, standardMainScreen);
+        final Navigator nav = new Navigator(this, homeScreen);
+//        nav.addView("", StandardMainScreen.class );
+        nav.addView("", HomeView.class);
 //      nav.addView("about", AboutView_OLD.class);
-        nav.addView("home", StandardMainScreen.class);
         nav.addView("about", AboutView.class);
         nav.addView("checkout", CheckoutView.class);
         nav.addView("checkout_complete", OrderCompleteView.class);
+        nav.addView("upload_images", UploadImagesView.class);
+        nav.addView("video_view", MusicView.class);
+        nav.addView("home", HomeView.class);
+        nav.addView("merch", StandardMainScreen.class);
 
 
     	
